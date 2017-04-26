@@ -1,0 +1,10 @@
+﻿  TDRenderWindow.cpp
+  BinaryTree.cpp
+  Создание кода...
+  Компиляция...
+  Source.cpp
+c:\3ded\3ded\3ded\source.cpp(46): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\3ded\3ded\3ded\source.cpp(95): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+  Создание кода...
+  3DEd.vcxproj -> C:\3Ded\3DEd\x64\Debug\3DEd.exe
+  3DEd.vcxproj -> C:\3Ded\3DEd\x64\Debug\3DEd.pdb (Partial PDB)

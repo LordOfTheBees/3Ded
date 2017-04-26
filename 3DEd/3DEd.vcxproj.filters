@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Файлы исходного кода">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Заголовочные файлы">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Заголовочные файлы\TDRenderWindow">
+      <UniqueIdentifier>{8268d243-b484-47b3-84ca-b4960020bfdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\Main Element">
+      <UniqueIdentifier>{b3e750cf-90dc-47e5-988c-888578bbb5f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\Camera">
+      <UniqueIdentifier>{df0a3456-05a0-449a-8443-359750ed6527}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\Model">
+      <UniqueIdentifier>{72904c04-e6e0-4d13-8022-696cd61543ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\Model\Polygon">
+      <UniqueIdentifier>{b102dfa4-f3dd-4238-bf95-a09f4ad0d700}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\World">
+      <UniqueIdentifier>{9a7aa9d8-64c2-4666-9598-d7950fe9f149}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BinaryTree.h">
+      <Filter>Заголовочные файлы\TDRenderWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Заголовочные файлы\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="TDRenderWindow.h">
+      <Filter>Заголовочные файлы\TDRenderWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="CoordinateSystem.h">
+      <Filter>Заголовочные файлы\Main Element</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Заголовочные файлы\Main Element</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Заголовочные файлы\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Polygon.h">
+      <Filter>Заголовочные файлы\Model\Polygon</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="BinaryTree.cpp">
+      <Filter>Заголовочные файлы\TDRenderWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Заголовочные файлы\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="TDRenderWindow.cpp">
+      <Filter>Заголовочные файлы\TDRenderWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="CoordinateSystem.cpp">
+      <Filter>Заголовочные файлы\Main Element</Filter>
+    </ClCompile>
+    <ClCompile Include="Point.cpp">
+      <Filter>Заголовочные файлы\Main Element</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Заголовочные файлы\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Polygon.cpp">
+      <Filter>Заголовочные файлы\Model\Polygon</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Notes.txt">
+      <Filter>Файлы исходного кода</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
