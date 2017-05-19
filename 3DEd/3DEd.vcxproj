@@ -118,6 +118,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ArrayOfPoints.h" />
     <ClInclude Include="BinaryTree.h" />
     <ClInclude Include="CoordinateSystem.h" />
     <ClInclude Include="Model.h" />
@@ -127,6 +128,7 @@
     <ClInclude Include="TDRenderWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArrayOfPoints.cpp" />
     <ClCompile Include="BinaryTree.cpp" />
     <ClCompile Include="CoordinateSystem.cpp" />
     <ClCompile Include="Model.cpp" />

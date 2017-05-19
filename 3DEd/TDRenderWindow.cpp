@@ -3,7 +3,7 @@
 
 namespace tdrw {
 	void TDRenderWindow::draw_polygon(BinTree* tmp) {
-		std::vector<Point> points = tmp->polygon.getPoints();
+		std::vector<Point*> t_points = tmp->polygon.getPoints();
 		sf::VertexArray* polygon_to_draw = new sf::VertexArray(sf::Triangles, 3);
 		sf::VertexArray* line = new sf::VertexArray(sf::Lines, 6);
 		sf::Color pol_color = tmp->polygon.getColor();
@@ -20,17 +20,17 @@ namespace tdrw {
 		std::cout << "(" << points[1].x << "," << points[1].y << "," << points[1].z << ")" << std::endl;
 		std::cout << "(" << points[2].x << "," << points[2].y << "," << points[2].z << ")" << std::endl;*/
 		//как только рекурсивно дошли до самого дальнего, начинаем отрисовывать активный(послученный в виде аргумента) полигон
-		for (int i = 0; i < points.size(); ++i) {
-			(*polygon_to_draw)[i].position = camera.getCoordOnScreen(models[0].convertToWorldCoordSystem(points[i]));
+		for (int i = 0; i < t_points.size(); ++i) {
+			(*polygon_to_draw)[i].position = camera.getCoordOnScreen(models[0].convertToWorldCoordSystem(*t_points[i]));
 		}
-		for (int i = 0; i < points.size(); ++i) {
+		for (int i = 0; i < t_points.size(); ++i) {
 			(*polygon_to_draw)[i].color = pol_color;
 		}
 		sf::RenderWindow::draw(*polygon_to_draw);
 
 		for (int i = 0; i < 6; i += 2) {
-			(*line)[i].position = camera.getCoordOnScreen(models[0].convertToWorldCoordSystem(points[j % points.size()]));
-			(*line)[i + 1].position = camera.getCoordOnScreen(models[0].convertToWorldCoordSystem(points[(j + 1) % points.size()]));
+			(*line)[i].position = camera.getCoordOnScreen(models[0].convertToWorldCoordSystem(*t_points[j % t_points.size()]));
+			(*line)[i + 1].position = camera.getCoordOnScreen(models[0].convertToWorldCoordSystem(*t_points[(j + 1) % t_points.size()]));
 			j++;
 		}
 		for (int i = 0; i < 6; ++i)
@@ -80,6 +80,9 @@ namespace tdrw {
 		std::vector<Polygon> tmp_data;
 		models.push_back(model);
 
+		//TODO
+		//Задуматься над тем, чтобы убрать models.push_back(model) 
+		//А просто работать с полученной моделью, т.к. данный вариант bsp_tree может подойти к этому
 		for (int i = 0; i < models.size(); ++i) {
 			//tmp_data.clear();
 			tmp_data = models[i].getAllPolygon();

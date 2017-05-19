@@ -31,7 +31,7 @@ namespace tdrw {
 
 		bool isExist() const;
 		bool isUsed() const;
-		bool mousePositionEqualWithCoordPoint(const sf::Vector2i& mouse_position) const;
+		bool checkPointByCoordOnScreen(const sf::Vector2f& mouse_position) const;
 
 		//(x, y, z)
 		std::vector<double> getCoord() const;

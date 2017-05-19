@@ -75,9 +75,12 @@ namespace tdrw {
 		return existance;
 	}
 
-	bool Point::mousePositionEqualWithCoordPoint(const sf::Vector2i & mouse_position) const {
-		if ((mouse_position.x - 2 < this->coord_on_screen.x) && (this->coord_on_screen.x < mouse_position.x + 2) &&
+	bool Point::checkPointByCoordOnScreen(const sf::Vector2f & mouse_position) const {
+		/*if ((mouse_position.x - 2 < this->coord_on_screen.x) && (this->coord_on_screen.x < mouse_position.x + 2) &&
 			(mouse_position.y - 2 < this->coord_on_screen.y) && (this->coord_on_screen.y < mouse_position.y + 2))
+			return true;*/
+
+		if ((mouse_position.x * mouse_position.x + mouse_position.y * mouse_position.y) < 4)
 			return true;
 		return false;
 	}

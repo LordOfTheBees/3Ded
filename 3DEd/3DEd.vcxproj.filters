@@ -31,6 +31,15 @@
     <Filter Include="Заголовочные файлы\World">
       <UniqueIdentifier>{9a7aa9d8-64c2-4666-9598-d7950fe9f149}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Заголовочные файлы\Model\ArrayOfPoints">
+      <UniqueIdentifier>{bcce872c-6a49-46fd-8774-add07ebd4c94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\Main Element\Point">
+      <UniqueIdentifier>{2be5c488-e4d3-48a9-9c30-3c08cc73e257}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\Main Element\Coordinate System">
+      <UniqueIdentifier>{97a7a1e0-16ef-4c90-bb7d-04c36e28131d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryTree.h">
@@ -42,17 +51,20 @@
     <ClInclude Include="TDRenderWindow.h">
       <Filter>Заголовочные файлы\TDRenderWindow</Filter>
     </ClInclude>
-    <ClInclude Include="CoordinateSystem.h">
-      <Filter>Заголовочные файлы\Main Element</Filter>
-    </ClInclude>
-    <ClInclude Include="Point.h">
-      <Filter>Заголовочные файлы\Main Element</Filter>
-    </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>Заголовочные файлы\Model</Filter>
     </ClInclude>
     <ClInclude Include="Polygon.h">
       <Filter>Заголовочные файлы\Model\Polygon</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrayOfPoints.h">
+      <Filter>Заголовочные файлы\Model\ArrayOfPoints</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Заголовочные файлы\Main Element\Point</Filter>
+    </ClInclude>
+    <ClInclude Include="CoordinateSystem.h">
+      <Filter>Заголовочные файлы\Main Element\Coordinate System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -68,17 +80,20 @@
     <ClCompile Include="TDRenderWindow.cpp">
       <Filter>Заголовочные файлы\TDRenderWindow</Filter>
     </ClCompile>
-    <ClCompile Include="CoordinateSystem.cpp">
-      <Filter>Заголовочные файлы\Main Element</Filter>
-    </ClCompile>
-    <ClCompile Include="Point.cpp">
-      <Filter>Заголовочные файлы\Main Element</Filter>
-    </ClCompile>
     <ClCompile Include="Model.cpp">
       <Filter>Заголовочные файлы\Model</Filter>
     </ClCompile>
     <ClCompile Include="Polygon.cpp">
       <Filter>Заголовочные файлы\Model\Polygon</Filter>
+    </ClCompile>
+    <ClCompile Include="ArrayOfPoints.cpp">
+      <Filter>Заголовочные файлы\Model\ArrayOfPoints</Filter>
+    </ClCompile>
+    <ClCompile Include="Point.cpp">
+      <Filter>Заголовочные файлы\Main Element\Point</Filter>
+    </ClCompile>
+    <ClCompile Include="CoordinateSystem.cpp">
+      <Filter>Заголовочные файлы\Main Element\Coordinate System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

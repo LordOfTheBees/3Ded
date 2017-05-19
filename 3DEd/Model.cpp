@@ -3,14 +3,11 @@
 namespace tdrw {
 	void Model::operator=(const Model & right) {
 		if (this != &right) {
-			this->points.clear();
-			this->polygons.clear();
-			this->own_coord_system = right.own_coord_system;
-			for (int i = 0; i < right.points.size(); ++i)
-				this->points.push_back(right.points[i]);
+			this->m_polygons.clear();
+			this->m_own_coord_system = right.m_own_coord_system;
 
-			for (int i = 0; i < right.polygons.size(); ++i)
-				this->polygons.push_back(right.polygons[i]);
+			for (int i = 0; i < right.m_polygons.size(); ++i)
+				this->m_polygons.push_back(right.m_polygons[i]);
 		}
 	}
 
@@ -18,83 +15,98 @@ namespace tdrw {
 	}
 
 	Model::Model(const Model & right) {
-		this->points.clear();
-		this->polygons.clear();
-		this->own_coord_system = right.own_coord_system;
-		for (int i = 0; i < right.points.size(); ++i)
-			this->points.push_back(right.points[i]);
+		this->m_polygons.clear();
+		this->m_own_coord_system = right.m_own_coord_system;
 
-		for (int i = 0; i < right.polygons.size(); ++i)
-			this->polygons.push_back(right.polygons[i]);
+		for (int i = 0; i < right.m_polygons.size(); ++i)
+			this->m_polygons.push_back(right.m_polygons[i]);
 	}
 
 	void Model::setModelCoordSystem(const CoordinateSystem& model_coord_system) {
-		this->own_coord_system = model_coord_system;
+		this->m_own_coord_system = model_coord_system;
 	}
 
 	void Model::setWorldCoordSystem(const CoordinateSystem& world_coord_system) {
-		this->own_coord_system.setBasisCoordSystem(world_coord_system);
-		this->own_coord_system.generateTransitionMatrix();
+		this->m_own_coord_system.setBasisCoordSystem(world_coord_system);
+		this->m_own_coord_system.generateTransitionMatrix();
 	}
 
-	void Model::addPolygon(Polygon polygon) {
-		polygon.setModel(this);
-		polygons.push_back(polygon);
-		std::vector<Point> got_points = polygon.getPoints();
-		this->points.insert(points.end(), got_points.begin(), got_points.end());
+	//==============
+
+	void Model::addPolygon(Polygon polygon){
+		m_polygons.push_back(polygon);
 	}
+
+	void Model::addPolygon(std::vector<Point*> points, sf::Color color){
+		Polygon t_polygon(this, points, color);
+		m_polygons.push_back(t_polygon);
+	}
+
+	void Model::addPolygon(Point * point1, Point * point2, Point * point3, sf::Color color){
+		Polygon t_polygon(this, point1, point2, point3, color);
+		m_polygons.push_back(t_polygon);
+	}
+
+	void Model::addPolygon(Point point1, Point point2, Point point3, sf::Color color) {
+		std::vector<Point*> t_tmp_points;
+		t_tmp_points.push_back(ArrayOfPoints::addPoint(point1));
+		t_tmp_points.push_back(ArrayOfPoints::addPoint(point2));
+		t_tmp_points.push_back(ArrayOfPoints::addPoint(point3));
+
+		Polygon t_polygon(this, t_tmp_points, color);
+		m_polygons.push_back(t_polygon);
+	}
+
+	void Model::addPolygon(std::vector<Point> points, sf::Color color) {
+		std::vector<Point*> t_tmp_points;
+		
+		for (auto& x : points) {
+			t_tmp_points.push_back(ArrayOfPoints::addPoint(x));
+		}
+
+		Polygon t_polygon(this, t_tmp_points, color);
+		m_polygons.push_back(t_polygon);
+	}
+
+	//==============
 
 	void Model::rotationAngleOnX(double alpha) {
-		own_coord_system.rotationAngleOnX(alpha);
+		m_own_coord_system.rotationAngleOnX(alpha);
 	}
 
 	void Model::rotationAngleOnY(double alpha) {
-		own_coord_system.rotationAngleOnY(alpha);
+		m_own_coord_system.rotationAngleOnY(alpha);
 	}
 
 	void Model::rotationAngleOnZ(double alpha) {
-		own_coord_system.rotationAngleOnZ(alpha);
+		m_own_coord_system.rotationAngleOnZ(alpha);
 	}
 
+	//==============
+
 	void Model::setZeroPointOfCoord(const Point & zero_point) {
-		own_coord_system.setZeroPointOfCoord(zero_point);
+		m_own_coord_system.setZeroPointOfCoord(zero_point);
 	}
 
 	CoordinateSystem Model::getCoordSystem() {
-		return own_coord_system;
+		return m_own_coord_system;
 	}
 
-	Point Model::getPoint(const sf::Vector2i mouse_coord) const {
-		for (int i = 0; i < this->points.size(); ++i) {
-			if (points[i].mousePositionEqualWithCoordPoint(mouse_coord)) {
-				return points[i];
-			}
-		}
-		return Point();
-	}
-
-	std::vector<Point> Model::getAllPoints() const {
-		return points;
+	Point* Model::getPoint(const sf::Vector2f mouse_coord){
+		std::vector<Point*> t_points = ArrayOfPoints::getPoint(mouse_coord);
+		//TODO
+		//здесь нужно написать отбор ближайшей точки к центру экрана
+		return t_points[0];
 	}
 
 	std::vector<Polygon> Model::getAllPolygon() const {
-		return polygons;
+		return m_polygons;
 	}
 
 	Point Model::convertToWorldCoordSystem(const Point& point) const {
-		return own_coord_system.convertToBasis(point);
+		return m_own_coord_system.convertToBasis(point);
 	}
 
-
-	bool Model::deletePoint(Point * point) {
-		/*for (auto it = polygons.begin(); it != polygons.end(); ++it) {
-			if (it->checkExistencePoint(*point)) {
-				it = polygons.erase(it);
-				it--;
-			}
-		}*/
-		return false;
-	}
 
 	Model::~Model() {
 	}

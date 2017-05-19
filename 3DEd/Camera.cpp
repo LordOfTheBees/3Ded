@@ -50,12 +50,12 @@ namespace tdrw {
 
 	std::vector<Point> Camera::getConvertedPoints(const Polygon & polygon)
 	{
-		std::vector<Point> points = polygon.getPoints();
-		std::vector<Point> converted_points;
-		for (int i = 0; i < points.size(); ++i) {
-			converted_points.push_back(world_coord_system.convertToBasis(points[i]));
+		std::vector<Point*> t_points = polygon.getPoints();
+		std::vector<Point> t_converted_points;
+		for (int i = 0; i < t_points.size(); ++i) {
+			t_converted_points.push_back(world_coord_system.convertToBasis(*t_points[i]));
 		}
-		return converted_points;
+		return t_converted_points;
 	}
 
 	sf::Vector2f Camera::getCoordOnScreen(Point& point_in_world_cs) {

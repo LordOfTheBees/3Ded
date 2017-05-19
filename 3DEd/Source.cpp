@@ -63,23 +63,23 @@ int main() {
 	tdrw::Point G(10, 0, 0);
 	tdrw::Point H(10, 0, 10);
 
-	coub.addPolygon(tdrw::Polygon(A, B, H, sf::Color::White));
-	coub.addPolygon(tdrw::Polygon(A, G, H, sf::Color::White));
+	coub.addPolygon(A, B, H, sf::Color::White);
+	coub.addPolygon(A, G, H, sf::Color::White);
 
-	coub.addPolygon(tdrw::Polygon(A, B, C, sf::Color::Red));
-	coub.addPolygon(tdrw::Polygon(A, E, C, sf::Color::Red));
+	coub.addPolygon(A, B, C, sf::Color::Red);
+	coub.addPolygon(A, E, C, sf::Color::Red);
 
-	coub.addPolygon(tdrw::Polygon(E, C, D, sf::Color::Blue));
-	coub.addPolygon(tdrw::Polygon(E, F, D, sf::Color::Blue));
+	coub.addPolygon(E, C, D, sf::Color::Blue);
+	coub.addPolygon(E, F, D, sf::Color::Blue);
 
-	coub.addPolygon(tdrw::Polygon(F, D, H, sf::Color::Cyan));
-	coub.addPolygon(tdrw::Polygon(F, G, H, sf::Color::Cyan));
+	coub.addPolygon(F, D, H, sf::Color::Cyan);
+	coub.addPolygon(F, G, H, sf::Color::Cyan);
 
-	coub.addPolygon(tdrw::Polygon(B, C, D, sf::Color::Green));
-	coub.addPolygon(tdrw::Polygon(B, H, D, sf::Color::Green));
+	coub.addPolygon(B, C, D, sf::Color::Green);
+	coub.addPolygon(B, H, D, sf::Color::Green);
 
-	coub.addPolygon(tdrw::Polygon(A, E, F, sf::Color::Magenta));
-	coub.addPolygon(tdrw::Polygon(A, G, F, sf::Color::Magenta));
+	coub.addPolygon(A, E, F, sf::Color::Magenta);
+	coub.addPolygon(A, G, F, sf::Color::Magenta);
 
 	tdrw::TDRenderWindow window(sf::VideoMode(1800, 900), "Kek");
 	window.setCamera(camera);

@@ -12,8 +12,8 @@ namespace tdrw {
 	{
 	private:
 		Model* m_him_model;
-		std::vector<Point> points;
-		sf::Color color;
+		std::vector<Point*> m_points;
+		sf::Color m_color;
 	protected:
 	public:
 		//not ready!!!!!!!!!!!!!!!
@@ -21,20 +21,19 @@ namespace tdrw {
 
 		Polygon& operator=(const Polygon& right);
 
-		Polygon();
+		Polygon(Model * model = nullptr);
 		Polygon(const Polygon& polygon);
-		Polygon(std::vector<Point> points, sf::Color color);
-		Polygon(Point point1, Point point2, Point point3, sf::Color color);
+		Polygon(Model * model, std::vector<Point*> points, sf::Color color);
+		Polygon(Model * model, Point* point1, Point* point2, Point* point3, sf::Color color);
 
-		void setPoints(std::vector<Point> points);
-		void setPoints(Point point1, Point point2, Point point3);
+		void setPoints(std::vector<Point*> points);
+		void setPoints(Point* point1, Point* point2, Point* point3);
 		void setColor(sf::Color color);
-		void setModel(Model* model);
 
 		//Есть ли вообще такая точка в полигоне
-		bool checkExistencePoint(const Point& point);
+		bool checkExistencePoint(const Point * point);
 
-		std::vector<Point> getPoints() const;
+		std::vector<Point*> getPoints() const;
 		sf::Color getColor() const;
 		Model* getModel() const;
 		std::vector<Point> getConvertedPoints();
