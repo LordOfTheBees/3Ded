@@ -24,6 +24,8 @@ namespace tdrw {
 		CoordinateSystem world_coord_system;
 		BinaryTree* bsp_tree;
 		bool camera_exist, world_exist;
+
+		__int64 m_start, m_end, m_tps;
 	protected:
 		void draw_polygon(BinTree* tmp);
 	public:

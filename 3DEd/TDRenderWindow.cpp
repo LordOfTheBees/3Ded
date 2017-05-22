@@ -1,5 +1,7 @@
 #include "TDRenderWindow.h"
 #include <iostream>
+#include <windows.h>
+#include <thread>
 
 namespace tdrw {
 	void TDRenderWindow::draw_polygon(BinTree* tmp) {
@@ -76,23 +78,12 @@ namespace tdrw {
 	}
 
 	void TDRenderWindow::draw(Model model) {
-		std::vector<Polygon> polygons;
-		std::vector<Polygon> tmp_data;
+		std::thread *t_bsp_thread, *t_coord_thread;
 		models.push_back(model);
 
 		//TODO
 		//Задуматься над тем, чтобы убрать models.push_back(model) 
 		//А просто работать с полученной моделью, т.к. данный вариант bsp_tree может подойти к этому
-		for (int i = 0; i < models.size(); ++i) {
-			//tmp_data.clear();
-			tmp_data = models[i].getAllPolygon();
-			polygons.insert(polygons.end(), tmp_data.begin(), tmp_data.end());
-		}
-
-		bsp_tree->setZeroPointOfCamera(this->camera.getZeroPointOfCamera());
-		for (int i = 0; i < polygons.size(); ++i) {
-			bsp_tree->addElement(polygons[i]);
-		}
 
 		//draw in sf::RenderWIndow
 
@@ -103,13 +94,42 @@ namespace tdrw {
 	}
 
 	void TDRenderWindow::display() {
-		counter = 0;
+		//ЗАПОЛНЯЕМ BSP TREE
+		std::vector<Polygon> polygons;
+		std::vector<Polygon> tmp_data;
+
+		for (int i = 0; i < models.size(); ++i) {
+			//tmp_data.clear();
+			tmp_data = models[i].getAllPolygon();
+			polygons.insert(polygons.end(), tmp_data.begin(), tmp_data.end());
+		}
+
+		QueryPerformanceFrequency((LARGE_INTEGER *)&m_tps);
+		QueryPerformanceCounter((LARGE_INTEGER *)&m_start);
+		// Исполняемый код
+
+		bsp_tree->setZeroPointOfCamera(this->camera.getZeroPointOfCamera());
+		for (int i = 0; i < polygons.size(); ++i) {
+			bsp_tree->addElement(polygons[i]);
+		}
+
+		QueryPerformanceCounter((LARGE_INTEGER *)&m_end);
+		std::cout << ((double)(m_end - m_start) / m_tps) * 1000. << " miliseconds\n";
+
+
+		//ОТРИСОВЫВАЕМ
+		QueryPerformanceFrequency((LARGE_INTEGER *)&m_tps);
+		QueryPerformanceCounter((LARGE_INTEGER *)&m_start);
+		// Исполняемый код
+
 		draw_polygon(bsp_tree->getBinaryTree());
 		delete bsp_tree;
 		bsp_tree = new BinaryTree;
 		models.clear();
 		sf::RenderWindow::display();
-		std::cout << counter << std::endl;
+
+		QueryPerformanceCounter((LARGE_INTEGER *)&m_end);
+		std::cout << ((double)(m_end - m_start) / m_tps) * 1000. << " miliseconds\n";
 	}
 
 

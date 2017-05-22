@@ -29,6 +29,7 @@ namespace tdrw {
 		BinTree* root;
 		BinTree* active_node;
 		Point zero_point_of_camera;
+		std::vector<Point> m_points;
 		CoordinateSystem converted_coord_system_from_model;
 		CoordinateSystem converted_coord_system_from_camera;
 	protected:

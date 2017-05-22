@@ -14,7 +14,6 @@
 #define KEK std::cout<<"KEK\n"
 
 int main() {
-
 	tdrw::Point zero;
 	tdrw::CoordinateSystem coord_system(3);
 	tdrw::CoordinateSystem camera_coord(3);
@@ -82,9 +81,7 @@ int main() {
 
 	coub.addPolygon(A, E, F, sf::Color::Magenta);
 	coub.addPolygon(A, G, F, sf::Color::Magenta);*/
-	KEK;
-	coub.load("coub.obj");
-	KEK;
+	coub.load("head.obj");
 	tdrw::TDRenderWindow window(sf::VideoMode(1800, 900), "Kek");
 	window.setCamera(camera);
 	window.setWorldCoordSystem(coord_system);
@@ -92,9 +89,9 @@ int main() {
 	x = -100;
 	y = -50;
 	z = 0;
-	x = 93;
+	x = 30;
 	y = -3;
-	z = 14;
+	z = 0;
 	coord_system.setCoordSystem(coord, tdrw::Point(x, y, z));
 	coub.setModelCoordSystem(coord_system);
 	window.draw(coub);

@@ -38,6 +38,8 @@ namespace tdrw {
 		//(x, y, z)
 		std::vector<double> getCoord() const;
 
+		sf::Vector2f getCoordOnScreen() const;
+
 		~Point();
 	};
 }

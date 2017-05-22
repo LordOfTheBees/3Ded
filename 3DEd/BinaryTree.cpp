@@ -3,11 +3,10 @@
 
 namespace tdrw {
 	void BinaryTree::recursiveAddElement() {
-		std::vector<Point> points = tmp->polygon.getConvertedPoints();
 		double n;
 		bool side;
-		for (int i = 0; i < points.size(); ++i) {
-			n = points[i].x * active_node->coefficient[0] + points[i].y * active_node->coefficient[1] + points[i].z * active_node->coefficient[2] + active_node->coefficient[3];
+		for (int i = 0; i < m_points.size(); ++i) {
+			n = m_points[i].x * active_node->coefficient[0] + m_points[i].y * active_node->coefficient[1] + m_points[i].z * active_node->coefficient[2] + active_node->coefficient[3];
 			if (n == 0)
 				continue;
 			side = std::signbit(n);
@@ -97,6 +96,7 @@ namespace tdrw {
 		}
 		active_node = root;
 
+		m_points = tmp->polygon.getConvertedPoints();
 		recursiveAddElement();
 	}
 

@@ -106,6 +106,10 @@ namespace tdrw {
 		return coord;
 	}
 
+	sf::Vector2f Point::getCoordOnScreen() const{
+		return coord_on_screen;
+	}
+
 
 	Point::~Point() {
 	}

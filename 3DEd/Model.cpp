@@ -1,6 +1,9 @@
 #include "Model.h"
 #include <iostream>
 #include <fstream>
+
+#define KEK std::cout<<"KEK\n"
+
 namespace tdrw {
 	void Model::operator=(const Model & right) {
 		if (this != &right) {
@@ -123,6 +126,7 @@ namespace tdrw {
 			t_data.m_type.push_back(str[i]);
 			++i;
 		}
+		//проходим на след символ после пробела
 		++i;
 
 		int t = 0;
@@ -157,32 +161,35 @@ namespace tdrw {
 				int j = 0;
 				//После записи строки в t_tmp_str, вдираем оттуда числа
 				//Считываем первое число. Вершины
+				t_tmp.clear();
 				while ((t_tmp_str[j] != '/') && (j < t_tmp_str.size())) {
 					t_tmp.push_back(t_tmp_str[j]);
 					j++;
 				}
-				t_data.m_vertices.push_back(std::stoi(t_tmp));
-				t_tmp.clear();
+				if (t_tmp.size() != 0)
+					t_data.m_vertices.push_back(std::stoi(t_tmp));
 				if (j == t_tmp_str.size())
 					continue;
 
 				//Считываем второе число. Текстурные координаты
+				t_tmp.clear();
 				while ((t_tmp_str[j] != '/') && (j < t_tmp_str.size())) {
 					t_tmp.push_back(t_tmp_str[j]);
 					j++;
 				}
-				t_data.m_texture_coordinates.push_back(std::stoi(t_tmp));
-				t_tmp.clear();
+				if(t_tmp.size() != 0)
+					t_data.m_texture_coordinates.push_back(std::stoi(t_tmp));
 				if (j == t_tmp_str.size())
 					continue;
 
 				//Считываем третье число. Нормаль
+				t_tmp.clear();
 				while ((t_tmp_str[j] != '/') && (j < t_tmp_str.size())) {
 					t_tmp.push_back(t_tmp_str[j]);
 					j++;
 				}
-				t_data.m_normal.push_back(std::stoi(t_tmp));
-				t_tmp.clear();
+				if (t_tmp.size() != 0)
+					t_data.m_normal.push_back(std::stoi(t_tmp));
 				if (j == t_tmp_str.size())
 					continue;
 
@@ -196,9 +203,9 @@ namespace tdrw {
 		std::string t_str;
 		std::ifstream file(file_path);
 		Data t_data;
+
 		while (std::getline(file, t_str)) {
 			t_data = separator(t_str);
-
 			if (t_data.m_type == "v") {
 				addPoint(Point(t_data.m_coordinates));
 			}
