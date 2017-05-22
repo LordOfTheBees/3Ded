@@ -40,6 +40,10 @@ namespace tdrw {
 		}
 	}
 
+	Point * ArrayOfPoints::getPtrPoint(int number){
+		return m_all_points[number];
+	}
+
 	int ArrayOfPoints::size(){
 		return m_all_points.size();
 	}
@@ -60,21 +64,4 @@ namespace tdrw {
 	ArrayOfPoints::~ArrayOfPoints(){
 	}
 
-
-	//===========================
-	PtrPoint::PtrPoint()
-	{
-		m_point = nullptr;
-		m_next = nullptr;
-	}
-
-	Point * PtrPoint::addPoint(const Point point){
-		m_point = new Point;
-		*m_point = point;
-		return m_point;
-	}
-
-	PtrPoint::~PtrPoint(){
-		delete m_point;
-	}
 }

@@ -26,7 +26,7 @@ namespace tdrw {
 		for (int i = 0; i < t_points.size(); ++i) {
 			(*polygon_to_draw)[i].color = pol_color;
 		}
-		sf::RenderWindow::draw(*polygon_to_draw);
+		//sf::RenderWindow::draw(*polygon_to_draw);
 
 		for (int i = 0; i < 6; i += 2) {
 			(*line)[i].position = camera.getCoordOnScreen(models[0].convertToWorldCoordSystem(*t_points[j % t_points.size()]));

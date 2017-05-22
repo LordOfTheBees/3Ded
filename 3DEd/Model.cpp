@@ -1,5 +1,6 @@
 #include "Model.h"
 #include <iostream>
+#include <fstream>
 namespace tdrw {
 	void Model::operator=(const Model & right) {
 		if (this != &right) {
@@ -107,6 +108,116 @@ namespace tdrw {
 		return m_own_coord_system.convertToBasis(point);
 	}
 
+	Data Model::separator(std::string str) {
+		Data t_data;
+		if ((str[0] == '#') || (str.size() == 0) || (str[0] == ' ')) {
+			t_data.m_type.push_back('#');
+			return t_data;
+		}
+
+		//считывает тип (первые символы до пробела)
+		int i = 0;
+		while (true) {
+			if (str[i] == ' ')
+				break;
+			t_data.m_type.push_back(str[i]);
+			++i;
+		}
+		++i;
+
+		int t = 0;
+		std::string t_tmp, t_tmp_str;
+		//дальше идёт считывание данных в зависимоти от типа
+		if (t_data.m_type == "v") {
+			t_tmp.clear();
+
+			for (i; i < str.size(); ++i) {
+				if (str[i] == ' ') {
+					t_data.m_coordinates.push_back(std::stof(t_tmp));
+					t_tmp.clear();
+				}
+				else
+					t_tmp.push_back(str[i]);
+			}
+			t_data.m_coordinates.push_back(std::stof(t_tmp));
+			t_tmp.clear();
+		}
+
+		if (t_data.m_type == "f") {
+			t = 0;
+			t_tmp.clear();
+
+			for (i; i < str.size(); ++i) {
+				t_tmp_str.clear();
+				while ((str[i] != ' ') && (i != str.size())) {
+					t_tmp_str.push_back(str[i]);
+					++i;
+				}
+
+				int j = 0;
+				//После записи строки в t_tmp_str, вдираем оттуда числа
+				//Считываем первое число. Вершины
+				while ((t_tmp_str[j] != '/') && (j < t_tmp_str.size())) {
+					t_tmp.push_back(t_tmp_str[j]);
+					j++;
+				}
+				t_data.m_vertices.push_back(std::stoi(t_tmp));
+				t_tmp.clear();
+				if (j == t_tmp_str.size())
+					continue;
+
+				//Считываем второе число. Текстурные координаты
+				while ((t_tmp_str[j] != '/') && (j < t_tmp_str.size())) {
+					t_tmp.push_back(t_tmp_str[j]);
+					j++;
+				}
+				t_data.m_texture_coordinates.push_back(std::stoi(t_tmp));
+				t_tmp.clear();
+				if (j == t_tmp_str.size())
+					continue;
+
+				//Считываем третье число. Нормаль
+				while ((t_tmp_str[j] != '/') && (j < t_tmp_str.size())) {
+					t_tmp.push_back(t_tmp_str[j]);
+					j++;
+				}
+				t_data.m_normal.push_back(std::stoi(t_tmp));
+				t_tmp.clear();
+				if (j == t_tmp_str.size())
+					continue;
+
+			}
+		}
+
+		return t_data;
+	}
+
+	bool Model::load(const std::string file_path) {
+		std::string t_str;
+		std::ifstream file(file_path);
+		Data t_data;
+		while (std::getline(file, t_str)) {
+			t_data = separator(t_str);
+
+			if (t_data.m_type == "v") {
+				addPoint(Point(t_data.m_coordinates));
+			}
+
+			if (t_data.m_type == "f") {
+				std::vector<Point*> t_point;
+				for (auto x : t_data.m_vertices) {
+					t_point.push_back(getPtrPoint(x-1));
+				}
+				addPolygon(t_point, sf::Color::White);
+			}
+		}
+		return true;
+	}
+
+	bool Model::save(const std::string file_path)
+	{
+		return true;
+	}
 
 	Model::~Model() {
 	}

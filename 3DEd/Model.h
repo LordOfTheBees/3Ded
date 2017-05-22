@@ -4,12 +4,22 @@
 #include "ArrayOfPoints.h"
 
 #include <vector>
+#include <string>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
 #pragma once
 namespace tdrw {
+	class Data {
+	public:
+		std::string m_type;
+		std::vector<double> m_coordinates;//хранение данных при типах v, vt, vn, vp
+		std::vector<int> m_vertices;//координаты вершин при типе f
+		std::vector<int> m_texture_coordinates;// текстурные координаты при типе f
+		std::vector<int> m_normal;//нормали при типе f
+	};
+
 	class Model: public ArrayOfPoints
 	{
 	private:
@@ -46,6 +56,10 @@ namespace tdrw {
 		std::vector<Polygon> getAllPolygon() const;
 
 		Point convertToWorldCoordSystem(const Point& point) const;
+
+		Data separator(std::string str);
+		bool load(const std::string file_path);
+		bool save(const std::string file_path);
 
 		bool deletePoint(Point* point);
 		~Model();

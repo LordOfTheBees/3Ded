@@ -7,12 +7,15 @@
 #include "BinaryTree.h"
 
 #include <vector>
+#include <string>
+#include <fstream>
 #include <functional>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
 namespace tdrw {
+
 	class TDRenderWindow : public sf::RenderWindow {
 	private:
 		int counter;

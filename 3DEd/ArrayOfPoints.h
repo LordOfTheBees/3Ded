@@ -5,19 +5,6 @@
 
 #pragma once
 namespace tdrw {
-	class PtrPoint {
-	public:
-		PtrPoint * m_next;
-		Point * m_point;
-
-		PtrPoint();
-
-		Point* addPoint(const Point point);
-
-		~PtrPoint();
-
-	};
-
 	class ArrayOfPoints
 	{
 	private:
@@ -36,6 +23,7 @@ namespace tdrw {
 		void erasePoint(int number);
 		void erasePoint(Point * point);
 
+		Point* getPtrPoint(int number);
 		int size();
 		std::vector<Point*> getPoint(const sf::Vector2f coord_of_point);
 		~ArrayOfPoints();

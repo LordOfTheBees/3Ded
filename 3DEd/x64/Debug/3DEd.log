@@ -1,4 +1,2 @@
-﻿  ArrayOfPoints.cpp
-c:\users\avito\documents\github\3ded\3ded\arrayofpoints.cpp(44): warning C4267: return: преобразование из "size_t" в "int"; возможна потеря данных
-  3DEd.vcxproj -> C:\Users\avito\Documents\GitHub\3Ded\x64\Debug\3DEd.exe
+﻿  3DEd.vcxproj -> C:\Users\avito\Documents\GitHub\3Ded\x64\Debug\3DEd.exe
   3DEd.vcxproj -> C:\Users\avito\Documents\GitHub\3Ded\x64\Debug\3DEd.pdb (Partial PDB)

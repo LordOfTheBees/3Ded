@@ -122,6 +122,7 @@
     <ClInclude Include="BinaryTree.h" />
     <ClInclude Include="CoordinateSystem.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="ObjLoSa.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Polygon.h" />
@@ -132,6 +133,7 @@
     <ClCompile Include="BinaryTree.cpp" />
     <ClCompile Include="CoordinateSystem.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="ObjLoSa.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="Source.cpp" />

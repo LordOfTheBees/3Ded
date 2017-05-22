@@ -11,7 +11,10 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
+#define KEK std::cout<<"KEK\n"
+
 int main() {
+
 	tdrw::Point zero;
 	tdrw::CoordinateSystem coord_system(3);
 	tdrw::CoordinateSystem camera_coord(3);
@@ -54,7 +57,7 @@ int main() {
 	tdrw::Model coub;
 	coub.setModelCoordSystem(coord_system);
 
-	tdrw::Point A(0, 0, 0);
+	/*tdrw::Point A(0, 0, 0);
 	tdrw::Point B(0, 0, 10);
 	tdrw::Point C(0, 10, 10);
 	tdrw::Point D(10, 10, 10);
@@ -62,7 +65,6 @@ int main() {
 	tdrw::Point F(10, 10, 0);
 	tdrw::Point G(10, 0, 0);
 	tdrw::Point H(10, 0, 10);
-
 	coub.addPolygon(A, B, H, sf::Color::White);
 	coub.addPolygon(A, G, H, sf::Color::White);
 
@@ -79,8 +81,10 @@ int main() {
 	coub.addPolygon(B, H, D, sf::Color::Green);
 
 	coub.addPolygon(A, E, F, sf::Color::Magenta);
-	coub.addPolygon(A, G, F, sf::Color::Magenta);
-
+	coub.addPolygon(A, G, F, sf::Color::Magenta);*/
+	KEK;
+	coub.load("coub.obj");
+	KEK;
 	tdrw::TDRenderWindow window(sf::VideoMode(1800, 900), "Kek");
 	window.setCamera(camera);
 	window.setWorldCoordSystem(coord_system);

@@ -23,10 +23,12 @@ namespace tdrw {
 
 		Point();
 		Point(const Point& _point);
+		Point(std::vector<double> coord);
 		Point(float x, float y, float z);
 
 		void setCoord(float x, float y, float z);
 		void setCoord(const Point& _point);
+		void setCoord(std::vector<double> coord);
 		void setCoordOnScreen(const sf::Vector2f& coord_on_screen);
 
 		bool isExist() const;

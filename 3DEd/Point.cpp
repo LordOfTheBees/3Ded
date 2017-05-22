@@ -43,6 +43,12 @@ namespace tdrw {
 		this->coord_on_screen = _point.coord_on_screen;
 	}
 
+	Point::Point(std::vector<double> coord){
+		x = coord[0];
+		y = coord[1];
+		z = coord[2];
+	}
+
 	Point::Point(float x, float y, float z) {
 		coord_on_screen.x = -300;
 		coord_on_screen.y = -300;
@@ -65,6 +71,12 @@ namespace tdrw {
 		z = _point.z;
 		existance = true;
 		this->coord_on_screen = _point.coord_on_screen;
+	}
+
+	void Point::setCoord(std::vector<double> coord){
+		x = coord[0];
+		y = coord[1];
+		z = coord[2];
 	}
 
 	void Point::setCoordOnScreen(const sf::Vector2f & coord_on_screen) {
