@@ -1,23 +1,2 @@
-﻿  TDRenderWindow.cpp
-c:\users\avito\3ded\3ded\tdrenderwindow.cpp(81): warning C4101: t_bsp_thread: неиспользованная локальная переменная
-c:\users\avito\3ded\3ded\tdrenderwindow.cpp(81): warning C4101: t_coord_thread: неиспользованная локальная переменная
-  Camera.cpp
-c:\users\avito\3ded\3ded\camera.cpp(66): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-  Source.cpp
-c:\users\avito\3ded\3ded\source.cpp(48): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\avito\3ded\3ded\source.cpp(95): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\avito\3ded\3ded\source.cpp(148): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-  Polygon.cpp
-  Point.cpp
-c:\users\avito\3ded\3ded\point.cpp(14): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-c:\users\avito\3ded\3ded\point.cpp(18): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-  ObjLoSa.cpp
-  Model.cpp
-  CoordinateSystem.cpp
-c:\users\avito\3ded\3ded\coordinatesystem.cpp(285): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-  BinaryTree.cpp
-  ArrayOfPoints.cpp
-c:\users\avito\3ded\3ded\arrayofpoints.cpp(48): warning C4267: return: преобразование из "size_t" в "int"; возможна потеря данных
-  Создание кода...
-  3DEd.vcxproj -> C:\Users\avito\3Ded\x64\Debug\3DEd.exe
+﻿  3DEd.vcxproj -> C:\Users\avito\3Ded\x64\Debug\3DEd.exe
   3DEd.vcxproj -> C:\Users\avito\3Ded\x64\Debug\3DEd.pdb (Partial PDB)

@@ -1,6 +1,6 @@
 #include "ArrayOfPoints.h"
 
-
+#include <iostream>
 namespace tdrw {
 	void ArrayOfPoints::operator=(const ArrayOfPoints & right){
 		m_all_points = right.m_all_points;
@@ -18,9 +18,7 @@ namespace tdrw {
 	}
 
 	Point * ArrayOfPoints::addPoint(const Point point){
-		Point* t_ptr_point = new Point;
-		*t_ptr_point = point;
-		m_all_points.push_back(t_ptr_point);
+		m_all_points.push_back(new Point(point));
 		return m_all_points.back();
 	}
 
@@ -58,6 +56,11 @@ namespace tdrw {
 		}
 
 		return t_points;
+	}
+
+	std::vector<Point*> ArrayOfPoints::getAllPoints() const{
+		//std::cout << m_all_points.size() << std::endl;
+		return m_all_points;
 	}
 
 

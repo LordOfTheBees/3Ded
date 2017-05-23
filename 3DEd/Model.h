@@ -51,6 +51,7 @@ namespace tdrw {
 		void rotationAngleOnZ(double alpha);
 		void setZeroPointOfCoord(const Point& zero_point);
 
+		//возвращщает систему координат модели
 		CoordinateSystem getCoordSystem();
 		Point* getPoint(const sf::Vector2f mouse_coord);
 		std::vector<Polygon> getAllPolygon() const;

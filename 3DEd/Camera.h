@@ -20,6 +20,7 @@ namespace tdrw {
 	protected:
 	public:
 		Camera();
+		Camera(const Camera& right);
 		void setDataOfCamera(const CoordinateSystem& world_system, const CoordinateSystem& camera_system, const double& viewing_angle, const sf::Vector2u screen_size);
 		void setWorldCoordSystem(const CoordinateSystem& world_system);
 		void setCameraCoordSystem(const CoordinateSystem& camera_system);

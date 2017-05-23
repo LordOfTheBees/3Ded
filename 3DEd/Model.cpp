@@ -42,13 +42,11 @@ namespace tdrw {
 	}
 
 	void Model::addPolygon(std::vector<Point*> points, sf::Color color){
-		Polygon t_polygon(this, points, color);
-		m_polygons.push_back(t_polygon);
+		m_polygons.push_back(Polygon(this, points, color));
 	}
 
 	void Model::addPolygon(Point * point1, Point * point2, Point * point3, sf::Color color){
-		Polygon t_polygon(this, point1, point2, point3, color);
-		m_polygons.push_back(t_polygon);
+		m_polygons.push_back(Polygon(this, point1, point2, point3, color));
 	}
 
 	void Model::addPolygon(Point point1, Point point2, Point point3, sf::Color color) {
@@ -57,8 +55,7 @@ namespace tdrw {
 		t_tmp_points.push_back(ArrayOfPoints::addPoint(point2));
 		t_tmp_points.push_back(ArrayOfPoints::addPoint(point3));
 
-		Polygon t_polygon(this, t_tmp_points, color);
-		m_polygons.push_back(t_polygon);
+		m_polygons.push_back(Polygon(this, t_tmp_points, color));
 	}
 
 	void Model::addPolygon(std::vector<Point> points, sf::Color color) {
@@ -68,8 +65,7 @@ namespace tdrw {
 			t_tmp_points.push_back(ArrayOfPoints::addPoint(x));
 		}
 
-		Polygon t_polygon(this, t_tmp_points, color);
-		m_polygons.push_back(t_polygon);
+		m_polygons.push_back(Polygon(this, t_tmp_points, color));
 	}
 
 	//==============
@@ -218,6 +214,7 @@ namespace tdrw {
 				addPolygon(t_point, sf::Color::White);
 			}
 		}
+
 		return true;
 	}
 

@@ -5,6 +5,16 @@ namespace tdrw {
 	Camera::Camera() {
 	}
 
+	Camera::Camera(const Camera & right){
+		screen_size = right.screen_size;
+		coord_system_of_camera = right.coord_system_of_camera;
+		world_coord_system = right.world_coord_system;
+		viewing_angle = right.viewing_angle;
+		convert_number_x = right.convert_number_x;
+		convert_number_y = right.convert_number_y;
+		radius = right.radius;
+	}
+
 	void Camera::setDataOfCamera(const CoordinateSystem & world_system, const CoordinateSystem & camera_system, const double & viewing_angle, const sf::Vector2u screen_size) {
 		world_coord_system = world_system;
 		coord_system_of_camera = camera_system;
