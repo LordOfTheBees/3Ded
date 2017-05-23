@@ -68,7 +68,7 @@ namespace tdrw {
 		return t_converted_points;
 	}
 
-	sf::Vector2f Camera::getCoordOnScreen(Point& point_in_world_cs) {
+	sf::Vector2f Camera::getCoordOnScreen(const Point& point_in_world_cs) {
 		Point converted_point = world_coord_system.convertToBasis(point_in_world_cs);
 		//Вся эта дичь работает на основе подобных треуголников 
 		//Находим коэф. подобных треугольников с помощью гипотенуз(radius/...) а потом умножаем на координату x(or y), чтобы найти ,какая она будет на экране

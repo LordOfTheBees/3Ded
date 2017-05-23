@@ -79,7 +79,7 @@ namespace tdrw {
 		return m_him_model;
 	}
 
-	std::vector<Point> Polygon::getConvertedPoints(){
+	std::vector<Point> Polygon::getConvertedPoints() const{
 		CoordinateSystem t_cs = m_him_model->getCoordSystem();
 		std::vector<Point> t_tmp;
 		for (int i = 0; i < m_points.size(); ++i) {

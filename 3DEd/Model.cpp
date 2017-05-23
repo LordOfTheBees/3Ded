@@ -18,7 +18,7 @@ namespace tdrw {
 	Model::Model() {
 	}
 
-	Model::Model(const Model & right) {
+	Model::Model(const Model & right) : ArrayOfPoints(right){
 		this->m_polygons.clear();
 		this->m_own_coord_system = right.m_own_coord_system;
 

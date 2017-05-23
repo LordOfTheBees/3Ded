@@ -29,12 +29,7 @@ namespace tdrw {
 
 				h_thread_helper->m_mutex_deque_models.unlock();
 				//==========
-				KEK;
 				std::vector<Point*> t_all_points = t_model.getAllPoints();
-				std::cout << t_all_points.size() << std::endl;
-				//std::cout << "(" << t_all_points[0]->x << ", " << t_all_points[0]->y << ", " << t_all_points[0]->z << ")\n";
-				/*sf::Vector2f t_tmp_coord = camera->getCoordOnScreen(t_model.convertToWorldCoordSystem(Point(0, 0, 0)));
-				std::cout << "Calculeted in draw (" << t_tmp_coord.x << ", " << t_tmp_coord.y << ")\n";*/
 				for (auto x : t_all_points) {
 					x->setCoordOnScreen(camera->getCoordOnScreen(t_model.convertToWorldCoordSystem(*x)));
 				}
@@ -56,11 +51,6 @@ namespace tdrw {
 		if (tmp->further != nullptr) {
 			draw_polygon(tmp->further);
 		}
-		
-		/*sf::Vector2f t_tmp_coord = camera.getCoordOnScreen(models[0].convertToWorldCoordSystem(*t_points[0]));
-		std::cout << "Calculeted in draw (" << t_tmp_coord.x << ", " << t_tmp_coord.y << ")\n";
-		t_tmp_coord = t_points[0]->getCoordOnScreen();
-		std::cout << "Calculeted in thread (" << t_tmp_coord.x << ", " << t_tmp_coord.y << ")\n\n";*/
 
 		/*std::cout << "=================\n";
 		std::cout << "(" << points[0].x << "," << points[0].y << "," << points[0].z << ")" << std::endl;
@@ -68,19 +58,15 @@ namespace tdrw {
 		std::cout << "(" << points[2].x << "," << points[2].y << "," << points[2].z << ")" << std::endl;*/
 		//как только рекурсивно дошли до самого дальнего, начинаем отрисовывать активный(послученный в виде аргумента) полигон
 		for (int i = 0; i < t_points.size(); ++i) {
-			(*polygon_to_draw)[i].position = camera.getCoordOnScreen(models[0].convertToWorldCoordSystem(*t_points[i]));
-			//(*polygon_to_draw)[i].position = t_points[i]->getCoordOnScreen();
+			(*polygon_to_draw)[i].position = t_points[i]->getCoordOnScreen();
 		}
 		for (int i = 0; i < t_points.size(); ++i) {
 			(*polygon_to_draw)[i].color = pol_color;
 		}
-		//sf::RenderWindow::draw(*polygon_to_draw);
 
 		for (int i = 0; i < 6; i += 2) {
-			(*line)[i].position = camera.getCoordOnScreen(models[0].convertToWorldCoordSystem(*t_points[j % t_points.size()]));
-			(*line)[i + 1].position = camera.getCoordOnScreen(models[0].convertToWorldCoordSystem(*t_points[(j + 1) % t_points.size()]));
-			//(*line)[i].position = t_points[j % t_points.size()]->getCoordOnScreen();
-			//(*line)[i + 1].position = t_points[(j + 1) % t_points.size()]->getCoordOnScreen();
+			(*line)[i].position = t_points[j % t_points.size()]->getCoordOnScreen();
+			(*line)[i + 1].position = t_points[(j + 1) % t_points.size()]->getCoordOnScreen();
 			j++;
 		}
 		for (int i = 0; i < 6; ++i)
@@ -174,6 +160,7 @@ namespace tdrw {
 			polygons.insert(polygons.end(), tmp_data.begin(), tmp_data.end());
 		}
 
+		std::cout << "Create bsp tree... ";
 		QueryPerformanceFrequency((LARGE_INTEGER *)&m_tps);
 		QueryPerformanceCounter((LARGE_INTEGER *)&m_start);
 
@@ -187,6 +174,7 @@ namespace tdrw {
 		std::cout << ((double)(m_end - m_start) / m_tps) * 1000. << " miliseconds\n";
 
 
+		std::cout << "Draw all polygons... ";
 		//ОТРИСОВЫВАЕМ
 		QueryPerformanceFrequency((LARGE_INTEGER *)&m_tps);
 		QueryPerformanceCounter((LARGE_INTEGER *)&m_start);

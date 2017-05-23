@@ -29,7 +29,7 @@ namespace tdrw {
 		void generateConvertNumber();
 
 		std::vector<Point> getConvertedPoints(const Polygon& polygon);
-		sf::Vector2f getCoordOnScreen(Point& point_in_world_cs);
+		sf::Vector2f getCoordOnScreen(const Point& point_in_world_cs);
 		Point getZeroPointOfCamera();
 		CoordinateSystem getCoordSystemOfCamera();
 		~Camera();

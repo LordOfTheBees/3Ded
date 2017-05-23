@@ -81,7 +81,7 @@ int main() {
 
 	coub.addPolygon(A, E, F, sf::Color::Magenta);
 	coub.addPolygon(A, G, F, sf::Color::Magenta);*/
-	coub.load("coub.obj");
+	coub.load("gourd.obj");
 	tdrw::TDRenderWindow window(sf::VideoMode(1800, 900), "Kek");
 	window.setCamera(camera);
 	window.setWorldCoordSystem(coord_system);

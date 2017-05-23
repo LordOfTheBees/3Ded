@@ -72,7 +72,7 @@ namespace tdrw {
 		this->zero_point_of_camera = zero_point_of_camera;
 	}
 
-	void BinaryTree::addElement(Polygon polygon) {
+	void BinaryTree::addElement(const Polygon& polygon) {
 		tmp = new BinTree;
 		tmp->polygon = polygon;
 		std::vector<Point> points = polygon.getConvertedPoints();

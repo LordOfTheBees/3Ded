@@ -36,7 +36,7 @@ namespace tdrw {
 		std::vector<Point*> getPoints() const;
 		sf::Color getColor() const;
 		Model* getModel() const;
-		std::vector<Point> getConvertedPoints();
+		std::vector<Point> getConvertedPoints() const;
 		~Polygon();
 	};
 }

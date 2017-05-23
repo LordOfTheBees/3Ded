@@ -41,7 +41,7 @@ namespace tdrw {
 		void setConvertedCoordSystemFromModel(const CoordinateSystem & converted_coord_system_from_model);
 		void setConvertedCoordSystemFromCamera(const CoordinateSystem & converted_coord_system_from_camera);
 		void setZeroPointOfCamera(Point zero_point_of_camera);
-		void addElement(Polygon polygon);
+		void addElement(const Polygon& polygon);
 		void clear();
 
 		std::vector<Polygon> addPolygons();

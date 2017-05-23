@@ -2,7 +2,7 @@
 
 #include <iostream>
 namespace tdrw {
-	void ArrayOfPoints::operator=(const ArrayOfPoints & right){
+	void ArrayOfPoints::operator=(const ArrayOfPoints & right) {
 		m_all_points = right.m_all_points;
 	}
 
