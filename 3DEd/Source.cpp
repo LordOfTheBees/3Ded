@@ -5,6 +5,7 @@
 #include "Model.h"
 #include "TDRenderWindow.h"
 #include "Editor.h"
+#include "HSB.h"
 
 #include <functional>
 #include <iostream>
@@ -15,7 +16,6 @@
 #define KEK std::cout<<"KEK\n"
 
 int main() {
-
 	Editor editor;
 	editor.start();
 	

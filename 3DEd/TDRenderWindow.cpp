@@ -41,8 +41,8 @@ namespace tdrw {
 		std::vector<Point*> t_points = tmp->polygon.getPoints();
 		sf::VertexArray* polygon_to_draw = new sf::VertexArray(sf::Triangles, 3);
 		sf::VertexArray* line = new sf::VertexArray(sf::Lines, 6);
-		sf::Color pol_color = tmp->polygon.getColor();
-
+		sf::Color pol_color = m_light.getTransformColor(tmp->polygon);
+		
 		int j = 0;
 
 		//вначале идём к самым дальним полигонам
@@ -70,7 +70,7 @@ namespace tdrw {
 		}
 		for (int i = 0; i < 6; ++i)
 			(*line)[i].color = sf::Color::Red;
-		sf::RenderWindow::draw(*line);
+		//sf::RenderWindow::draw(*line);
 
 		//потом к ближайшем
 		if (tmp->closer != nullptr) {
@@ -114,6 +114,10 @@ namespace tdrw {
 			this->camera.setScreenSize(sf::RenderWindow::getSize());
 			this->camera.generateConvertNumber();
 		}
+	}
+
+	void TDRenderWindow::setLight(const Light & light){
+		m_light = light;
 	}
 
 	void TDRenderWindow::setWorldCoordSystem(const CoordinateSystem& world_coord_system) {

@@ -122,6 +122,8 @@
     <ClInclude Include="BinaryTree.h" />
     <ClInclude Include="CoordinateSystem.h" />
     <ClInclude Include="Editor.h" />
+    <ClInclude Include="HSB.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ObjLoSa.h" />
     <ClInclude Include="Point.h" />
@@ -134,6 +136,8 @@
     <ClCompile Include="BinaryTree.cpp" />
     <ClCompile Include="CoordinateSystem.cpp" />
     <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="HSB.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ObjLoSa.cpp" />
     <ClCompile Include="Point.cpp" />

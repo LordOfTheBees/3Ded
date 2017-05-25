@@ -31,17 +31,21 @@ void Editor::start() {
 	camera.setDataOfCamera(t_coord_system, camera_coord, 120, sf::Vector2u(1800, 900));
 	camera.generateConvertNumber();
 
+	camera_coord.setBasisCoordSystem(t_coord_system);
+	camera_coord.generateTransitionMatrix();
+	tdrw::Light light;
+	light.setDirection(camera_coord);
+	
+
+	t_td_window.setLight(light);
 	t_td_window.setCamera(camera);
 	t_td_window.setWorldCoordSystem(t_coord_system);
 
 
-	tdrw::Camera t_camera = t_td_window.getCamera();
-	tdrw::CoordinateSystem t_world_coord_system = t_td_window.getWorldCoordSystem();
-
 	tdrw::Model t_object;
 	double x = 30, y = -3, z = 0;
 
-	t_object.load("head.obj");
+	t_object.load("gourd.obj");
 	t_coord_system.setCoordSystem({ { 1, 0, 0 },{ 0, 1, 0 },{ 0, 0, 1 } }, tdrw::Point(x, y, z));
 	t_object.setModelCoordSystem(t_coord_system);
 

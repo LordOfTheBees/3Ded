@@ -5,6 +5,7 @@
 #include "Polygon.h"
 #include "Model.h"
 #include "BinaryTree.h"
+#include "Light.h"
 
 #include <deque>
 #include <thread>
@@ -39,6 +40,7 @@ namespace tdrw {
 	private:
 		std::vector<Model> models;
 		Camera camera;
+		Light m_light;
 		CoordinateSystem world_coord_system;
 		BinaryTree* bsp_tree;
 		bool camera_exist, world_exist;
@@ -55,6 +57,7 @@ namespace tdrw {
 		TDRenderWindow(sf::VideoMode video_mode, std::string title);
 
 		void setCamera(const Camera& camera);
+		void setLight(const Light& light);
 		void setWorldCoordSystem(const CoordinateSystem& world_coord_system);
 
 		virtual void draw(Model model);

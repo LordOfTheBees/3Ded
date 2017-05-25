@@ -36,6 +36,10 @@ namespace tdrw {
 
 		std::vector<std::vector<double>> CoordinateSystem::getMatrixOfCoord() const;
 		Point CoordinateSystem::getZeroPoint() const;
+		std::vector<double> getXAxis() const;
+		std::vector<double> getYAxis() const;
+		std::vector<double> getZAxis() const;
+
 		~CoordinateSystem();
 	};
 }

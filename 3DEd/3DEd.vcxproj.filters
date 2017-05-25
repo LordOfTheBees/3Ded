@@ -43,6 +43,12 @@
     <Filter Include="Заголовочные файлы\Editor">
       <UniqueIdentifier>{326bf8f2-3293-4776-8ceb-4b3be7eae3b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Заголовочные файлы\Light">
+      <UniqueIdentifier>{093cb284-e276-4b78-9488-87bfb2514696}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\Light\HSB">
+      <UniqueIdentifier>{1373c4d8-41ec-4cfd-9125-07ec96675f83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryTree.h">
@@ -74,6 +80,12 @@
     </ClInclude>
     <ClInclude Include="Editor.h">
       <Filter>Заголовочные файлы\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Заголовочные файлы\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="HSB.h">
+      <Filter>Заголовочные файлы\Light\HSB</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +121,12 @@
     </ClCompile>
     <ClCompile Include="Editor.cpp">
       <Filter>Заголовочные файлы\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Заголовочные файлы\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="HSB.cpp">
+      <Filter>Заголовочные файлы\Light\HSB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

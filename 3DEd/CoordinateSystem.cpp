@@ -223,6 +223,18 @@ namespace tdrw {
 		return zero_point;
 	}
 
+	std::vector<double> CoordinateSystem::getXAxis() const{
+		return (*m_coord_system)[0];
+	}
+
+	std::vector<double> CoordinateSystem::getYAxis() const{
+		return (*m_coord_system)[1];
+	}
+
+	std::vector<double> CoordinateSystem::getZAxis() const{
+		return (*m_coord_system)[2];
+	}
+
 
 	CoordinateSystem::~CoordinateSystem() {
 		delete m_basis_coord_system;
