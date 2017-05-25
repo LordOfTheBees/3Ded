@@ -1,6 +1,5 @@
 #include "CoordinateSystem.h"
 #include <iostream>
-#include <vector>
 #include <cmath>
 
 namespace tdrw {
@@ -10,19 +9,13 @@ namespace tdrw {
 			return *this;
 		this->size = right.size;
 
-		for (int i = 0; i < this->size; ++i)
-			for (int j = 0; j < this->size; ++j) {
-				this->coord_system[i][j] = right.coord_system[i][j];
-			}
-		for (int i = 0; i < this->size; ++i)
-			for (int j = 0; j < this->size; ++j) {
-				this->basis_coord_system[i][j] = right.basis_coord_system[i][j];
-			}
+		m_coord_system = new std::vector<std::vector<double>>(size, std::vector<double>(size));
+		m_basis_coord_system = new std::vector<std::vector<double>>(size, std::vector<double>(size));
+		m_transition_matrix = new std::vector<std::vector<double>>(size, std::vector<double>(size));
 
-		for (int i = 0; i < this->size; ++i)
-			for (int j = 0; j < this->size; ++j) {
-				this->transition_matrix[i][j] = right.transition_matrix[i][j];
-			}
+		*m_coord_system = *right.m_coord_system;
+		*m_basis_coord_system = *right.m_basis_coord_system;
+		*m_transition_matrix = *right.m_transition_matrix;
 
 		this->zero_point_of_basis = right.zero_point_of_basis;
 		this->zero_point = right.zero_point;
@@ -31,110 +24,46 @@ namespace tdrw {
 
 	CoordinateSystem::CoordinateSystem() {
 		size = 3;
-		this->coord_system = new double*[size];
-		for (int i = 0; i < size; ++i)
-			this->coord_system[i] = new double[size];
 
-
-		this->basis_coord_system = new double*[size];
-		for (int i = 0; i < size; ++i)
-			this->basis_coord_system[i] = new double[size];
-
-
-		this->transition_matrix = new double*[size];
-		for (int i = 0; i < size; ++i)
-			this->transition_matrix[i] = new double[size];
-	}
-
-	CoordinateSystem::CoordinateSystem(int size) {
-		this->size = size;
-
-		coord_system = new double*[size];
-		for (int i = 0; i < size; ++i)
-			coord_system[i] = new double[size];
-
-		this->basis_coord_system = new double*[size];
-		for (int i = 0; i < size; ++i)
-			this->basis_coord_system[i] = new double[size];
-
-		transition_matrix = new double*[size];
-		for (int i = 0; i < size; ++i)
-			transition_matrix[i] = new double[size];
+		m_coord_system = new std::vector<std::vector<double>>(size, std::vector<double>(size));
+		m_basis_coord_system = new std::vector<std::vector<double>>(size, std::vector<double>(size));
+		m_transition_matrix = new std::vector<std::vector<double>>(size, std::vector<double>(size));
 	}
 
 	CoordinateSystem::CoordinateSystem(const CoordinateSystem & right) {
 		this->size = right.size;
 
+		m_coord_system = new std::vector<std::vector<double>>(size, std::vector<double>(size));
+		m_basis_coord_system = new std::vector<std::vector<double>>(size, std::vector<double>(size));
+		m_transition_matrix = new std::vector<std::vector<double>>(size, std::vector<double>(size));
 
-		this->coord_system = new double*[size];
-		for (int i = 0; i < size; ++i)
-			this->coord_system[i] = new double[size];
-
-
-		this->basis_coord_system = new double*[size];
-		for (int i = 0; i < size; ++i)
-			this->basis_coord_system[i] = new double[size];
-
-
-		this->transition_matrix = new double*[size];
-		for (int i = 0; i < size; ++i)
-			this->transition_matrix[i] = new double[size];
-
-
-		for (int i = 0; i < this->size; ++i)
-			for (int j = 0; j < this->size; ++j) {
-				this->coord_system[i][j] = right.coord_system[i][j];
-			}
-		for (int i = 0; i < this->size; ++i)
-			for (int j = 0; j < this->size; ++j) {
-				this->basis_coord_system[i][j] = right.basis_coord_system[i][j];
-			}
-
-		for (int i = 0; i < this->size; ++i)
-			for (int j = 0; j < this->size; ++j) {
-				this->transition_matrix[i][j] = right.transition_matrix[i][j];
-			}
+		*m_coord_system = *right.m_coord_system;
+		*m_basis_coord_system = *right.m_basis_coord_system;
+		*m_transition_matrix = *right.m_transition_matrix;
 
 		this->zero_point_of_basis = right.zero_point_of_basis;
 		this->zero_point = right.zero_point;
 	}
 
-	void CoordinateSystem::setBasisCoordSystem(double ** c_p, const Point & zer) {
-		for (int i = 0; i < size; ++i)
-			for (int j = 0; j < size; ++j) {
-				this->basis_coord_system[i][j] = c_p[i][j];
-			}
-
+	void CoordinateSystem::setBasisCoordSystem(std::vector<std::vector<double>> b_c_s, const Point & zer) {
+		*m_basis_coord_system = b_c_s;
 		zero_point_of_basis = zer;
 	}
 
 	void CoordinateSystem::setBasisCoordSystem(const CoordinateSystem & coord) {
-		for (int i = 0; i < size; ++i) {
-			for (int j = 0; j < size; ++j) {
-				this->basis_coord_system[i][j] = coord.coord_system[i][j];
-			}
-		}
-
+		*m_basis_coord_system = *coord.m_coord_system;
 		zero_point_of_basis = coord.zero_point;
 	}
 
-	void CoordinateSystem::setCoordSystem(double ** c_p, Point& zer) {
+	void CoordinateSystem::setCoordSystem(std::vector<std::vector<double>> c_s, Point& zer) {
 		this->zero_point = zer;
-
-		for (int i = 0; i < size; ++i)
-			for (int j = 0; j < size; ++j) {
-				coord_system[i][j] = c_p[i][j];
-			}
+		*m_coord_system = c_s;
 	}
 
 	void CoordinateSystem::setCoordSystem(const CoordinateSystem & r_value) {
 		this->zero_point = r_value.zero_point;
 		this->size = r_value.size;
-
-		for (int i = 0; i < size; ++i) {
-			for (int j = 0; j < size; ++j)
-				coord_system[i][j] = r_value.coord_system[i][j];
-		}
+		*m_coord_system = *r_value.m_coord_system;
 	}
 
 	void CoordinateSystem::setZeroPointOfCoord(const Point & zero_point) {
@@ -155,13 +84,13 @@ namespace tdrw {
 			for (int j = 0; j < 3; ++j) {
 				i_result[i][j] = 0;
 				for (int k = 0; k < 3; ++k)
-					i_result[i][j] += i_rotation_matrix[i][k] * coord_system[k][j];
+					i_result[i][j] += i_rotation_matrix[i][k] * (*m_coord_system)[k][j];
 			}
 		}
 
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 3; ++j) {
-				coord_system[i][j] = i_result[i][j];
+				(*m_coord_system)[i][j] = i_result[i][j];
 			}
 		}
 
@@ -182,13 +111,13 @@ namespace tdrw {
 			for (int j = 0; j < 3; ++j) {
 				i_result[i][j] = 0;
 				for (int k = 0; k < 3; ++k)
-					i_result[i][j] += i_rotation_matrix[i][k] * coord_system[k][j];
+					i_result[i][j] += i_rotation_matrix[i][k] * (*m_coord_system)[k][j];
 			}
 		}
 
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 3; ++j) {
-				coord_system[i][j] = i_result[i][j];
+				(*m_coord_system)[i][j] = i_result[i][j];
 			}
 		}
 
@@ -210,13 +139,13 @@ namespace tdrw {
 			for (int j = 0; j < 3; ++j) {
 				i_result[i][j] = 0;
 				for (int k = 0; k < 3; ++k)
-					i_result[i][j] += i_rotation_matrix[i][k] * coord_system[k][j];
+					i_result[i][j] += i_rotation_matrix[i][k] * (*m_coord_system)[k][j];
 			}
 		}
 
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 3; ++j) {
-				coord_system[i][j] = i_result[i][j];
+				(*m_coord_system)[i][j] = i_result[i][j];
 			}
 		}
 
@@ -236,15 +165,12 @@ namespace tdrw {
 		//	(0 1 0 | 2 1 0)
 		//	(0 0 1 | 1 1 1)
 
-		double ** tmp_coord_system;
-		tmp_coord_system = new double*[size];
-		for (int i = 0; i < size; ++i)
-			tmp_coord_system[i] = new double[size];
+		std::vector<std::vector<double>> tmp_coord_system(size, std::vector<double>(size));
 
 		for (int i = 0; i < size; ++i)
 			for (int j = 0; j < size; ++j) {
-				tmp_coord_system[i][j] = coord_system[i][j];
-				transition_matrix[i][j] = basis_coord_system[i][j];
+				tmp_coord_system[i][j] = (*m_coord_system)[i][j];
+				(*m_transition_matrix)[i][j] = (*m_basis_coord_system)[i][j];
 			}
 
 		int d1[3] = { 1, 0, 0 };
@@ -259,16 +185,13 @@ namespace tdrw {
 				tmp_coord_system[d2[i]][j] += k2 * tmp_coord_system[i][j];
 				tmp_coord_system[i][j] /= tmp;
 
-				transition_matrix[d1[i]][j] += k1 * transition_matrix[i][j];
-				transition_matrix[d2[i]][j] += k2 * transition_matrix[i][j];
-				transition_matrix[i][j] /= tmp;
+				(*m_transition_matrix)[d1[i]][j] += k1 * (*m_transition_matrix)[i][j];
+				(*m_transition_matrix)[d2[i]][j] += k2 * (*m_transition_matrix)[i][j];
+				(*m_transition_matrix)[i][j] /= tmp;
 			}
 
 		}
 
-		for (int i = 0; i < size; ++i)
-			delete[] tmp_coord_system[i];
-		delete[] tmp_coord_system;
 		//верно, проверено
 	}
 
@@ -279,7 +202,7 @@ namespace tdrw {
 		for (int i = 0; i < size; ++i) {
 			new_coord[i] = 0;
 			for (int j = 0; j < size; ++j)
-				new_coord[i] += point_coord[j] * transition_matrix[i][j];
+				new_coord[i] += point_coord[j] * (*m_transition_matrix)[i][j];
 		}
 		//std::cout << new_coord[0] << " " << new_coord[1] << " " << new_coord[2] << std::endl;
 		Point converted_point(new_coord[0], new_coord[1], new_coord[2]);
@@ -287,14 +210,12 @@ namespace tdrw {
 		//верно, проверено
 	}
 
-	double ** CoordinateSystem::getMatrixOfCoord() const {
-		double ** tmp = new double*[size];
-		for (int i = 0; i < size; ++i)
-			tmp[i] = new double[size];
+	std::vector<std::vector<double>> CoordinateSystem::getMatrixOfCoord() const {
+		std::vector<std::vector<double>> tmp(size, std::vector<double>(size));
 
 		for (int i = 0; i < size; ++i)
 			for (int j = 0; j < size; ++j)
-				tmp[i][j] = coord_system[i][j];
+				tmp[i][j] = (*m_coord_system)[i][j];
 		return tmp;
 	}
 
@@ -304,16 +225,8 @@ namespace tdrw {
 
 
 	CoordinateSystem::~CoordinateSystem() {
-		if (coord_system != nullptr) {
-			for (int i = 0; i < size; ++i)
-				delete[] coord_system[i];
-			delete[] coord_system;
-		}
-
-		if (transition_matrix != nullptr) {
-			for (int i = 0; i < size; ++i)
-				delete[] transition_matrix[i];
-			delete[] transition_matrix;
-		}
+		delete m_basis_coord_system;
+		delete m_coord_system;
+		delete m_transition_matrix;
 	}
 }

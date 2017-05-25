@@ -121,6 +121,7 @@
     <ClInclude Include="ArrayOfPoints.h" />
     <ClInclude Include="BinaryTree.h" />
     <ClInclude Include="CoordinateSystem.h" />
+    <ClInclude Include="Editor.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ObjLoSa.h" />
     <ClInclude Include="Point.h" />
@@ -132,6 +133,7 @@
     <ClCompile Include="ArrayOfPoints.cpp" />
     <ClCompile Include="BinaryTree.cpp" />
     <ClCompile Include="CoordinateSystem.cpp" />
+    <ClCompile Include="Editor.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ObjLoSa.cpp" />
     <ClCompile Include="Point.cpp" />

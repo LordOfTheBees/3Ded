@@ -28,9 +28,6 @@
     <Filter Include="Заголовочные файлы\Model\Polygon">
       <UniqueIdentifier>{b102dfa4-f3dd-4238-bf95-a09f4ad0d700}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Заголовочные файлы\World">
-      <UniqueIdentifier>{9a7aa9d8-64c2-4666-9598-d7950fe9f149}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Заголовочные файлы\Model\ArrayOfPoints">
       <UniqueIdentifier>{bcce872c-6a49-46fd-8774-add07ebd4c94}</UniqueIdentifier>
     </Filter>
@@ -42,6 +39,9 @@
     </Filter>
     <Filter Include="Заголовочные файлы\ObjLoSa">
       <UniqueIdentifier>{12c80c64-0cb0-45f6-b873-bc707a50c35b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\Editor">
+      <UniqueIdentifier>{326bf8f2-3293-4776-8ceb-4b3be7eae3b2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +71,9 @@
     </ClInclude>
     <ClInclude Include="ObjLoSa.h">
       <Filter>Заголовочные файлы\ObjLoSa</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>Заголовочные файлы\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +106,9 @@
     </ClCompile>
     <ClCompile Include="ObjLoSa.cpp">
       <Filter>Заголовочные файлы\ObjLoSa</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>Заголовочные файлы\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

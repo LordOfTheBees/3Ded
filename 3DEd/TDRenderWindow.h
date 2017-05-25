@@ -37,7 +37,6 @@ namespace tdrw {
 
 	class TDRenderWindow : public sf::RenderWindow {
 	private:
-		int counter;
 		std::vector<Model> models;
 		Camera camera;
 		CoordinateSystem world_coord_system;
@@ -61,6 +60,9 @@ namespace tdrw {
 		virtual void draw(Model model);
 		virtual void clear(sf::Color color);
 		virtual void display();
+
+		Camera getCamera();
+		CoordinateSystem getWorldCoordSystem();
 
 		~TDRenderWindow();
 	};

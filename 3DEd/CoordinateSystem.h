@@ -1,4 +1,5 @@
 #include "Point.h"
+#include <vector>
 #pragma once
 //ѕеревод из заданной системы координат в basis
 //setCoordsystem(T) - задаЄт базис, который используетс€ в данных вычислени€х
@@ -9,9 +10,9 @@ namespace tdrw {
 	{
 	private:
 		int size;
-		double ** coord_system;
-		double ** basis_coord_system;
-		double ** transition_matrix;
+		std::vector<std::vector<double>> * m_coord_system;
+		std::vector<std::vector<double>> * m_basis_coord_system;
+		std::vector<std::vector<double>> * m_transition_matrix;
 		Point zero_point;
 		Point zero_point_of_basis;
 	protected:
@@ -19,12 +20,11 @@ namespace tdrw {
 		CoordinateSystem& operator=(const CoordinateSystem& right);
 
 		CoordinateSystem();
-		CoordinateSystem(int n);
 		CoordinateSystem(const CoordinateSystem& right);
 
-		void setBasisCoordSystem(double ** c_p, const Point& zer);
+		void setBasisCoordSystem(std::vector<std::vector<double>> c_p, const Point& zer);
 		void setBasisCoordSystem(const CoordinateSystem& coord);
-		void setCoordSystem(double ** c_p, Point& zer);
+		void setCoordSystem(std::vector<std::vector<double>> c_p, Point& zer);
 		void setCoordSystem(const CoordinateSystem& r_value);
 		void setZeroPointOfCoord(const Point& zero_point);
 
@@ -34,7 +34,7 @@ namespace tdrw {
 		void generateTransitionMatrix();
 		Point convertToBasis(const Point& point) const;
 
-		double ** CoordinateSystem::getMatrixOfCoord() const;
+		std::vector<std::vector<double>> CoordinateSystem::getMatrixOfCoord() const;
 		Point CoordinateSystem::getZeroPoint() const;
 		~CoordinateSystem();
 	};

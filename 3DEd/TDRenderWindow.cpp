@@ -38,8 +38,6 @@ namespace tdrw {
 	}
 
 	void TDRenderWindow::draw_polygon(BinTree* tmp) {
-		while (m_thread_helper.m_thread_set_coord_is_work) {}//ожидаем окончания работы потока
-
 		std::vector<Point*> t_points = tmp->polygon.getPoints();
 		sf::VertexArray* polygon_to_draw = new sf::VertexArray(sf::Triangles, 3);
 		sf::VertexArray* line = new sf::VertexArray(sf::Lines, 6);
@@ -63,6 +61,7 @@ namespace tdrw {
 		for (int i = 0; i < t_points.size(); ++i) {
 			(*polygon_to_draw)[i].color = pol_color;
 		}
+		sf::RenderWindow::draw(*polygon_to_draw);
 
 		for (int i = 0; i < 6; i += 2) {
 			(*line)[i].position = t_points[j % t_points.size()]->getCoordOnScreen();
@@ -78,6 +77,8 @@ namespace tdrw {
 			draw_polygon(tmp->closer);
 		}
 
+		delete line;
+		delete polygon_to_draw;
 		return;
 	}
 
@@ -98,6 +99,7 @@ namespace tdrw {
 		bsp_tree = nullptr;
 		sf::RenderWindow::create(video_mode, title);
 	}
+
 
 	void TDRenderWindow::setCamera(const Camera& camera) {
 		models.clear();
@@ -130,6 +132,7 @@ namespace tdrw {
 
 	void TDRenderWindow::draw(Model model) {
 		std::thread *t_bsp_thread, *t_coord_thread;
+		model.setWorldCoordSystem(world_coord_system);
 		models.push_back(model);
 
 		while(!m_thread_helper.m_mutex_deque_models.try_lock()){}
@@ -179,6 +182,8 @@ namespace tdrw {
 		QueryPerformanceFrequency((LARGE_INTEGER *)&m_tps);
 		QueryPerformanceCounter((LARGE_INTEGER *)&m_start);
 
+		while (m_thread_helper.m_thread_set_coord_is_work) {}//ожидаем окончания работы потока
+
 		draw_polygon(bsp_tree->getBinaryTree());
 		sf::RenderWindow::display();
 
@@ -188,6 +193,14 @@ namespace tdrw {
 
 		QueryPerformanceCounter((LARGE_INTEGER *)&m_end);
 		std::cout << ((double)(m_end - m_start) / m_tps) * 1000. << " miliseconds\n";
+	}
+
+	Camera TDRenderWindow::getCamera(){
+		return camera;
+	}
+
+	CoordinateSystem TDRenderWindow::getWorldCoordSystem(){
+		return world_coord_system;
 	}
 
 
