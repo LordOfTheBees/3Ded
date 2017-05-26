@@ -1,3 +1,5 @@
-﻿  Model.cpp
+﻿  Editor.cpp
+c:\users\avito\3ded\3ded\editor.cpp(50): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+c:\users\avito\3ded\3ded\editor.cpp(105): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
   3DEd.vcxproj -> C:\Users\avito\3Ded\x64\Debug\3DEd.exe
   3DEd.vcxproj -> C:\Users\avito\3Ded\x64\Debug\3DEd.pdb (Partial PDB)

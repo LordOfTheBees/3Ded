@@ -14,6 +14,8 @@ namespace tdrw {
 	public:
 		double x, y, z;
 
+		static double calcDistance(const Point& first, const Point& second);
+
 		friend bool operator!=(const Point& left, const Point& right);
 		friend bool operator==(const Point& left, const Point& right);
 		friend const Point operator+(const Point& left, const Point& right);

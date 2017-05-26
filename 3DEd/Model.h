@@ -53,7 +53,6 @@ namespace tdrw {
 
 		//возвращщает систему координат модели
 		CoordinateSystem getCoordSystem();
-		Point* getPoint(const sf::Vector2f mouse_coord);
 		std::vector<Polygon> getAllPolygon() const;
 
 		Point convertToWorldCoordSystem(const Point& point) const;

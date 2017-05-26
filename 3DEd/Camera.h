@@ -28,6 +28,11 @@ namespace tdrw {
 		void setScreenSize(const sf::Vector2u screen_size);
 		void generateConvertNumber();
 
+		void rotationAngleOnX(double alpha);
+		void rotationAngleOnY(double alpha);
+		void rotationAngleOnZ(double alpha);
+		void setZeroPointOfCoord(const Point& zero_point);
+
 		std::vector<Point> getConvertedPoints(const Polygon& polygon);
 		sf::Vector2f getCoordOnScreen(const Point& point_in_world_cs);
 		Point getZeroPointOfCamera();

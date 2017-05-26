@@ -58,6 +58,22 @@ namespace tdrw {
 		convert_number_y = 2;*/
 	}
 
+	void Camera::rotationAngleOnX(double alpha){
+		coord_system_of_camera.rotationAngleOnX(alpha);
+	}
+
+	void Camera::rotationAngleOnY(double alpha){
+		coord_system_of_camera.rotationAngleOnY(alpha);
+	}
+
+	void Camera::rotationAngleOnZ(double alpha){
+		coord_system_of_camera.rotationAngleOnZ(alpha);
+	}
+
+	void Camera::setZeroPointOfCoord(const Point & zero_point){
+		coord_system_of_camera.setZeroPointOfCoord(zero_point);
+	}
+
 	std::vector<Point> Camera::getConvertedPoints(const Polygon & polygon)
 	{
 		std::vector<Point*> t_points = polygon.getPoints();

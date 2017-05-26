@@ -30,16 +30,21 @@ namespace tdrw {
 				h_thread_helper->m_mutex_deque_models.unlock();
 				//==========
 				std::vector<Point*> t_all_points = t_model.getAllPoints();
+				sf::Vector2f check_vect;
 				for (auto x : t_all_points) {
 					x->setCoordOnScreen(camera->getCoordOnScreen(t_model.convertToWorldCoordSystem(*x)));
+					/*check_vect = x->getCoordOnScreen();
+					std::cout << "(" << check_vect.x << ", " << check_vect.y << ")\n";*/
 				}
+				/*sf::Vector2f check_vect = t_all_points[0]->getCoordOnScreen();
+				std::cout << "(" << check_vect.x << ", " << check_vect.y << ")\n";*/
 			}
 		}
 	}
 
 	void TDRenderWindow::draw_polygon(BinTree* tmp) {
 		std::vector<Point*> t_points = tmp->polygon.getPoints();
-		sf::VertexArray* polygon_to_draw = new sf::VertexArray(sf::Triangles, 3);
+		sf::VertexArray* polygon_to_draw = new sf::VertexArray(sf::TrianglesFan, t_points.size());
 		sf::VertexArray* line = new sf::VertexArray(sf::Lines, 6);
 		sf::Color pol_color = m_light.getTransformColor(tmp->polygon);
 		
@@ -55,22 +60,25 @@ namespace tdrw {
 		std::cout << "(" << points[1].x << "," << points[1].y << "," << points[1].z << ")" << std::endl;
 		std::cout << "(" << points[2].x << "," << points[2].y << "," << points[2].z << ")" << std::endl;*/
 		//как только рекурсивно дошли до самого дальнего, начинаем отрисовывать активный(послученный в виде аргумента) полигон
+		sf::Vector2f check_vect;
 		for (int i = 0; i < t_points.size(); ++i) {
-			(*polygon_to_draw)[i].position = t_points[i]->getCoordOnScreen();
+			check_vect = t_points[i]->getCoordOnScreen();
+			//std::cout << "(" << check_vect.x << ", " << check_vect.y << ")\n";
+			(*polygon_to_draw)[i].position = check_vect;
 		}
 		for (int i = 0; i < t_points.size(); ++i) {
 			(*polygon_to_draw)[i].color = pol_color;
 		}
 		sf::RenderWindow::draw(*polygon_to_draw);
 
-		for (int i = 0; i < 6; i += 2) {
+		/*for (int i = 0; i < 6; i += 2) {
 			(*line)[i].position = t_points[j % t_points.size()]->getCoordOnScreen();
 			(*line)[i + 1].position = t_points[(j + 1) % t_points.size()]->getCoordOnScreen();
 			j++;
 		}
 		for (int i = 0; i < 6; ++i)
 			(*line)[i].color = sf::Color::Red;
-		//sf::RenderWindow::draw(*line);
+		sf::RenderWindow::draw(*line);*/
 
 		//потом к ближайшем
 		if (tmp->closer != nullptr) {
@@ -102,10 +110,6 @@ namespace tdrw {
 
 
 	void TDRenderWindow::setCamera(const Camera& camera) {
-		models.clear();
-		delete bsp_tree;
-		bsp_tree = nullptr;
-
 		camera_exist = true;
 		this->camera = camera;
 		this->camera.setScreenSize(sf::RenderWindow::getSize());
@@ -121,10 +125,6 @@ namespace tdrw {
 	}
 
 	void TDRenderWindow::setWorldCoordSystem(const CoordinateSystem& world_coord_system) {
-		models.clear();
-		delete bsp_tree;
-		bsp_tree = nullptr;
-
 		this->world_exist = true;
 		this->world_coord_system = world_coord_system;
 		if (camera_exist) {
@@ -191,10 +191,6 @@ namespace tdrw {
 		draw_polygon(bsp_tree->getBinaryTree());
 		sf::RenderWindow::display();
 
-		models.clear();
-		delete bsp_tree;
-		bsp_tree = nullptr;
-
 		QueryPerformanceCounter((LARGE_INTEGER *)&m_end);
 		std::cout << ((double)(m_end - m_start) / m_tps) * 1000. << " miliseconds\n";
 	}
@@ -205,6 +201,35 @@ namespace tdrw {
 
 	CoordinateSystem TDRenderWindow::getWorldCoordSystem(){
 		return world_coord_system;
+	}
+
+	Point * TDRenderWindow::getPointToControl(sf::Vector2f coord_on_screen){
+		bool t_fisrt_scan_done = false;
+		double t_min_distance;
+		double t_tmp_distance;
+		Point* t_suitable_point = nullptr;
+		std::vector<Point*> t_tmp_points;
+
+		Point t_zero_point_of_camera = camera.getZeroPointOfCamera();
+		for (auto x : models) {
+			t_tmp_points = x.getPoint(coord_on_screen);
+			for (auto y : t_tmp_points) {
+				t_tmp_distance = Point::calcDistance(t_zero_point_of_camera, x.convertToWorldCoordSystem(*y));
+				if (!t_fisrt_scan_done) {
+					t_fisrt_scan_done = true;
+					t_min_distance = t_tmp_distance;
+					t_suitable_point = y;
+				}
+
+				if (t_min_distance > t_tmp_distance) {
+					t_min_distance = t_tmp_distance;
+					t_suitable_point = y;
+				}
+			}
+			t_tmp_points.clear();
+		}
+
+		return t_suitable_point;
 	}
 
 
@@ -222,4 +247,4 @@ namespace tdrw {
 	ThreadHelper::~ThreadHelper()
 	{
 	}
-}
+} 

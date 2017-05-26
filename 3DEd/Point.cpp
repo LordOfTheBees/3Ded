@@ -18,6 +18,10 @@ namespace tdrw {
 		return Point(left.x - right.x, left.y - right.y, left.z - right.z);
 	}
 
+	double Point::calcDistance(const Point & first, const Point & second){
+		return std::sqrt(std::pow(first.x - second.x,2) + std::pow(first.y - second.y,2) + std::pow(first.z - second.z,2));
+	}
+
 	Point & Point::operator=(const Point & right) {
 		if (this == &right)
 			return *this;
@@ -92,7 +96,7 @@ namespace tdrw {
 			(mouse_position.y - 2 < this->coord_on_screen.y) && (this->coord_on_screen.y < mouse_position.y + 2))
 			return true;*/
 
-		if ((mouse_position.x * mouse_position.x + mouse_position.y * mouse_position.y) < 4)
+		if ((std::pow(mouse_position.x - coord_on_screen.x, 2) + std::pow(mouse_position.y - coord_on_screen.y, 2)) <= 16)
 			return true;
 		return false;
 	}

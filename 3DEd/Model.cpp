@@ -92,13 +92,6 @@ namespace tdrw {
 		return m_own_coord_system;
 	}
 
-	Point* Model::getPoint(const sf::Vector2f mouse_coord){
-		std::vector<Point*> t_points = ArrayOfPoints::getPoint(mouse_coord);
-		//TODO
-		//здесь нужно написать отбор ближайшей точки к центру экрана
-		return t_points[0];
-	}
-
 	std::vector<Polygon> Model::getAllPolygon() const {
 		return m_polygons;
 	}
@@ -198,8 +191,10 @@ namespace tdrw {
 	bool Model::load(const std::string file_path) {
 		std::string t_str;
 		std::ifstream file(file_path);
+		if (!file.is_open()) {
+			return false;
+		}
 		Data t_data;
-
 		while (std::getline(file, t_str)) {
 			t_data = separator(t_str);
 			if (t_data.m_type == "v") {
@@ -214,7 +209,6 @@ namespace tdrw {
 				addPolygon(t_point, sf::Color::White);
 			}
 		}
-
 		return true;
 	}
 

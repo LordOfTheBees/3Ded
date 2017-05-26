@@ -7,6 +7,7 @@
 #include "Editor.h"
 #include "HSB.h"
 
+#include <vector>
 #include <functional>
 #include <iostream>
 #include <SFML/System.hpp>
