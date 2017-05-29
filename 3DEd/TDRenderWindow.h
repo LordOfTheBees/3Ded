@@ -44,7 +44,8 @@ namespace tdrw {
 		CoordinateSystem world_coord_system;
 		BinaryTree* bsp_tree;
 		bool camera_exist, world_exist;
-
+		bool m_frame_exist, m_color_exist; // true - включено
+		bool m_gradient_color_is_on;//true - включено
 		__int64 m_start, m_end, m_tps;
 
 		ThreadHelper m_thread_helper;
@@ -59,6 +60,9 @@ namespace tdrw {
 		void setCamera(const Camera& camera);
 		void setLight(const Light& light);
 		void setWorldCoordSystem(const CoordinateSystem& world_coord_system);
+		void activeFrame(bool frame);
+		void activeColor(bool color);
+		void activeGradient(bool gradient);
 
 		virtual void draw(Model model);
 		virtual void clear(sf::Color color);

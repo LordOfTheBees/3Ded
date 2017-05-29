@@ -57,6 +57,8 @@ namespace tdrw {
 
 		Point convertToWorldCoordSystem(const Point& point) const;
 
+		void generateNormalInPoints();
+
 		Data separator(std::string str);
 		bool load(const std::string file_path);
 		bool save(const std::string file_path);

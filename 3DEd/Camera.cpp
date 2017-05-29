@@ -48,11 +48,13 @@ namespace tdrw {
 
 	void Camera::generateConvertNumber() {
 		double pi = 3.14159265;
+		coord_system_of_camera.setBasisCoordSystem(world_coord_system);
+		coord_system_of_camera.generateTransitionMatrix();
 		world_coord_system.setBasisCoordSystem(coord_system_of_camera);
 		world_coord_system.generateTransitionMatrix();
 		convert_number_x = 1 / (tan(viewing_angle * pi / (2 * 180)) * tan(viewing_angle * pi / (2 * 180)) * (screen_size.x / 2));
 		convert_number_y = convert_number_x;
-		radius = (screen_size.x) / (std::pow(std::tan(viewing_angle * pi / (2 * 180)), 1.0/3));//нашёл решение, но с граблями. ПРосто увеличиваю tangens
+		radius = (screen_size.x) / (std::pow(std::tan(viewing_angle * pi / (2 * 180)), 1.0/2.0));//нашёл решение, но с граблями. ПРосто увеличиваю tangens
 		//convert_number_y = 1 / (tan(viewing_angle * pi / (2 * 180)) * (screen_size.y / 2));
 		/*convert_number_x = 2;
 		convert_number_y = 2;*/
@@ -72,6 +74,10 @@ namespace tdrw {
 
 	void Camera::setZeroPointOfCoord(const Point & zero_point){
 		coord_system_of_camera.setZeroPointOfCoord(zero_point);
+		world_coord_system.setBasisCoordSystem(coord_system_of_camera);
+		world_coord_system.generateTransitionMatrix();
+		coord_system_of_camera.setBasisCoordSystem(world_coord_system);
+		coord_system_of_camera.generateTransitionMatrix();
 	}
 
 	std::vector<Point> Camera::getConvertedPoints(const Polygon & polygon)
@@ -92,6 +98,10 @@ namespace tdrw {
 			screen_size.y / 2 - 2 * ((radius) / (std::sqrt(converted_point.z * converted_point.z + converted_point.y * converted_point.y)))*converted_point.y);
 		/*return sf::Vector2f(screen_size.x / 2 + 100 * converted_point.x / converted_point.z,
 							screen_size.y / 2 + 100 * converted_point.y / converted_point.z)*/;
+	}
+
+	Point Camera::convertToWoorldSystem(const Point & point_in_camera_system){
+		return coord_system_of_camera.convertToBasis(point_in_camera_system);
 	}
 
 	Point Camera::getZeroPointOfCamera() {

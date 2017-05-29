@@ -35,6 +35,7 @@ namespace tdrw {
 
 		std::vector<Point> getConvertedPoints(const Polygon& polygon);
 		sf::Vector2f getCoordOnScreen(const Point& point_in_world_cs);
+		Point convertToWoorldSystem(const Point& point_in_camera_system);
 		Point getZeroPointOfCamera();
 		CoordinateSystem getCoordSystemOfCamera();
 		~Camera();

@@ -61,6 +61,7 @@ namespace tdrw {
 		this->m_color = color;
 	}
 
+
 	//Есть ли вообще такая точка в полигоне
 	bool Polygon::checkExistencePoint(const Point * point) {
 		for (auto it = m_points.begin(); it != m_points.end(); it++)
@@ -70,6 +71,17 @@ namespace tdrw {
 	}
 
 	std::vector<Point*> Polygon::getPoints() const { return m_points; }
+
+	std::vector<double> Polygon::getNormal() const{
+		std::vector<Point> t_converted_points = getConvertedPoints();
+
+		std::vector<double> t_normal(4);
+		t_normal[0] = -t_converted_points[0].y*(t_converted_points[2].z - t_converted_points[1].z) + t_converted_points[1].y*(t_converted_points[2].z - t_converted_points[0].z) - t_converted_points[2].y*(t_converted_points[1].z - t_converted_points[0].z);
+		t_normal[1] = t_converted_points[0].z*(t_converted_points[1].x - t_converted_points[2].x) - t_converted_points[1].z*(t_converted_points[0].x - t_converted_points[2].x) + t_converted_points[2].z*(t_converted_points[0].x - t_converted_points[1].x);
+		t_normal[2] = t_converted_points[0].x*(t_converted_points[1].y - t_converted_points[2].y) - t_converted_points[1].x*(t_converted_points[0].y - t_converted_points[2].y) + t_converted_points[2].x*(t_converted_points[0].y - t_converted_points[1].y);
+		t_normal[3] = -t_converted_points[0].x*t_normal[0] - t_converted_points[0].y*t_normal[1] - t_converted_points[0].z*t_normal[2];
+		return t_normal;
+	}
 
 	sf::Color Polygon::getColor() const{
 		return m_color;

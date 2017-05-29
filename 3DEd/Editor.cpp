@@ -3,6 +3,12 @@ Editor::Editor()
 {
 }
 
+void Editor::drawAllElement(){
+	m_window->clear(sf::Color::Black);
+	m_window->draw(m_object);
+	m_window->display();
+}
+
 void Editor::start() {
 	m_window = new tdrw::TDRenderWindow(sf::VideoMode(1800, 900), "Kek");
 	tdrw::Point zero;
@@ -40,6 +46,7 @@ void Editor::start() {
 	m_window->draw(m_object);
 	m_window->display();
 
+	bool a_frame = true, a_color = true, a_gradient = false;
 	
 	sf::Vector2i t_mouse_position;
 	sf::Event event;
@@ -61,20 +68,54 @@ void Editor::start() {
 			}
 			if (event.type == sf::Event::KeyPressed) {
 				switch (event.key.code) {
-				case sf::Keyboard::F1:
+				case sf::Keyboard::F1: {
 					moveObject();
 					break;
-				case sf::Mouse::Left:
-					t_mouse_position = sf::Mouse::getPosition(*m_window);
-					std::cout << "(" << t_mouse_position.x << ", " << t_mouse_position.y << ")\n";
-					m_selected_point = m_window->getPointToControl(sf::Vector2f(t_mouse_position.x, t_mouse_position.y));
-					if (m_selected_point != nullptr) {
-						moveSelectedPoint();
-					}
+				}
+				case sf::Keyboard::F2: {
+					moveCamera();
 					break;
-				case sf::Keyboard::Escape:
+				}
+				case sf::Keyboard::G: {
+					if (a_gradient) {
+						a_gradient = false;
+						m_window->activeGradient(a_gradient);
+					}
+					else {
+						a_gradient = true;
+						m_window->activeGradient(a_gradient);
+					}
+					drawAllElement();
+					break;
+				}
+				case sf::Keyboard::F: {
+					if (a_frame) {
+						a_frame = false;
+						m_window->activeFrame(a_frame);
+					}
+					else {
+						a_frame = true;
+						m_window->activeFrame(a_frame);
+					}
+					drawAllElement();
+					break;
+				}
+				case sf::Keyboard::C: {
+					if (a_color) {
+						a_color = false;
+						m_window->activeColor(a_color);
+					}
+					else {
+						a_color = true;
+						m_window->activeColor(a_color);
+					}
+					drawAllElement();
+					break;
+				}
+				case sf::Keyboard::Escape: {
 					m_window->close();
 					break;
+				}
 				default:
 					break;
 				}
@@ -94,39 +135,57 @@ bool Editor::moveObject()
 				switch (event.key.code) {
 				case sf::Keyboard::Left:
 					z -= 1;
+					m_object.setZeroPointOfCoord(tdrw::Point(x, y, z));
+					drawAllElement();
 					break;
 				case sf::Keyboard::Right:
 					z += 1;
+					m_object.setZeroPointOfCoord(tdrw::Point(x, y, z));
+					drawAllElement();
 					break;
 				case sf::Keyboard::Up:
 					y += 1;
+					m_object.setZeroPointOfCoord(tdrw::Point(x, y, z));
+					drawAllElement();
 					break;
 				case sf::Keyboard::Down:
 					y -= 1;
+					m_object.setZeroPointOfCoord(tdrw::Point(x, y, z));
+					drawAllElement();
 					break;
 				case sf::Keyboard::Numpad8:
 					x += 1;
+					m_object.setZeroPointOfCoord(tdrw::Point(x, y, z));
+					drawAllElement();
 					break;
 				case sf::Keyboard::Numpad2:
 					x -= 1;
+					m_object.setZeroPointOfCoord(tdrw::Point(x, y, z));
+					drawAllElement();
 					break;
 				case sf::Keyboard::Numpad7:
 					m_object.rotationAngleOnX(-10);
+					drawAllElement();
 					break;
 				case sf::Keyboard::Numpad9:
 					m_object.rotationAngleOnX(10);
+					drawAllElement();
 					break;
 				case sf::Keyboard::Numpad4:
 					m_object.rotationAngleOnY(-10);
+					drawAllElement();
 					break;
 				case sf::Keyboard::Numpad6:
 					m_object.rotationAngleOnY(10);
+					drawAllElement();
 					break;
 				case sf::Keyboard::Numpad1:
 					m_object.rotationAngleOnZ(-10);
+					drawAllElement();
 					break;
 				case sf::Keyboard::Numpad3:
 					m_object.rotationAngleOnZ(10);
+					drawAllElement();
 					break;
 				case sf::Keyboard::P:
 					return true;
@@ -135,10 +194,92 @@ bool Editor::moveObject()
 				}
 				std::cout << "(" << x << ", " << y << ", " << z << ")\n";
 				//m_window->setCamera(m_camera);
-				m_object.setZeroPointOfCoord(tdrw::Point(x, y, z));
-				m_window->clear(sf::Color::Black);
-				m_window->draw(m_object);
-				m_window->display();
+			}
+		}
+	}
+	return true;
+}
+
+bool Editor::moveCamera(){
+	tdrw::Point t_zero_point_of_camera = m_camera.getZeroPointOfCamera();
+	tdrw::Point t_point_to_move(0, 0, 0);
+	sf::Event event;
+	while (m_window->isOpen()) {
+		while (m_window->pollEvent(event)) {
+			if (event.type == sf::Event::KeyPressed) {
+				switch (event.key.code) {
+				case sf::Keyboard::Left:
+					t_point_to_move.z -= 1;
+					m_camera.setZeroPointOfCoord(m_camera.convertToWoorldSystem(t_point_to_move));
+					m_window->setCamera(m_camera);
+					drawAllElement();
+					break;
+				case sf::Keyboard::Right:
+					t_point_to_move.z += 1;
+					m_camera.setZeroPointOfCoord(m_camera.convertToWoorldSystem(t_point_to_move));
+					m_window->setCamera(m_camera);
+					drawAllElement();
+					break;
+				case sf::Keyboard::Up:
+					t_point_to_move.y += 1;
+					m_camera.setZeroPointOfCoord(m_camera.convertToWoorldSystem(t_point_to_move));
+					m_window->setCamera(m_camera);
+					drawAllElement();
+					break;
+				case sf::Keyboard::Down:
+					t_point_to_move.y -= 1;
+					m_camera.setZeroPointOfCoord(m_camera.convertToWoorldSystem(t_point_to_move));
+					m_window->setCamera(m_camera);
+					drawAllElement();
+					break;
+				case sf::Keyboard::Numpad8:
+					t_point_to_move.x += 1;
+					m_camera.setZeroPointOfCoord(m_camera.convertToWoorldSystem(t_point_to_move));
+					m_window->setCamera(m_camera);
+					drawAllElement();
+					break;
+				case sf::Keyboard::Numpad2:
+					t_point_to_move.x -= 1;
+					m_camera.setZeroPointOfCoord(m_camera.convertToWoorldSystem(t_point_to_move));
+					m_window->setCamera(m_camera);
+					drawAllElement();
+					break;
+				case sf::Keyboard::Numpad7:
+					m_camera.rotationAngleOnX(-10);
+					m_window->setCamera(m_camera);
+					drawAllElement();
+					break;
+				case sf::Keyboard::Numpad9:
+					m_camera.rotationAngleOnX(10);
+					m_window->setCamera(m_camera);
+					drawAllElement();
+					break;
+				case sf::Keyboard::Numpad4:
+					m_camera.rotationAngleOnY(-10);
+					m_window->setCamera(m_camera);
+					drawAllElement();
+					break;
+				case sf::Keyboard::Numpad6:
+					m_camera.rotationAngleOnY(10);
+					m_window->setCamera(m_camera);
+					drawAllElement();
+					break;
+				case sf::Keyboard::Numpad1:
+					m_camera.rotationAngleOnZ(-10);
+					m_window->setCamera(m_camera);
+					drawAllElement();
+					break;
+				case sf::Keyboard::Numpad3:
+					m_camera.rotationAngleOnZ(10);
+					m_window->setCamera(m_camera);
+					drawAllElement();
+					break;
+				case sf::Keyboard::P:
+					return true;
+				default:
+					break;
+				}
+				t_point_to_move.setCoord(0, 0, 0);
 			}
 		}
 	}
@@ -182,7 +323,7 @@ bool Editor::moveSelectedPoint()
 			}
 		}
 	}
-	return false;
+	return true;
 }
 
 Editor::~Editor()

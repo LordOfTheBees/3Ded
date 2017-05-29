@@ -18,9 +18,13 @@ private:
 protected:
 public:
 	Editor();
+
+	void drawAllElement();
+
 	void start();
 
 	bool moveObject();
+	bool moveCamera();
 	bool moveSelectedPoint();
 	~Editor();
 };

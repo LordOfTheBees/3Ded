@@ -100,6 +100,18 @@ namespace tdrw {
 		return m_own_coord_system.convertToBasis(point);
 	}
 
+	void Model::generateNormalInPoints(){
+		std::vector<double> t_tmp_normal;
+		std::vector<Point*> t_tmp_points;
+		for (auto x : m_polygons) {
+			t_tmp_normal = x.getNormal();
+			t_tmp_points = x.getPoints();
+			for (auto y : t_tmp_points) {
+				y->addNormal(t_tmp_normal);
+			}
+		}
+	}
+
 	Data Model::separator(std::string str) {
 		Data t_data;
 		if ((str[0] == '#') || (str.size() == 0) || (str[0] == ' ')) {
@@ -212,8 +224,7 @@ namespace tdrw {
 		return true;
 	}
 
-	bool Model::save(const std::string file_path)
-	{
+	bool Model::save(const std::string file_path){
 		return true;
 	}
 

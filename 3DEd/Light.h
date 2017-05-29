@@ -11,6 +11,7 @@ namespace tdrw {
 	private:
 		HSB m_hsb;
 		CoordinateSystem m_direction;
+		std::vector<double> m_direction_z;
 	public:
 		Light();
 
@@ -19,7 +20,7 @@ namespace tdrw {
 		void setZeroPoint(const Point &point);
 
 		sf::Color getTransformColor(const Polygon& polygon);
-
+		sf::Color getTransformColor(const Point& point, sf::Color color);
 
 		~Light();
 	};

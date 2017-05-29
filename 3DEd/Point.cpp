@@ -18,8 +18,8 @@ namespace tdrw {
 		return Point(left.x - right.x, left.y - right.y, left.z - right.z);
 	}
 
-	double Point::calcDistance(const Point & first, const Point & second){
-		return std::sqrt(std::pow(first.x - second.x,2) + std::pow(first.y - second.y,2) + std::pow(first.z - second.z,2));
+	double Point::calcDistance(const Point & first, const Point & second) {
+		return std::sqrt(std::pow(first.x - second.x, 2) + std::pow(first.y - second.y, 2) + std::pow(first.z - second.z, 2));
 	}
 
 	Point & Point::operator=(const Point & right) {
@@ -37,6 +37,7 @@ namespace tdrw {
 		coord_on_screen.x = -300;
 		coord_on_screen.y = -300;
 		existance = false;
+		m_normal_exist = false;
 	}
 
 	Point::Point(const Point & _point) {
@@ -44,13 +45,15 @@ namespace tdrw {
 		y = _point.y;
 		z = _point.z;
 		existance = true;
+		m_normal_exist = false;
 		this->coord_on_screen = _point.coord_on_screen;
 	}
 
-	Point::Point(std::vector<double> coord){
+	Point::Point(std::vector<double> coord) {
 		x = coord[0];
 		y = coord[1];
 		z = coord[2];
+		m_normal_exist = false;
 	}
 
 	Point::Point(float x, float y, float z) {
@@ -60,6 +63,7 @@ namespace tdrw {
 		this->y = y;
 		this->z = z;
 		this->existance = true;
+		m_normal_exist = false;
 	}
 
 	void Point::setCoord(float x, float y, float z) {
@@ -77,7 +81,7 @@ namespace tdrw {
 		this->coord_on_screen = _point.coord_on_screen;
 	}
 
-	void Point::setCoord(std::vector<double> coord){
+	void Point::setCoord(std::vector<double> coord) {
 		x = coord[0];
 		y = coord[1];
 		z = coord[2];
@@ -108,6 +112,34 @@ namespace tdrw {
 		coord.push_back(y);
 		coord.push_back(z);
 		return coord;
+	}
+
+	void Point::addNormal(std::vector<double> normal) {
+		double t_length = std::sqrt(std::pow(normal[0], 2) + std::pow(normal[1], 2) + std::pow(normal[2], 2));
+		for (int i = 0; i < normal.size(); ++i) {
+			normal[i] = normal[i] / t_length;
+		}
+
+		if (!m_normal_exist) {
+			m_normal = normal;
+			m_normal_exist = true;
+		}
+		else {
+			for (int i = 0; i < m_normal.size(); ++i) {
+				m_normal[i] = m_normal[i] + normal[i];
+			}
+		}
+	}
+
+	std::vector<double> Point::getNormal() const{
+		if (m_normal_exist)
+			return m_normal;
+		return std::vector<double>(3,0);
+	}
+
+	void Point::clearNormal(){
+		m_normal_exist = false;
+		m_normal.clear();
 	}
 
 	sf::Vector2f Point::getCoordOnScreen() const{

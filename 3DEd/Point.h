@@ -9,6 +9,8 @@ namespace tdrw {
 	{
 	private:
 		sf::Vector2f coord_on_screen;
+		std::vector<double> m_normal;
+		bool m_normal_exist;
 		bool existance;
 	protected:
 	public:
@@ -40,6 +42,10 @@ namespace tdrw {
 		//(x, y, z)
 		std::vector<double> getCoord() const;
 
+		void addNormal(std::vector<double> normal);
+
+		std::vector<double> getNormal() const;
+		void clearNormal();
 		sf::Vector2f getCoordOnScreen() const;
 
 		~Point();

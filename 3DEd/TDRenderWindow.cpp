@@ -46,8 +46,9 @@ namespace tdrw {
 		std::vector<Point*> t_points = tmp->polygon.getPoints();
 		sf::VertexArray* polygon_to_draw = new sf::VertexArray(sf::TrianglesFan, t_points.size());
 		sf::VertexArray* line = new sf::VertexArray(sf::Lines, 6);
+		sf::Color t_color_to_gradient = tmp->polygon.getColor();
 		sf::Color pol_color = m_light.getTransformColor(tmp->polygon);
-		
+
 		int j = 0;
 
 		//вначале идём к самым дальним полигонам
@@ -60,26 +61,35 @@ namespace tdrw {
 		std::cout << "(" << points[1].x << "," << points[1].y << "," << points[1].z << ")" << std::endl;
 		std::cout << "(" << points[2].x << "," << points[2].y << "," << points[2].z << ")" << std::endl;*/
 		//как только рекурсивно дошли до самого дальнего, начинаем отрисовывать активный(послученный в виде аргумента) полигон
-		sf::Vector2f check_vect;
-		for (int i = 0; i < t_points.size(); ++i) {
-			check_vect = t_points[i]->getCoordOnScreen();
-			//std::cout << "(" << check_vect.x << ", " << check_vect.y << ")\n";
-			(*polygon_to_draw)[i].position = check_vect;
+		if (m_color_exist) {
+			sf::Vector2f check_vect;
+			for (int i = 0; i < t_points.size(); ++i) {
+				check_vect = t_points[i]->getCoordOnScreen();
+				//std::cout << "(" << check_vect.x << ", " << check_vect.y << ")\n";
+				(*polygon_to_draw)[i].position = check_vect;
+			}
+			if (m_gradient_color_is_on) {
+				for (int i = 0; i < t_points.size(); ++i) {
+					(*polygon_to_draw)[i].color = m_light.getTransformColor(*t_points[i], t_color_to_gradient);
+				}
+			}
+			else {
+				for (int i = 0; i < t_points.size(); ++i) {
+					(*polygon_to_draw)[i].color = pol_color;
+				}
+			}
+			sf::RenderWindow::draw(*polygon_to_draw);
 		}
-		for (int i = 0; i < t_points.size(); ++i) {
-			(*polygon_to_draw)[i].color = pol_color;
+		if (m_frame_exist) {
+			for (int i = 0; i < 6; i += 2) {
+				(*line)[i].position = t_points[j % t_points.size()]->getCoordOnScreen();
+				(*line)[i + 1].position = t_points[(j + 1) % t_points.size()]->getCoordOnScreen();
+				j++;
+			}
+			for (int i = 0; i < 6; ++i)
+				(*line)[i].color = sf::Color::Red;
+			sf::RenderWindow::draw(*line);
 		}
-		sf::RenderWindow::draw(*polygon_to_draw);
-
-		/*for (int i = 0; i < 6; i += 2) {
-			(*line)[i].position = t_points[j % t_points.size()]->getCoordOnScreen();
-			(*line)[i + 1].position = t_points[(j + 1) % t_points.size()]->getCoordOnScreen();
-			j++;
-		}
-		for (int i = 0; i < 6; ++i)
-			(*line)[i].color = sf::Color::Red;
-		sf::RenderWindow::draw(*line);*/
-
 		//потом к ближайшем
 		if (tmp->closer != nullptr) {
 			draw_polygon(tmp->closer);
@@ -92,7 +102,9 @@ namespace tdrw {
 
 	TDRenderWindow::TDRenderWindow() {
 		bsp_tree = nullptr;
-
+		m_frame_exist = true;
+		m_color_exist = true;
+		m_gradient_color_is_on = false;
 		m_thread_helper.m_thread_set_coord_done = false;
 		m_thread_helper.m_thread_set_coord_is_work = true;
 		m_thread_set_coord = new std::thread(threadSetCoord, &m_thread_helper, &camera);
@@ -103,6 +115,10 @@ namespace tdrw {
 		m_thread_helper.m_thread_set_coord_done = false;
 		m_thread_helper.m_thread_set_coord_is_work = true;
 		m_thread_set_coord = new std::thread(threadSetCoord, &m_thread_helper, &camera);
+
+		m_frame_exist = true;
+		m_color_exist = true;
+		m_gradient_color_is_on = false;
 
 		bsp_tree = nullptr;
 		sf::RenderWindow::create(video_mode, title);
@@ -134,7 +150,27 @@ namespace tdrw {
 		}
 	}
 
+	void TDRenderWindow::activeFrame(bool frame){
+		m_frame_exist = frame;
+	}
+
+	void TDRenderWindow::activeColor(bool color){
+		m_color_exist = color;
+	}
+
+	void TDRenderWindow::activeGradient(bool gradient){
+		m_gradient_color_is_on = gradient;
+	}
+
 	void TDRenderWindow::draw(Model model) {
+		if (m_gradient_color_is_on) {
+			std::vector<Point*> t_points = model.getAllPoints();
+			for (auto x : t_points) {
+				x->clearNormal();
+			}
+			model.generateNormalInPoints();
+		}
+
 		std::thread *t_bsp_thread, *t_coord_thread;
 		model.setWorldCoordSystem(world_coord_system);
 		models.push_back(model);

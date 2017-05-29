@@ -30,10 +30,12 @@ namespace tdrw {
 		void setPoints(Point* point1, Point* point2, Point* point3);
 		void setColor(sf::Color color);
 
+
 		//Есть ли вообще такая точка в полигоне
 		bool checkExistencePoint(const Point * point);
 
 		std::vector<Point*> getPoints() const;
+		std::vector<double> getNormal() const;
 		sf::Color getColor() const;
 		Model* getModel() const;
 		std::vector<Point> getConvertedPoints() const;
