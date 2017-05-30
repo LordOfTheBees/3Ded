@@ -45,7 +45,7 @@ namespace tdrw {
 	void TDRenderWindow::draw_polygon(BinTree* tmp) {
 		std::vector<Point*> t_points = tmp->polygon.getPoints();
 		sf::VertexArray* polygon_to_draw = new sf::VertexArray(sf::TrianglesFan, t_points.size());
-		sf::VertexArray* line = new sf::VertexArray(sf::Lines, 6);
+		sf::VertexArray* line = new sf::VertexArray(sf::LinesStrip, t_points.size()*2);
 		sf::Color t_color_to_gradient = tmp->polygon.getColor();
 		sf::Color pol_color = m_light.getTransformColor(tmp->polygon);
 
@@ -80,13 +80,16 @@ namespace tdrw {
 			}
 			sf::RenderWindow::draw(*polygon_to_draw);
 		}
+
+
+		j = 0;
 		if (m_frame_exist) {
-			for (int i = 0; i < 6; i += 2) {
+			for (int i = 0; i < t_points.size() * 2; i += 2) {
 				(*line)[i].position = t_points[j % t_points.size()]->getCoordOnScreen();
 				(*line)[i + 1].position = t_points[(j + 1) % t_points.size()]->getCoordOnScreen();
 				j++;
 			}
-			for (int i = 0; i < 6; ++i)
+			for (int i = 0; i < t_points.size() * 2; ++i)
 				(*line)[i].color = sf::Color::Red;
 			sf::RenderWindow::draw(*line);
 		}
@@ -203,7 +206,7 @@ namespace tdrw {
 			polygons.insert(polygons.end(), tmp_data.begin(), tmp_data.end());
 		}
 
-		std::cout << "Create bsp tree... ";
+		//std::cout << "Create bsp tree... ";
 		QueryPerformanceFrequency((LARGE_INTEGER *)&m_tps);
 		QueryPerformanceCounter((LARGE_INTEGER *)&m_start);
 
@@ -214,10 +217,10 @@ namespace tdrw {
 		}
 
 		QueryPerformanceCounter((LARGE_INTEGER *)&m_end);
-		std::cout << ((double)(m_end - m_start) / m_tps) * 1000. << " miliseconds\n";
+		//std::cout << ((double)(m_end - m_start) / m_tps) * 1000. << " miliseconds\n";
 
 
-		std::cout << "Draw all polygons... ";
+		//std::cout << "Draw all polygons... ";
 		//ОТРИСОВЫВАЕМ
 		QueryPerformanceFrequency((LARGE_INTEGER *)&m_tps);
 		QueryPerformanceCounter((LARGE_INTEGER *)&m_start);
@@ -228,7 +231,7 @@ namespace tdrw {
 		sf::RenderWindow::display();
 
 		QueryPerformanceCounter((LARGE_INTEGER *)&m_end);
-		std::cout << ((double)(m_end - m_start) / m_tps) * 1000. << " miliseconds\n";
+		//std::cout << ((double)(m_end - m_start) / m_tps) * 1000. << " miliseconds\n";
 	}
 
 	Camera TDRenderWindow::getCamera(){
@@ -266,6 +269,45 @@ namespace tdrw {
 		}
 
 		return t_suitable_point;
+	}
+
+	Polygon * TDRenderWindow::getPolygonToControl(sf::Vector2f coord_on_screen){
+		bool t_fisrt_scan_done = false;
+		double t_min_distance;
+		double t_tmp_distance;
+		Polygon * t_suitable_polygon = nullptr;
+		std::vector<Polygon*> t_tmp_polygons;
+		std::vector<Point*> t_tmp_points;
+
+		Point t_zero_point_of_camera = camera.getZeroPointOfCamera();
+		for (auto x : models) {
+			t_tmp_polygons = x.getSuitablePolygons(coord_on_screen);
+			for (auto y : t_tmp_polygons) {
+				//высчитываем среднее растояние до полигона
+				t_tmp_points = y->getPoints();
+				t_tmp_distance = 0;
+				for (auto z : t_tmp_points) {
+					t_tmp_distance += Point::calcDistance(t_zero_point_of_camera, x.convertToWorldCoordSystem(*z));
+				}
+				t_tmp_distance = t_tmp_distance / t_tmp_points.size();
+				t_tmp_points.clear();
+
+				//проверяем на минимум
+				if (!t_fisrt_scan_done) {
+					t_fisrt_scan_done = true;
+					t_min_distance = t_tmp_distance;
+					t_suitable_polygon = y;
+				}
+
+				if (t_min_distance > t_tmp_distance) {
+					t_min_distance = t_tmp_distance;
+					t_suitable_polygon = y;
+				}
+			}
+			t_tmp_polygons.clear();
+		}
+
+		return t_suitable_polygon;
 	}
 
 

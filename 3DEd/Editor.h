@@ -15,6 +15,7 @@ private:
 	tdrw::Camera m_camera;
 	tdrw::Model m_object;
 	tdrw::Point * m_selected_point;
+	tdrw::Polygon * m_selected_polygon;
 protected:
 public:
 	Editor();
@@ -25,6 +26,12 @@ public:
 
 	bool moveObject();
 	bool moveCamera();
+
+	bool controlPolygons();
+	bool changeSelectedPolygon();
+
+	bool controlPoints();
 	bool moveSelectedPoint();
+
 	~Editor();
 };

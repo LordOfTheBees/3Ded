@@ -12,6 +12,14 @@ namespace tdrw {
 		return false;
 	}
 
+	double Polygon::square(std::vector<Point> points) {
+		double a = Point::calcDistanceInWindow(points[0], points[1]);
+		double b = Point::calcDistanceInWindow(points[1], points[2]);
+		double c = Point::calcDistanceInWindow(points[2], points[0]);
+		double p = (a + b + c) / 2;
+		return std::sqrt(p*(p - a)*(p - b)*(p - c));
+	}
+
 	Polygon & Polygon::operator=(const Polygon & right) {
 		if (this == &right)
 			return *this;
@@ -67,6 +75,37 @@ namespace tdrw {
 		for (auto it = m_points.begin(); it != m_points.end(); it++)
 			if (*it == point)
 				return true;
+		return false;
+	}
+
+	bool Polygon::hitTesting(sf::Vector2f coord_on_screen) {
+		Point t_point_with_coord(0, 0, 0);
+		t_point_with_coord.setCoordOnScreen(coord_on_screen);
+
+		double t_square = 0;
+		double t_sum_of_square = 0;
+
+		std::vector<Point> t_points;
+		for (auto x : m_points)
+			t_points.push_back(*x);
+
+		t_square = square(t_points);
+
+		std::vector<Point> t_points_for_square;
+		//теперь считаем суммы площадей тругольников с вершиной в нашей точке
+
+		for (int i = 0; i < t_points.size(); ++i) {
+			t_points_for_square.push_back(t_points[i]);
+			t_points_for_square.push_back(t_points[(i+1)%t_points.size()]);
+			t_points_for_square.push_back(t_point_with_coord);
+
+			t_sum_of_square += square(t_points_for_square);
+
+			t_points_for_square.clear();
+		}
+
+		if (std::abs(t_sum_of_square - t_square) < 0.01)
+			return true;
 		return false;
 	}
 

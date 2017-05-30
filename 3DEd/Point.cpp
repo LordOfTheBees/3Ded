@@ -18,6 +18,10 @@ namespace tdrw {
 		return Point(left.x - right.x, left.y - right.y, left.z - right.z);
 	}
 
+	double Point::calcDistanceInWindow(const Point & first, const Point & second){
+		return std::sqrt(std::pow(first.coord_on_screen.x - second.coord_on_screen.x, 2) + std::pow(first.coord_on_screen.y - second.coord_on_screen.y, 2));
+	}
+
 	double Point::calcDistance(const Point & first, const Point & second) {
 		return std::sqrt(std::pow(first.x - second.x, 2) + std::pow(first.y - second.y, 2) + std::pow(first.z - second.z, 2));
 	}

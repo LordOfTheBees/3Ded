@@ -1,4 +1,7 @@
 #include "Editor.h"
+
+#include <vector>
+#include <algorithm>
 Editor::Editor()
 {
 }
@@ -38,7 +41,7 @@ void Editor::start() {
 
 	double x = 30, y = -3, z = 0;
 
-	m_object.load("head.obj");
+	m_object.load("coub.obj");
 	std::cout << "Load finished\n";
 	t_coord_system.setCoordSystem({ { 1, 0, 0 },{ 0, 1, 0 },{ 0, 0, 1 } }, tdrw::Point(x, y, z));
 	m_object.setModelCoordSystem(t_coord_system);
@@ -52,30 +55,33 @@ void Editor::start() {
 	sf::Event event;
 	while (m_window->isOpen()) {
 		while (m_window->pollEvent(event)) {
-			if (event.type == sf::Event::MouseButtonPressed) {
-				switch (event.key.code) {
-				case sf::Mouse::Left:
-					t_mouse_position = sf::Mouse::getPosition(*m_window);
-					std::cout << "(" << t_mouse_position.x << ", " << t_mouse_position.y << ")\n";
-					m_selected_point = m_window->getPointToControl(sf::Vector2f(t_mouse_position.x, t_mouse_position.y));
-					if (m_selected_point != nullptr) {
-						moveSelectedPoint();
-					}
-					break;
-				default:
-					break;
-				}
-			}
 			if (event.type == sf::Event::KeyPressed) {
 				switch (event.key.code) {
+					//Move object
 				case sf::Keyboard::F1: {
 					moveObject();
 					break;
 				}
+
+					//Move camera
 				case sf::Keyboard::F2: {
 					moveCamera();
 					break;
 				}
+
+					//Control Poins
+				case sf::Keyboard::F3: {
+					controlPoints();
+					break;
+				}
+
+					//Control Polygons
+				case sf::Keyboard::F4: {
+					controlPolygons();
+					break;
+				}
+
+					//Turn on/off gradient
 				case sf::Keyboard::G: {
 					if (a_gradient) {
 						a_gradient = false;
@@ -88,6 +94,8 @@ void Editor::start() {
 					drawAllElement();
 					break;
 				}
+
+					//Turn on/off frame
 				case sf::Keyboard::F: {
 					if (a_frame) {
 						a_frame = false;
@@ -100,6 +108,8 @@ void Editor::start() {
 					drawAllElement();
 					break;
 				}
+
+					//Turn on/off polygon's color
 				case sf::Keyboard::C: {
 					if (a_color) {
 						a_color = false;
@@ -112,6 +122,8 @@ void Editor::start() {
 					drawAllElement();
 					break;
 				}
+
+					//Exit
 				case sf::Keyboard::Escape: {
 					m_window->close();
 					break;
@@ -127,6 +139,7 @@ void Editor::start() {
 
 bool Editor::moveObject()
 {
+	std::cout << "\t Pls, move Object...\n";
 	static double x = 30, y = -3, z = 0;
 	sf::Event event;
 	while (m_window->isOpen()) {
@@ -188,19 +201,22 @@ bool Editor::moveObject()
 					drawAllElement();
 					break;
 				case sf::Keyboard::P:
+					std::cout << "\t End move Object\n";
 					return true;
 				default:
 					break;
 				}
-				std::cout << "(" << x << ", " << y << ", " << z << ")\n";
+				std::cout << "\t(" << x << ", " << y << ", " << z << ")\n";
 				//m_window->setCamera(m_camera);
 			}
 		}
 	}
+	std::cout << "\t End move Object\n";
 	return true;
 }
 
 bool Editor::moveCamera(){
+	std::cout << "\t Pls, move Camera...\n";
 	tdrw::Point t_zero_point_of_camera = m_camera.getZeroPointOfCamera();
 	tdrw::Point t_point_to_move(0, 0, 0);
 	sf::Event event;
@@ -275,6 +291,7 @@ bool Editor::moveCamera(){
 					drawAllElement();
 					break;
 				case sf::Keyboard::P:
+					std::cout << "\t End move Camera\n";
 					return true;
 				default:
 					break;
@@ -283,11 +300,126 @@ bool Editor::moveCamera(){
 			}
 		}
 	}
+	std::cout << "\t End move Camera\n";
 	return true;
+}
+
+bool Editor::controlPolygons(){
+	std::cout << "\t Pls, select Polygon...\n";
+	sf::Vector2i t_mouse_position;
+	sf::Event event;
+	while (m_window->isOpen()) {
+		while (m_window->pollEvent(event)) {
+			if (event.type == sf::Event::MouseButtonPressed) {
+				switch (event.key.code) {
+				case sf::Mouse::Left:
+					t_mouse_position = sf::Mouse::getPosition(*m_window);
+					std::cout << "\t(" << t_mouse_position.x << ", " << t_mouse_position.y << ")\n";
+					m_selected_polygon = m_window->getPolygonToControl(sf::Vector2f(t_mouse_position.x, t_mouse_position.y));
+					if (m_selected_polygon != nullptr) {
+						changeSelectedPolygon();
+					}
+					break;
+				default:
+					break;
+				}
+			}
+			if (event.type == sf::Event::KeyPressed) {
+				switch (event.key.code) {
+				case sf::Keyboard::P: {
+					std::cout << "\t End select Polygon\n";
+					return true;
+				}
+				default:
+					break;
+				}
+			}
+		}
+	}
+	std::cout << "\t End select Polygon\n";
+	return false;
+}
+
+bool Editor::changeSelectedPolygon(){
+	std::cout << "\t\tPls, change selected polygon...\n";
+	sf::Event event;
+	sf::Color t_save_color = m_selected_polygon->getColor();
+	std::vector<tdrw::Point*> t_tmp_points;
+
+	m_selected_polygon->setColor(sf::Color::Blue);
+	m_window->clear(sf::Color::Black);
+	m_window->draw(m_object);
+	m_window->display();
+	while (m_window->isOpen()) {
+		while (m_window->pollEvent(event)) {
+			if (event.type == sf::Event::KeyPressed) {
+				switch (event.key.code) {
+					//Change normal
+				case sf::Keyboard::N: {
+					t_tmp_points = m_selected_polygon->getPoints();
+					std::reverse(t_tmp_points.begin(), t_tmp_points.end());
+					m_selected_polygon->setPoints(t_tmp_points);
+					t_tmp_points.clear();
+					drawAllElement();
+					break;
+				}
+				case sf::Keyboard::P:
+					m_selected_polygon->setColor(t_save_color);
+					drawAllElement();
+					std::cout << "\t\tEnd change Polygon\n";
+					return true;
+					break;
+				default:
+					break;
+				}
+			}
+		}
+	}
+	m_selected_polygon->setColor(t_save_color);
+	std::cout << "\t\tEnd change Polygon\n";
+	return false;
+}
+
+bool Editor::controlPoints()
+{
+	std::cout << "\t Pls, select Point...\n";
+	sf::Vector2i t_mouse_position;
+	sf::Event event;
+	while (m_window->isOpen()) {
+		while (m_window->pollEvent(event)) {
+			if (event.type == sf::Event::MouseButtonPressed) {
+				switch (event.key.code) {
+				case sf::Mouse::Left:
+					t_mouse_position = sf::Mouse::getPosition(*m_window);
+					std::cout << "\t(" << t_mouse_position.x << ", " << t_mouse_position.y << ")\n";
+					m_selected_point = m_window->getPointToControl(sf::Vector2f(t_mouse_position.x, t_mouse_position.y));
+					if (m_selected_point != nullptr) {
+						moveSelectedPoint();
+					}
+					break;
+				default:
+					break;
+				}
+			}
+			if (event.type == sf::Event::KeyPressed) {
+				switch (event.key.code){
+				case sf::Keyboard::P: {
+					std::cout << "\t End select Point\n";
+					return true;
+				}
+				default:
+					break;
+				}
+			}
+		}
+	}
+	std::cout << "\t End select Point\n";
+	return false;
 }
 
 bool Editor::moveSelectedPoint()
 {
+	std::cout << "\t\t Pls, move selected Point...\n";
 	sf::Event event;
 	while (m_window->isOpen()) {
 		while (m_window->pollEvent(event)) {
@@ -312,6 +444,7 @@ bool Editor::moveSelectedPoint()
 					m_selected_point->x -= 0.1;
 					break;
 				case sf::Keyboard::P:
+					std::cout << "\t\t End move selected Point\n";
 					return true;
 					break;
 				default:
@@ -323,6 +456,7 @@ bool Editor::moveSelectedPoint()
 			}
 		}
 	}
+	std::cout << "\t\t End move selected Point\n";
 	return true;
 }
 

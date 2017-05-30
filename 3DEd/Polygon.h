@@ -14,6 +14,8 @@ namespace tdrw {
 		Model* m_him_model;
 		std::vector<Point*> m_points;
 		sf::Color m_color;
+
+		double square(std::vector<Point> points);
 	protected:
 	public:
 		//not ready!!!!!!!!!!!!!!!
@@ -33,6 +35,7 @@ namespace tdrw {
 
 		//Есть ли вообще такая точка в полигоне
 		bool checkExistencePoint(const Point * point);
+		bool hitTesting(sf::Vector2f coord_on_screen);
 
 		std::vector<Point*> getPoints() const;
 		std::vector<double> getNormal() const;

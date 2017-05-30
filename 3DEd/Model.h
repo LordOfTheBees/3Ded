@@ -24,7 +24,7 @@ namespace tdrw {
 	{
 	private:
 		CoordinateSystem m_own_coord_system;
-		std::vector<Polygon> m_polygons;
+		std::vector<Polygon*> m_polygons;
 	protected:
 	public:
 		void operator=(const Model& right);
@@ -54,6 +54,9 @@ namespace tdrw {
 		//возвращщает систему координат модели
 		CoordinateSystem getCoordSystem();
 		std::vector<Polygon> getAllPolygon() const;
+		std::vector<Polygon*> getAllPtrPolygon();
+
+		std::vector<Polygon*> getSuitablePolygons(sf::Vector2f coord_on_screen);
 
 		Point convertToWorldCoordSystem(const Point& point) const;
 

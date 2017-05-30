@@ -38,15 +38,18 @@ namespace tdrw {
 	//==============
 
 	void Model::addPolygon(Polygon polygon){
-		m_polygons.push_back(polygon);
+		Polygon * t_polygon = new Polygon(polygon);
+		m_polygons.push_back(t_polygon);
 	}
 
 	void Model::addPolygon(std::vector<Point*> points, sf::Color color){
-		m_polygons.push_back(Polygon(this, points, color));
+		Polygon * t_polygon = new Polygon(this, points, color);
+		m_polygons.push_back(t_polygon);
 	}
 
 	void Model::addPolygon(Point * point1, Point * point2, Point * point3, sf::Color color){
-		m_polygons.push_back(Polygon(this, point1, point2, point3, color));
+		Polygon * t_polygon = new Polygon(this, point1, point2, point3, color);
+		m_polygons.push_back(t_polygon);
 	}
 
 	void Model::addPolygon(Point point1, Point point2, Point point3, sf::Color color) {
@@ -55,7 +58,8 @@ namespace tdrw {
 		t_tmp_points.push_back(ArrayOfPoints::addPoint(point2));
 		t_tmp_points.push_back(ArrayOfPoints::addPoint(point3));
 
-		m_polygons.push_back(Polygon(this, t_tmp_points, color));
+		Polygon * t_polygon = new Polygon(this, t_tmp_points, color);
+		m_polygons.push_back(t_polygon);
 	}
 
 	void Model::addPolygon(std::vector<Point> points, sf::Color color) {
@@ -65,7 +69,8 @@ namespace tdrw {
 			t_tmp_points.push_back(ArrayOfPoints::addPoint(x));
 		}
 
-		m_polygons.push_back(Polygon(this, t_tmp_points, color));
+		Polygon * t_polygon = new Polygon(this, t_tmp_points, color);
+		m_polygons.push_back(t_polygon);
 	}
 
 	//==============
@@ -93,7 +98,28 @@ namespace tdrw {
 	}
 
 	std::vector<Polygon> Model::getAllPolygon() const {
+		std::vector<Polygon> t_tmp_polygon;
+		for (auto x : m_polygons) {
+			t_tmp_polygon.push_back(*x);
+		}
+		return t_tmp_polygon;
+	}
+
+	std::vector<Polygon*> Model::getAllPtrPolygon(){
 		return m_polygons;
+	}
+
+	std::vector<Polygon*> Model::getSuitablePolygons(sf::Vector2f coord_on_screen){
+		std::vector<Polygon*> t_tmp_polygons;
+		t_tmp_polygons.clear();
+
+		for (auto x : m_polygons) {
+			if (x->hitTesting(coord_on_screen)) {
+				t_tmp_polygons.push_back(x);
+			}
+		}
+
+		return t_tmp_polygons;
 	}
 
 	Point Model::convertToWorldCoordSystem(const Point& point) const {
@@ -104,8 +130,8 @@ namespace tdrw {
 		std::vector<double> t_tmp_normal;
 		std::vector<Point*> t_tmp_points;
 		for (auto x : m_polygons) {
-			t_tmp_normal = x.getNormal();
-			t_tmp_points = x.getPoints();
+			t_tmp_normal = x->getNormal();
+			t_tmp_points = x->getPoints();
 			for (auto y : t_tmp_points) {
 				y->addNormal(t_tmp_normal);
 			}

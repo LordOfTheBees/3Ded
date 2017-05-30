@@ -72,6 +72,7 @@ namespace tdrw {
 		CoordinateSystem getWorldCoordSystem();
 
 		Point * getPointToControl(sf::Vector2f coord_on_screen);
+		Polygon * getPolygonToControl(sf::Vector2f coord_on_screen);
 
 		~TDRenderWindow();
 	};
