@@ -41,7 +41,7 @@ void Editor::start() {
 
 	double x = 30, y = -3, z = 0;
 
-	m_object.load("coub.obj");
+	m_object.load("head.obj");
 	std::cout << "Load finished\n";
 	t_coord_system.setCoordSystem({ { 1, 0, 0 },{ 0, 1, 0 },{ 0, 0, 1 } }, tdrw::Point(x, y, z));
 	m_object.setModelCoordSystem(t_coord_system);
@@ -49,7 +49,7 @@ void Editor::start() {
 	m_window->draw(m_object);
 	m_window->display();
 
-	bool a_frame = true, a_color = true, a_gradient = false;
+	bool a_frame = true, a_color = true, a_gradient = false, a_wrong_side = true;
 	
 	sf::Vector2i t_mouse_position;
 	sf::Event event;
@@ -78,6 +78,20 @@ void Editor::start() {
 					//Control Polygons
 				case sf::Keyboard::F4: {
 					controlPolygons();
+					break;
+				}
+
+					//Turn on/off wrong side in polygons
+				case sf::Keyboard::W: {
+					if (a_wrong_side) {
+						a_wrong_side = false;
+						m_window->activeWrongSide(a_wrong_side);
+					}
+					else {
+						a_wrong_side = true;
+						m_window->activeWrongSide(a_wrong_side);
+					}
+					drawAllElement();
 					break;
 				}
 

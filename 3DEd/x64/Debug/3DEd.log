@@ -1,3 +1,17 @@
-﻿  Polygon.cpp
+﻿  Editor.cpp
+c:\users\avito\3ded\3ded\editor.cpp(46): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+c:\users\avito\3ded\3ded\editor.cpp(165): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+c:\users\avito\3ded\3ded\editor.cpp(170): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+c:\users\avito\3ded\3ded\editor.cpp(175): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+c:\users\avito\3ded\3ded\editor.cpp(180): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+c:\users\avito\3ded\3ded\editor.cpp(185): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+c:\users\avito\3ded\3ded\editor.cpp(190): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+c:\users\avito\3ded\3ded\editor.cpp(332): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\avito\3ded\3ded\editor.cpp(409): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+  BinaryTree.cpp
+  Создание кода...
+  Пропуск... (изменения не обнаружены)
+  TDRenderWindow.cpp
+  Source.cpp
   3DEd.vcxproj -> C:\Users\avito\3Ded\x64\Debug\3DEd.exe
   3DEd.vcxproj -> C:\Users\avito\3Ded\x64\Debug\3DEd.pdb (Partial PDB)

@@ -46,7 +46,10 @@ namespace tdrw {
 		bool camera_exist, world_exist;
 		bool m_frame_exist, m_color_exist; // true - включено
 		bool m_gradient_color_is_on;//true - включено
+		bool m_wrong_side_is_on;//true - включён == полигоны направленные от камеры будут отрисовываться
 		__int64 m_start, m_end, m_tps;
+
+		int m_split_counter;
 
 		ThreadHelper m_thread_helper;
 		std::thread * m_thread_set_coord;
@@ -63,6 +66,7 @@ namespace tdrw {
 		void activeFrame(bool frame);
 		void activeColor(bool color);
 		void activeGradient(bool gradient);
+		void activeWrongSide(bool switcher);
 
 		virtual void draw(Model model);
 		virtual void clear(sf::Color color);

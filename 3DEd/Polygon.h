@@ -13,6 +13,7 @@ namespace tdrw {
 	private:
 		Model* m_him_model;
 		std::vector<Point*> m_points;
+		std::vector<Point> m_points_after_splitted;
 		sf::Color m_color;
 
 		double square(std::vector<Point> points);
@@ -33,11 +34,14 @@ namespace tdrw {
 		void setColor(sf::Color color);
 
 
-		//Есть ли вообще такая точка в полигоне
+		bool wasSplitted() const;
 		bool checkExistencePoint(const Point * point);
 		bool hitTesting(sf::Vector2f coord_on_screen);
 
+		std::vector<Polygon> dividePolygon(const Polygon& splitter) const;
+
 		std::vector<Point*> getPoints() const;
+		std::vector<Point> getPointsAfterSplitted();
 		std::vector<double> getNormal() const;
 		sf::Color getColor() const;
 		Model* getModel() const;
