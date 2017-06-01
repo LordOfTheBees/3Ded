@@ -80,6 +80,10 @@ namespace tdrw {
 		coord_system_of_camera.generateTransitionMatrix();
 	}
 
+	std::vector<double> Camera::getDirectionOfGaze() const{
+		return coord_system_of_camera.getZAxis();
+	}
+
 	std::vector<Point> Camera::getConvertedPoints(const Polygon & polygon)
 	{
 		std::vector<Point*> t_points = polygon.getPoints();

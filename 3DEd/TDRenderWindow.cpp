@@ -33,13 +33,43 @@ namespace tdrw {
 				sf::Vector2f check_vect;
 				for (auto x : t_all_points) {
 					x->setCoordOnScreen(camera->getCoordOnScreen(t_model.convertToWorldCoordSystem(*x)));
-					/*check_vect = x->getCoordOnScreen();
-					std::cout << "(" << check_vect.x << ", " << check_vect.y << ")\n";*/
 				}
-				/*sf::Vector2f check_vect = t_all_points[0]->getCoordOnScreen();
-				std::cout << "(" << check_vect.x << ", " << check_vect.y << ")\n";*/
 			}
 		}
+	}
+
+	void TDRenderWindow::drawModelsSystemCoord(const Model& model){
+		CoordinateSystem t_coord_system = model.getCoordSystem();
+		Point t_zero = t_coord_system.getZeroPoint();
+
+		sf::VertexArray * t_line;
+
+		//x axis == red
+		t_line = new sf::VertexArray(sf::Lines, 2);
+		(*t_line)[0].position = camera.getCoordOnScreen(t_zero);
+		(*t_line)[1].position = camera.getCoordOnScreen(model.convertToWorldCoordSystem(Point(5, 0, 0)));
+		(*t_line)[0].color = sf::Color::Red;
+		(*t_line)[1].color = sf::Color::Red;
+		sf::RenderWindow::draw(*t_line);
+		delete t_line;
+
+		//y axis == blue
+		t_line = new sf::VertexArray(sf::Lines, 2);
+		(*t_line)[0].position = camera.getCoordOnScreen(t_zero);
+		(*t_line)[1].position = camera.getCoordOnScreen(model.convertToWorldCoordSystem(Point(0, 5, 0)));
+		(*t_line)[0].color = sf::Color::Blue;
+		(*t_line)[1].color = sf::Color::Blue;
+		sf::RenderWindow::draw(*t_line);
+		delete t_line;
+
+		//z axis == yellow
+		t_line = new sf::VertexArray(sf::Lines, 2);
+		(*t_line)[0].position = camera.getCoordOnScreen(t_zero);
+		(*t_line)[1].position = camera.getCoordOnScreen(model.convertToWorldCoordSystem(Point(0, 0, 5)));
+		(*t_line)[0].color = sf::Color::Yellow;
+		(*t_line)[1].color = sf::Color::Yellow;
+		sf::RenderWindow::draw(*t_line);
+		delete t_line;
 	}
 
 	void TDRenderWindow::draw_polygon(BinTree* tmp) {
@@ -108,6 +138,8 @@ namespace tdrw {
 		m_frame_exist = true;
 		m_color_exist = true;
 		m_gradient_color_is_on = false;
+		m_wrong_side_is_on = true;
+		m_draw_models_system_coord_is_on = true;
 		m_thread_helper.m_thread_set_coord_done = false;
 		m_thread_helper.m_thread_set_coord_is_work = true;
 		m_thread_set_coord = new std::thread(threadSetCoord, &m_thread_helper, &camera);
@@ -122,6 +154,8 @@ namespace tdrw {
 		m_frame_exist = true;
 		m_color_exist = true;
 		m_gradient_color_is_on = false;
+		m_wrong_side_is_on = true;
+		m_draw_models_system_coord_is_on = true;
 
 		bsp_tree = nullptr;
 		sf::RenderWindow::create(video_mode, title);
@@ -163,6 +197,14 @@ namespace tdrw {
 
 	void TDRenderWindow::activeGradient(bool gradient){
 		m_gradient_color_is_on = gradient;
+	}
+
+	void TDRenderWindow::activeWrongSide(bool switcher){
+		m_wrong_side_is_on = switcher;
+	}
+
+	void TDRenderWindow::activeDrawModelsCS(bool switcher){
+		m_draw_models_system_coord_is_on = switcher;
 	}
 
 	void TDRenderWindow::draw(Model model) {
@@ -207,30 +249,38 @@ namespace tdrw {
 		}
 
 		//std::cout << "Create bsp tree... ";
-		QueryPerformanceFrequency((LARGE_INTEGER *)&m_tps);
-		QueryPerformanceCounter((LARGE_INTEGER *)&m_start);
+		//QueryPerformanceFrequency((LARGE_INTEGER *)&m_tps);
+		//QueryPerformanceCounter((LARGE_INTEGER *)&m_start);
 
 		bsp_tree = new BinaryTree;
+		bsp_tree->setCamera(camera);
+		bsp_tree->activeWrongSide(m_wrong_side_is_on);
 		bsp_tree->setZeroPointOfCamera(this->camera.getZeroPointOfCamera());
 		for (int i = 0; i < polygons.size(); ++i) {
 			bsp_tree->addElement(polygons[i]);
 		}
 
-		QueryPerformanceCounter((LARGE_INTEGER *)&m_end);
+		//QueryPerformanceCounter((LARGE_INTEGER *)&m_end);
 		//std::cout << ((double)(m_end - m_start) / m_tps) * 1000. << " miliseconds\n";
 
 
-		//std::cout << "Draw all polygons... ";
+		//std::cout << "Wait find coord... ";
 		//ОТРИСОВЫВАЕМ
-		QueryPerformanceFrequency((LARGE_INTEGER *)&m_tps);
-		QueryPerformanceCounter((LARGE_INTEGER *)&m_start);
-
 		while (m_thread_helper.m_thread_set_coord_is_work) {}//ожидаем окончания работы потока
 
-		draw_polygon(bsp_tree->getBinaryTree());
+		//std::cout << "Draw all polygons... ";
+
+		BinTree * t_tmp_tree = bsp_tree->getBinaryTree();
+		if(t_tmp_tree != nullptr)
+			draw_polygon(t_tmp_tree);
+
+		if (m_draw_models_system_coord_is_on) {
+			for (auto x : models)
+				drawModelsSystemCoord(x);
+		}
 		sf::RenderWindow::display();
 
-		QueryPerformanceCounter((LARGE_INTEGER *)&m_end);
+		//QueryPerformanceCounter((LARGE_INTEGER *)&m_end);
 		//std::cout << ((double)(m_end - m_start) / m_tps) * 1000. << " miliseconds\n";
 	}
 

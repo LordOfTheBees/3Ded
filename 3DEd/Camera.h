@@ -33,6 +33,7 @@ namespace tdrw {
 		void rotationAngleOnZ(double alpha);
 		void setZeroPointOfCoord(const Point& zero_point);
 
+		std::vector<double> getDirectionOfGaze() const;
 		std::vector<Point> getConvertedPoints(const Polygon& polygon);
 		sf::Vector2f getCoordOnScreen(const Point& point_in_world_cs);
 		Point convertToWoorldSystem(const Point& point_in_camera_system);

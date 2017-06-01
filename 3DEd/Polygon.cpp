@@ -1,6 +1,8 @@
 #include "Polygon.h"
 #include "Model.h"
+
 #include <iostream>
+#include <sstream>
 namespace tdrw {
 	bool operator==(const Polygon & left, const Polygon & right) {
 		if (left.m_points.size() == right.m_points.size()) {
@@ -67,6 +69,22 @@ namespace tdrw {
 
 	void Polygon::setColor(sf::Color color) {
 		this->m_color = color;
+	}
+
+	std::string Polygon::getStringWithData() const{
+		std::ostringstream t_ostr;
+
+		int t_found_num;
+
+		for (auto x : m_points) {
+			t_found_num = m_him_model->getNumOfElement(x);
+			if (t_found_num == -1)
+				throw new std::exception("polygon with a non-existent point");
+			t_ostr << t_found_num + 1;
+			t_ostr << ' ';
+		}
+
+		return t_ostr.str();
 	}
 
 

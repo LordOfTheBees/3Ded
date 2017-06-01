@@ -93,7 +93,7 @@ namespace tdrw {
 		m_own_coord_system.setZeroPointOfCoord(zero_point);
 	}
 
-	CoordinateSystem Model::getCoordSystem() {
+	CoordinateSystem Model::getCoordSystem() const {
 		return m_own_coord_system;
 	}
 
@@ -247,10 +247,35 @@ namespace tdrw {
 				addPolygon(t_point, sf::Color::White);
 			}
 		}
+		file.close();
 		return true;
 	}
 
 	bool Model::save(const std::string file_path){
+		std::ofstream file(file_path, std::ofstream::trunc);
+		if (!file.is_open()) {
+			throw new std::exception("Failed to save to file");
+		}
+
+		std::string t_str;
+
+		std::vector<Point*> t_points = getAllPoints();
+		for (auto x : t_points) {
+			t_str.clear();
+			t_str += "v ";
+			t_str += x->convertCoordToString();
+			t_str += "\n";
+			file << t_str;
+		}
+
+		for (auto x : m_polygons) {
+			t_str.clear();
+			t_str += "f ";
+			t_str += x->getStringWithData();
+			t_str += "\n";
+			file << t_str;
+		}
+		file.close();
 		return true;
 	}
 

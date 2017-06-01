@@ -1,5 +1,5 @@
 #include "Point.h"
-
+#include <sstream>
 
 namespace tdrw {
 	bool operator!=(const Point & left, const Point & right) {
@@ -107,6 +107,18 @@ namespace tdrw {
 		if ((std::pow(mouse_position.x - coord_on_screen.x, 2) + std::pow(mouse_position.y - coord_on_screen.y, 2)) <= 16)
 			return true;
 		return false;
+	}
+
+	std::string Point::convertCoordToString() const{
+		std::ostringstream t_ostr;
+
+		t_ostr << x;
+		t_ostr << ' ';
+		t_ostr << y;
+		t_ostr << ' ';
+		t_ostr << z;
+		
+		return t_ostr.str();
 	}
 
 	//(x, y, z)

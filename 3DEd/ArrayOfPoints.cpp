@@ -1,6 +1,7 @@
 #include "ArrayOfPoints.h"
 
 #include <iostream>
+#include <algorithm>
 namespace tdrw {
 	void ArrayOfPoints::operator=(const ArrayOfPoints & right) {
 		m_all_points = right.m_all_points;
@@ -36,6 +37,14 @@ namespace tdrw {
 				return;
 			}
 		}
+	}
+
+	int ArrayOfPoints::getNumOfElement(Point * point){
+		for (int i = 0; i < m_all_points.size(); ++i) {
+			if (m_all_points[i] == point)
+				return i;
+		}
+		return -1;
 	}
 
 	Point * ArrayOfPoints::getPtrPoint(int number){

@@ -52,7 +52,7 @@ namespace tdrw {
 		void setZeroPointOfCoord(const Point& zero_point);
 
 		//возвращщает систему координат модели
-		CoordinateSystem getCoordSystem();
+		CoordinateSystem getCoordSystem() const;
 		std::vector<Polygon> getAllPolygon() const;
 		std::vector<Polygon*> getAllPtrPolygon();
 

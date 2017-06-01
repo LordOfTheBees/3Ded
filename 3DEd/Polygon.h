@@ -1,4 +1,5 @@
 #include <vector>
+#include <string>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -32,7 +33,7 @@ namespace tdrw {
 		void setPoints(Point* point1, Point* point2, Point* point3);
 		void setColor(sf::Color color);
 
-
+		std::string getStringWithData() const;
 		//Есть ли вообще такая точка в полигоне
 		bool checkExistencePoint(const Point * point);
 		bool hitTesting(sf::Vector2f coord_on_screen);

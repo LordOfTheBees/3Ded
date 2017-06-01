@@ -1,4 +1,5 @@
 #include <vector>
+#include <string>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -41,6 +42,7 @@ namespace tdrw {
 		bool checkPointByCoordOnScreen(const sf::Vector2f& mouse_position) const;
 
 		//(x, y, z)
+		std::string convertCoordToString() const;
 		std::vector<double> getCoord() const;
 
 		void addNormal(std::vector<double> normal);

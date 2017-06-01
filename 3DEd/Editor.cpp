@@ -41,15 +41,65 @@ void Editor::start() {
 
 	double x = 30, y = -3, z = 0;
 
-	m_object.load("coub.obj");
+	//Открытие файла
+	//=====================
+	int t_choose = -1;
+	std::cout << "Pls, select the file...\n";
+	std::cout << "\t1 - coub.obj\n";
+	std::cout << "\t2 - head.obj\n";
+	std::cout << "\t3 - gourd.obj\n";
+	std::cout << "\t4 - DNA.obj\n";
+	std::cout << "\t5 - moby.obj\n";
+	std::cout << "\t6 - save_file.obj\n";
+	std::cout << "\t7 - Another choise(write file's path)\n";
+	while (true) {
+		std::cout << "Your number : ";
+		std::cin >> t_choose;
+		if ((t_choose <= 0) || (t_choose >7))
+			std::cout << "Wrong number. Try again.\n";
+		else
+			break;
+	}
+
+	std::string t_str_path;
+	switch (t_choose)
+	{
+	case 1:
+		m_object.load("coub.obj");
+		break;
+	case 2:
+		m_object.load("head.obj");
+		break;
+	case 3:
+		m_object.load("gourd.obj");
+		break;
+	case 4:
+		m_object.load("DNA.obj");
+		break;
+	case 5:
+		m_object.load("moby.obj");
+		break;
+	case 6:
+		m_object.load("save_file.obj");
+		break;
+	case 7:
+		std::cout << "Write string path : ";
+		std::cin >> t_str_path;
+		m_object.load(t_str_path);
+	default:
+		break;
+	}
 	std::cout << "Load finished\n";
+	//=====================
+
+
 	t_coord_system.setCoordSystem({ { 1, 0, 0 },{ 0, 1, 0 },{ 0, 0, 1 } }, tdrw::Point(x, y, z));
 	m_object.setModelCoordSystem(t_coord_system);
 
 	m_window->draw(m_object);
 	m_window->display();
 
-	bool a_frame = true, a_color = true, a_gradient = false;
+	bool a_frame = true, a_color = true, a_gradient = false, a_wrong_side = true, a_models_coord_system = true;
 	
 	sf::Vector2i t_mouse_position;
 	sf::Event event;
@@ -78,6 +128,34 @@ void Editor::start() {
 					//Control Polygons
 				case sf::Keyboard::F4: {
 					controlPolygons();
+					break;
+				}
+
+					//Turn on/off wrong side in polygons
+				case sf::Keyboard::W: {
+					if (a_wrong_side) {
+						a_wrong_side = false;
+						m_window->activeWrongSide(a_wrong_side);
+					}
+					else {
+						a_wrong_side = true;
+						m_window->activeWrongSide(a_wrong_side);
+					}
+					drawAllElement();
+					break;
+				}
+
+					//Turn on/off draw coord system to models
+				case sf::Keyboard::S: {
+					if (a_models_coord_system) {
+						a_models_coord_system = false;
+						m_window->activeDrawModelsCS(a_models_coord_system);
+					}
+					else {
+						a_models_coord_system = true;
+						m_window->activeDrawModelsCS(a_models_coord_system);
+					}
+					drawAllElement();
 					break;
 				}
 
@@ -125,6 +203,7 @@ void Editor::start() {
 
 					//Exit
 				case sf::Keyboard::Escape: {
+					m_object.save("save_file.obj");
 					m_window->close();
 					break;
 				}
@@ -206,7 +285,7 @@ bool Editor::moveObject()
 				default:
 					break;
 				}
-				std::cout << "\t(" << x << ", " << y << ", " << z << ")\n";
+				//std::cout << "\t(" << x << ", " << y << ", " << z << ")\n";
 				//m_window->setCamera(m_camera);
 			}
 		}

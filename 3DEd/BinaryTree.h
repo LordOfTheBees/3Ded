@@ -2,6 +2,7 @@
 #include <vector>
 #include <cmath>
 
+#include "Camera.h"
 #include "Point.h"
 #include "Polygon.h"
 #include "CoordinateSystem.h"
@@ -28,17 +29,23 @@ namespace tdrw {
 		BinTree* tmp;
 		BinTree* root;
 		BinTree* active_node;
+		Camera m_camera;
 		Point zero_point_of_camera;
 		std::vector<Point> m_points;
+
+		bool m_wrong_side_is_active;
 	protected:
 		void recursiveAddElement();
 	public:
 		BinaryTree();
 
 		//Не забыть про различные системы координат при отослании координаты камеры
+		void setCamera(const Camera& camera);
 		void setZeroPointOfCamera(Point zero_point_of_camera);
 		void addElement(const Polygon& polygon);
 		void clear();
+
+		void activeWrongSide(bool switcher);
 
 		std::vector<Polygon> addPolygons();
 		BinTree* getBinaryTree() const;
