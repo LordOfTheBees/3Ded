@@ -2,8 +2,8 @@
 
 #include <vector>
 #include <algorithm>
-Editor::Editor()
-{
+Editor::Editor(){
+	m_light_point.setCoord(0, 0, 0);
 }
 
 void Editor::drawAllElement(){
@@ -32,7 +32,8 @@ void Editor::start() {
 
 	m_camera_coord.setBasisCoordSystem(t_coord_system);
 	m_camera_coord.generateTransitionMatrix();
-	m_light.setDirection(m_camera_coord);
+	m_light_coord_system = m_camera_coord;
+	m_light.activeSurfaceType(m_light_coord_system);
 	
 
 	m_window->setLight(m_light);
@@ -99,7 +100,9 @@ void Editor::start() {
 	m_window->draw(m_object);
 	m_window->display();
 
-	bool a_frame = true, a_color = true, a_gradient = false, a_wrong_side = true, a_models_coord_system = true;
+	bool a_frame = true, a_color = true, a_gradient = false, a_wrong_side = true;
+	bool a_models_coord_system = true, a_light_type = true/*true - surface*/;
+	bool a_allocated_point = false;
 	
 	sf::Vector2i t_mouse_position;
 	sf::Event event;
@@ -140,6 +143,35 @@ void Editor::start() {
 					else {
 						a_wrong_side = true;
 						m_window->activeWrongSide(a_wrong_side);
+					}
+					drawAllElement();
+					break;
+				}
+
+					//Change light's type
+				case sf::Keyboard::L: {
+					if (a_light_type) {
+						a_light_type = false;
+						m_light.activePointType(m_light_point);
+					}
+					else {
+						a_light_type = true;
+						m_light.activeSurfaceType(m_light_coord_system);
+					}
+					m_window->setLight(m_light);
+					drawAllElement();
+					break;
+				}
+
+					//Turn on/off draw allocated point
+				case sf::Keyboard::D: {
+					if (a_allocated_point) {
+						a_allocated_point = false;
+						m_window->activeAllocationPoint(a_allocated_point);
+					}
+					else {
+						a_allocated_point = true;
+						m_window->activeAllocationPoint(a_allocated_point);
 					}
 					drawAllElement();
 					break;

@@ -16,6 +16,9 @@ private:
 	tdrw::Model m_object;
 	tdrw::Point * m_selected_point;
 	tdrw::Polygon * m_selected_polygon;
+
+	tdrw::Point m_light_point;
+	tdrw::CoordinateSystem m_light_coord_system;
 protected:
 public:
 	Editor();

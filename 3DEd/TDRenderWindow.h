@@ -48,6 +48,7 @@ namespace tdrw {
 		bool m_gradient_color_is_on;//true - включено
 		bool m_wrong_side_is_on;//true - включён == полигоны направленные от камеры будут отрисовываться
 		bool m_draw_models_system_coord_is_on;//true - включён
+		bool m_allocation_of_points_is_on;//true - включён
 		__int64 m_start, m_end, m_tps;
 
 		ThreadHelper m_thread_helper;
@@ -70,6 +71,7 @@ namespace tdrw {
 		void activeGradient(bool gradient);
 		void activeWrongSide(bool switcher);
 		void activeDrawModelsCS(bool switcher);//CS - Coord System
+		void activeAllocationPoint(bool swithcer);
 
 		virtual void draw(Model model);
 		virtual void clear(sf::Color color);

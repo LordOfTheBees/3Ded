@@ -10,14 +10,15 @@ namespace tdrw {
 	{
 	private:
 		HSB m_hsb;
-		CoordinateSystem m_direction;
 		std::vector<double> m_direction_z;
+		Point m_zero_point;
+
+		enum{surface, point} m_light_type;
 	public:
 		Light();
 
-
-		void setDirection(const CoordinateSystem& coord_system);//requires only z axis and ZeroPoint
-		void setZeroPoint(const Point &point);
+		void activeSurfaceType(const CoordinateSystem & coord_system);//requires only z axis and ZeroPoint
+		void activePointType(const Point& point);
 
 		sf::Color getTransformColor(const Polygon& polygon);
 		sf::Color getTransformColor(const Point& point, sf::Color color);

@@ -73,7 +73,8 @@ namespace tdrw {
 	}
 
 	void TDRenderWindow::draw_polygon(BinTree* tmp) {
-		std::vector<Point*> t_points = tmp->polygon.getPoints();
+		std::vector<Point> t_points = tmp->polygon.getConvertedPoints();
+		std::vector<Point*> t_ptr_points = tmp->polygon.getPoints();
 		sf::VertexArray* polygon_to_draw = new sf::VertexArray(sf::TrianglesFan, t_points.size());
 		sf::VertexArray* line = new sf::VertexArray(sf::LinesStrip, t_points.size()*2);
 		sf::Color t_color_to_gradient = tmp->polygon.getColor();
@@ -92,15 +93,14 @@ namespace tdrw {
 		std::cout << "(" << points[2].x << "," << points[2].y << "," << points[2].z << ")" << std::endl;*/
 		//как только рекурсивно дошли до самого дальнего, начинаем отрисовывать активный(послученный в виде аргумента) полигон
 		if (m_color_exist) {
-			sf::Vector2f check_vect;
 			for (int i = 0; i < t_points.size(); ++i) {
-				check_vect = t_points[i]->getCoordOnScreen();
 				//std::cout << "(" << check_vect.x << ", " << check_vect.y << ")\n";
-				(*polygon_to_draw)[i].position = check_vect;
+				(*polygon_to_draw)[i].position = t_ptr_points[i]->getCoordOnScreen();
 			}
 			if (m_gradient_color_is_on) {
 				for (int i = 0; i < t_points.size(); ++i) {
-					(*polygon_to_draw)[i].color = m_light.getTransformColor(*t_points[i], t_color_to_gradient);
+					t_points[i].addNormal(t_ptr_points[i]->getNormal());
+					(*polygon_to_draw)[i].color = m_light.getTransformColor(t_points[i], t_color_to_gradient);
 				}
 			}
 			else {
@@ -114,14 +114,30 @@ namespace tdrw {
 
 		j = 0;
 		if (m_frame_exist) {
-			for (int i = 0; i < t_points.size() * 2; i += 2) {
-				(*line)[i].position = t_points[j % t_points.size()]->getCoordOnScreen();
-				(*line)[i + 1].position = t_points[(j + 1) % t_points.size()]->getCoordOnScreen();
+			for (int i = 0; i < t_ptr_points.size() * 2; i += 2) {
+				(*line)[i].position = t_ptr_points[j % t_points.size()]->getCoordOnScreen();
+				(*line)[i + 1].position = t_ptr_points[(j + 1) % t_points.size()]->getCoordOnScreen();
 				j++;
 			}
 			for (int i = 0; i < t_points.size() * 2; ++i)
 				(*line)[i].color = sf::Color::Red;
 			sf::RenderWindow::draw(*line);
+		}
+
+		if (m_allocation_of_points_is_on) {
+			sf::CircleShape * t_allocated_point;
+			sf::Vector2f t_tmp_coord;
+			for (auto x : t_ptr_points) {
+				t_tmp_coord = x->getCoordOnScreen();
+				t_tmp_coord.x -= 3;
+				t_tmp_coord.y -= 3;
+				t_allocated_point = new sf::CircleShape;
+				t_allocated_point->setRadius(4);
+				t_allocated_point->setFillColor(sf::Color::Green);
+				t_allocated_point->setPosition(t_tmp_coord);
+				sf::RenderWindow::draw(*t_allocated_point);
+				delete t_allocated_point;
+			}
 		}
 		//потом к ближайшем
 		if (tmp->closer != nullptr) {
@@ -137,11 +153,14 @@ namespace tdrw {
 		bsp_tree = nullptr;
 		m_frame_exist = true;
 		m_color_exist = true;
+
 		m_gradient_color_is_on = false;
 		m_wrong_side_is_on = true;
 		m_draw_models_system_coord_is_on = true;
 		m_thread_helper.m_thread_set_coord_done = false;
 		m_thread_helper.m_thread_set_coord_is_work = true;
+		m_allocation_of_points_is_on = false;
+
 		m_thread_set_coord = new std::thread(threadSetCoord, &m_thread_helper, &camera);
 	}
 
@@ -156,6 +175,7 @@ namespace tdrw {
 		m_gradient_color_is_on = false;
 		m_wrong_side_is_on = true;
 		m_draw_models_system_coord_is_on = true;
+		m_allocation_of_points_is_on = false;
 
 		bsp_tree = nullptr;
 		sf::RenderWindow::create(video_mode, title);
@@ -205,6 +225,10 @@ namespace tdrw {
 
 	void TDRenderWindow::activeDrawModelsCS(bool switcher){
 		m_draw_models_system_coord_is_on = switcher;
+	}
+
+	void TDRenderWindow::activeAllocationPoint(bool swithcer){
+		m_allocation_of_points_is_on = swithcer;
 	}
 
 	void TDRenderWindow::draw(Model model) {
