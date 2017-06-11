@@ -1,6 +1,5 @@
 #include "Point.h"
 #include <sstream>
-
 namespace tdrw {
 	bool operator!=(const Point & left, const Point & right) {
 		return ((right.x != left.x) || (left.y != right.y) || (left.z != right.z));
@@ -32,7 +31,7 @@ namespace tdrw {
 		this->x = right.x;
 		this->y = right.y;
 		this->z = right.z;
-		this->m_existance = true;
+		this->m_number_of_uses = right.m_number_of_uses;
 		this->m_coord_on_screen = right.m_coord_on_screen;
 		return *this;
 	}
@@ -40,7 +39,7 @@ namespace tdrw {
 	Point::Point() {
 		m_coord_on_screen.x = -300;
 		m_coord_on_screen.y = -300;
-		m_existance = false;
+		m_number_of_uses = 0;
 		m_normal_exist = false;
 	}
 
@@ -48,7 +47,7 @@ namespace tdrw {
 		x = _point.x;
 		y = _point.y;
 		z = _point.z;
-		m_existance = true;
+		m_number_of_uses = _point.m_number_of_uses;
 		m_normal_exist = false;
 		this->m_coord_on_screen = _point.m_coord_on_screen;
 	}
@@ -57,6 +56,7 @@ namespace tdrw {
 		x = coord[0];
 		y = coord[1];
 		z = coord[2];
+		m_number_of_uses = 0;
 		m_normal_exist = false;
 	}
 
@@ -66,7 +66,7 @@ namespace tdrw {
 		this->x = x;
 		this->y = y;
 		this->z = z;
-		this->m_existance = true;
+		m_number_of_uses = 0;
 		m_normal_exist = false;
 	}
 
@@ -74,14 +74,12 @@ namespace tdrw {
 		this->x = x;
 		this->y = y;
 		this->z = z;
-		m_existance = true;
 	}
 
 	void Point::setCoord(const Point & _point) {
 		x = _point.x;
 		y = _point.y;
 		z = _point.z;
-		m_existance = true;
 		this->m_coord_on_screen = _point.m_coord_on_screen;
 	}
 
@@ -95,8 +93,18 @@ namespace tdrw {
 		this->m_coord_on_screen = m_coord_on_screen;
 	}
 
-	bool Point::isExist() const {
-		return m_existance;
+	void Point::upUseNumber(unsigned int num){
+		m_number_of_uses = +num;
+	}
+
+	void Point::downUseNumber(unsigned int num){
+		m_number_of_uses -= num;
+	}
+
+	bool Point::isUsed() const{
+		if (m_number_of_uses > 0)
+			return true;
+		return false;
 	}
 
 	bool Point::checkPointByCoordOnScreen(const sf::Vector2f & mouse_position) const {

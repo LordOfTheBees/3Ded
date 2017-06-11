@@ -67,6 +67,8 @@ namespace tdrw {
 		bool save(const std::string file_path);
 
 		bool deletePoint(Point* point);
+
+		void optimization();//delete unusable points,...
 		~Model();
 	};
 }

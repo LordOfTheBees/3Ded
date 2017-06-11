@@ -278,6 +278,10 @@ namespace tdrw {
 		return true;
 	}
 
+	void Model::optimization(){
+		ArrayOfPoints::deleteUnusablePoints();
+	}
+
 	Model::~Model() {
 	}
 }

@@ -29,6 +29,8 @@ namespace tdrw {
 		Point* getPtrPoint(int number);
 		std::vector<Point*> getPoint(const sf::Vector2f coord_of_point);
 		std::vector<Point*> getAllPoints() const;
+
+		void deleteUnusablePoints();
 		~ArrayOfPoints();
 	};
 

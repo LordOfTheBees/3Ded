@@ -46,6 +46,10 @@ namespace tdrw {
 		this->m_him_model = model;
 		this->m_points = points;
 		this->m_color = color;
+
+		for (auto x : points) {
+			x->upUseNumber();
+		}
 	}
 
 	Polygon::Polygon(Model * model, Point * point1, Point * point2, Point * point3, sf::Color color) {
@@ -54,17 +58,38 @@ namespace tdrw {
 		this->m_points.push_back(point2);
 		this->m_points.push_back(point3);
 
+		point1->upUseNumber();
+		point2->upUseNumber();
+		point3->upUseNumber();
+
 		this->m_color = color;
 	}
 
 	void Polygon::setPoints(std::vector<Point*> points) {
+		for (auto x : m_points) {
+			x->downUseNumber();
+		}
+
 		this->m_points = points;
+
+		for (auto x : m_points) {
+			x->upUseNumber();
+		}
 	}
 
 	void Polygon::setPoints(Point * point1, Point * point2, Point * point3) {
+		for (auto x : m_points) {
+			x->downUseNumber();
+		}
+		m_points.clear();
+
 		this->m_points.push_back(point1);
 		this->m_points.push_back(point2);
 		this->m_points.push_back(point3);
+
+		point1->upUseNumber();
+		point2->upUseNumber();
+		point3->upUseNumber();
 	}
 
 	void Polygon::setColor(sf::Color color) {
@@ -159,5 +184,7 @@ namespace tdrw {
 
 
 	Polygon::~Polygon() {
+		for (auto x : m_points)
+			x->downUseNumber();
 	}
 }
