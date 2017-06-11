@@ -125,7 +125,6 @@
     <ClInclude Include="HSB.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Model.h" />
-    <ClInclude Include="ObjLoSa.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Polygon.h" />
@@ -139,15 +138,11 @@
     <ClCompile Include="HSB.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Model.cpp" />
-    <ClCompile Include="ObjLoSa.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="TDRenderWindow.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Notes.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

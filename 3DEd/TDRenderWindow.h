@@ -38,12 +38,12 @@ namespace tdrw {
 
 	class TDRenderWindow : public sf::RenderWindow {
 	private:
-		std::vector<Model> models;
-		Camera camera;
+		std::vector<Model> m_models;
+		Camera m_camera;
 		Light m_light;
-		CoordinateSystem world_coord_system;
-		BinaryTree* bsp_tree;
-		bool camera_exist, world_exist;
+		CoordinateSystem m_world_coord_system;
+		BinaryTree* m_bsp_tree;
+		bool m_camera_exist, m_world_exist;
 		bool m_frame_exist, m_color_exist; // true - включено
 		bool m_gradient_color_is_on;//true - включено
 		bool m_wrong_side_is_on;//true - включён == полигоны направленные от камеры будут отрисовываться

@@ -3,7 +3,7 @@
 #include <windows.h>
 #define KEK std::cout<<"KEK\n"
 namespace tdrw {
-	void threadSetCoord(ThreadHelper * h_thread_helper, Camera * camera){
+	void threadSetCoord(ThreadHelper * h_thread_helper, Camera * m_camera){
 		std::unique_lock<std::mutex> t_unique_lock(h_thread_helper->m_mutex);
 
 		while (!h_thread_helper->m_thread_set_coord_done) {
@@ -32,7 +32,7 @@ namespace tdrw {
 				std::vector<Point*> t_all_points = t_model.getAllPoints();
 				sf::Vector2f check_vect;
 				for (auto x : t_all_points) {
-					x->setCoordOnScreen(camera->getCoordOnScreen(t_model.convertToWorldCoordSystem(*x)));
+					x->setCoordOnScreen(m_camera->getCoordOnScreen(t_model.convertToWorldCoordSystem(*x)));
 				}
 			}
 		}
@@ -46,8 +46,8 @@ namespace tdrw {
 
 		//x axis == red
 		t_line = new sf::VertexArray(sf::Lines, 2);
-		(*t_line)[0].position = camera.getCoordOnScreen(t_zero);
-		(*t_line)[1].position = camera.getCoordOnScreen(model.convertToWorldCoordSystem(Point(5, 0, 0)));
+		(*t_line)[0].position = m_camera.getCoordOnScreen(t_zero);
+		(*t_line)[1].position = m_camera.getCoordOnScreen(model.convertToWorldCoordSystem(Point(5, 0, 0)));
 		(*t_line)[0].color = sf::Color::Red;
 		(*t_line)[1].color = sf::Color::Red;
 		sf::RenderWindow::draw(*t_line);
@@ -55,8 +55,8 @@ namespace tdrw {
 
 		//y axis == blue
 		t_line = new sf::VertexArray(sf::Lines, 2);
-		(*t_line)[0].position = camera.getCoordOnScreen(t_zero);
-		(*t_line)[1].position = camera.getCoordOnScreen(model.convertToWorldCoordSystem(Point(0, 5, 0)));
+		(*t_line)[0].position = m_camera.getCoordOnScreen(t_zero);
+		(*t_line)[1].position = m_camera.getCoordOnScreen(model.convertToWorldCoordSystem(Point(0, 5, 0)));
 		(*t_line)[0].color = sf::Color::Blue;
 		(*t_line)[1].color = sf::Color::Blue;
 		sf::RenderWindow::draw(*t_line);
@@ -64,8 +64,8 @@ namespace tdrw {
 
 		//z axis == yellow
 		t_line = new sf::VertexArray(sf::Lines, 2);
-		(*t_line)[0].position = camera.getCoordOnScreen(t_zero);
-		(*t_line)[1].position = camera.getCoordOnScreen(model.convertToWorldCoordSystem(Point(0, 0, 5)));
+		(*t_line)[0].position = m_camera.getCoordOnScreen(t_zero);
+		(*t_line)[1].position = m_camera.getCoordOnScreen(model.convertToWorldCoordSystem(Point(0, 0, 5)));
 		(*t_line)[0].color = sf::Color::Yellow;
 		(*t_line)[1].color = sf::Color::Yellow;
 		sf::RenderWindow::draw(*t_line);
@@ -150,7 +150,7 @@ namespace tdrw {
 	}
 
 	TDRenderWindow::TDRenderWindow() {
-		bsp_tree = nullptr;
+		m_bsp_tree = nullptr;
 		m_frame_exist = true;
 		m_color_exist = true;
 
@@ -161,14 +161,14 @@ namespace tdrw {
 		m_thread_helper.m_thread_set_coord_is_work = true;
 		m_allocation_of_points_is_on = false;
 
-		m_thread_set_coord = new std::thread(threadSetCoord, &m_thread_helper, &camera);
+		m_thread_set_coord = new std::thread(threadSetCoord, &m_thread_helper, &m_camera);
 	}
 
 	TDRenderWindow::TDRenderWindow(sf::VideoMode video_mode, std::string title) {
 
 		m_thread_helper.m_thread_set_coord_done = false;
 		m_thread_helper.m_thread_set_coord_is_work = true;
-		m_thread_set_coord = new std::thread(threadSetCoord, &m_thread_helper, &camera);
+		m_thread_set_coord = new std::thread(threadSetCoord, &m_thread_helper, &m_camera);
 
 		m_frame_exist = true;
 		m_color_exist = true;
@@ -177,19 +177,19 @@ namespace tdrw {
 		m_draw_models_system_coord_is_on = true;
 		m_allocation_of_points_is_on = false;
 
-		bsp_tree = nullptr;
+		m_bsp_tree = nullptr;
 		sf::RenderWindow::create(video_mode, title);
 	}
 
 
-	void TDRenderWindow::setCamera(const Camera& camera) {
-		camera_exist = true;
-		this->camera = camera;
-		this->camera.setScreenSize(sf::RenderWindow::getSize());
-		if (world_exist) {
-			this->camera.setWorldCoordSystem(this->world_coord_system);
-			this->camera.setScreenSize(sf::RenderWindow::getSize());
-			this->camera.generateConvertNumber();
+	void TDRenderWindow::setCamera(const Camera& m_camera) {
+		m_camera_exist = true;
+		this->m_camera = m_camera;
+		this->m_camera.setScreenSize(sf::RenderWindow::getSize());
+		if (m_world_exist) {
+			this->m_camera.setWorldCoordSystem(this->m_world_coord_system);
+			this->m_camera.setScreenSize(sf::RenderWindow::getSize());
+			this->m_camera.generateConvertNumber();
 		}
 	}
 
@@ -197,13 +197,13 @@ namespace tdrw {
 		m_light = light;
 	}
 
-	void TDRenderWindow::setWorldCoordSystem(const CoordinateSystem& world_coord_system) {
-		this->world_exist = true;
-		this->world_coord_system = world_coord_system;
-		if (camera_exist) {
-			this->camera.setWorldCoordSystem(this->world_coord_system);
-			this->camera.setScreenSize(sf::RenderWindow::getSize());
-			this->camera.generateConvertNumber();
+	void TDRenderWindow::setWorldCoordSystem(const CoordinateSystem& m_world_coord_system) {
+		this->m_world_exist = true;
+		this->m_world_coord_system = m_world_coord_system;
+		if (m_camera_exist) {
+			this->m_camera.setWorldCoordSystem(this->m_world_coord_system);
+			this->m_camera.setScreenSize(sf::RenderWindow::getSize());
+			this->m_camera.generateConvertNumber();
 		}
 	}
 
@@ -241,8 +241,8 @@ namespace tdrw {
 		}
 
 		std::thread *t_bsp_thread, *t_coord_thread;
-		model.setWorldCoordSystem(world_coord_system);
-		models.push_back(model);
+		model.setWorldCoordSystem(m_world_coord_system);
+		m_models.push_back(model);
 
 		while(!m_thread_helper.m_mutex_deque_models.try_lock()){}
 		m_thread_helper.m_models.push_back(model);
@@ -254,9 +254,9 @@ namespace tdrw {
 	}
 
 	void TDRenderWindow::clear(sf::Color color) {
-		models.clear();
-		delete bsp_tree;
-		bsp_tree = nullptr;
+		m_models.clear();
+		delete m_bsp_tree;
+		m_bsp_tree = nullptr;
 
 		sf::RenderWindow::clear(color);
 	}
@@ -266,9 +266,9 @@ namespace tdrw {
 		std::vector<Polygon> polygons;
 		std::vector<Polygon> tmp_data;
 
-		for (int i = 0; i < models.size(); ++i) {
+		for (int i = 0; i < m_models.size(); ++i) {
 			//tmp_data.clear();
-			tmp_data = models[i].getAllPolygon();
+			tmp_data = m_models[i].getAllPolygon();
 			polygons.insert(polygons.end(), tmp_data.begin(), tmp_data.end());
 		}
 
@@ -276,12 +276,12 @@ namespace tdrw {
 		//QueryPerformanceFrequency((LARGE_INTEGER *)&m_tps);
 		//QueryPerformanceCounter((LARGE_INTEGER *)&m_start);
 
-		bsp_tree = new BinaryTree;
-		bsp_tree->setCamera(camera);
-		bsp_tree->activeWrongSide(m_wrong_side_is_on);
-		bsp_tree->setZeroPointOfCamera(this->camera.getZeroPointOfCamera());
+		m_bsp_tree = new BinaryTree;
+		m_bsp_tree->setCamera(m_camera);
+		m_bsp_tree->activeWrongSide(m_wrong_side_is_on);
+		m_bsp_tree->setZeroPointOfCamera(this->m_camera.getZeroPointOfCamera());
 		for (int i = 0; i < polygons.size(); ++i) {
-			bsp_tree->addElement(polygons[i]);
+			m_bsp_tree->addElement(polygons[i]);
 		}
 
 		//QueryPerformanceCounter((LARGE_INTEGER *)&m_end);
@@ -294,12 +294,12 @@ namespace tdrw {
 
 		//std::cout << "Draw all polygons... ";
 
-		BinTree * t_tmp_tree = bsp_tree->getBinaryTree();
+		BinTree * t_tmp_tree = m_bsp_tree->getBinaryTree();
 		if(t_tmp_tree != nullptr)
 			draw_polygon(t_tmp_tree);
 
 		if (m_draw_models_system_coord_is_on) {
-			for (auto x : models)
+			for (auto x : m_models)
 				drawModelsSystemCoord(x);
 		}
 		sf::RenderWindow::display();
@@ -309,11 +309,11 @@ namespace tdrw {
 	}
 
 	Camera TDRenderWindow::getCamera(){
-		return camera;
+		return m_camera;
 	}
 
 	CoordinateSystem TDRenderWindow::getWorldCoordSystem(){
-		return world_coord_system;
+		return m_world_coord_system;
 	}
 
 	Point * TDRenderWindow::getPointToControl(sf::Vector2f coord_on_screen){
@@ -323,11 +323,11 @@ namespace tdrw {
 		Point* t_suitable_point = nullptr;
 		std::vector<Point*> t_tmp_points;
 
-		Point t_zero_point_of_camera = camera.getZeroPointOfCamera();
-		for (auto x : models) {
+		Point t_zero_point_of_m_camera = m_camera.getZeroPointOfCamera();
+		for (auto x : m_models) {
 			t_tmp_points = x.getPoint(coord_on_screen);
 			for (auto y : t_tmp_points) {
-				t_tmp_distance = Point::calcDistance(t_zero_point_of_camera, x.convertToWorldCoordSystem(*y));
+				t_tmp_distance = Point::calcDistance(t_zero_point_of_m_camera, x.convertToWorldCoordSystem(*y));
 				if (!t_fisrt_scan_done) {
 					t_fisrt_scan_done = true;
 					t_min_distance = t_tmp_distance;
@@ -353,15 +353,15 @@ namespace tdrw {
 		std::vector<Polygon*> t_tmp_polygons;
 		std::vector<Point*> t_tmp_points;
 
-		Point t_zero_point_of_camera = camera.getZeroPointOfCamera();
-		for (auto x : models) {
+		Point t_zero_point_of_m_camera = m_camera.getZeroPointOfCamera();
+		for (auto x : m_models) {
 			t_tmp_polygons = x.getSuitablePolygons(coord_on_screen);
 			for (auto y : t_tmp_polygons) {
 				//высчитываем среднее растояние до полигона
 				t_tmp_points = y->getPoints();
 				t_tmp_distance = 0;
 				for (auto z : t_tmp_points) {
-					t_tmp_distance += Point::calcDistance(t_zero_point_of_camera, x.convertToWorldCoordSystem(*z));
+					t_tmp_distance += Point::calcDistance(t_zero_point_of_m_camera, x.convertToWorldCoordSystem(*z));
 				}
 				t_tmp_distance = t_tmp_distance / t_tmp_points.size();
 				t_tmp_points.clear();

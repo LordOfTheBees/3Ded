@@ -19,7 +19,7 @@ namespace tdrw {
 	}
 
 	double Point::calcDistanceInWindow(const Point & first, const Point & second){
-		return std::sqrt(std::pow(first.coord_on_screen.x - second.coord_on_screen.x, 2) + std::pow(first.coord_on_screen.y - second.coord_on_screen.y, 2));
+		return std::sqrt(std::pow(first.m_coord_on_screen.x - second.m_coord_on_screen.x, 2) + std::pow(first.m_coord_on_screen.y - second.m_coord_on_screen.y, 2));
 	}
 
 	double Point::calcDistance(const Point & first, const Point & second) {
@@ -32,15 +32,15 @@ namespace tdrw {
 		this->x = right.x;
 		this->y = right.y;
 		this->z = right.z;
-		this->existance = true;
-		this->coord_on_screen = right.coord_on_screen;
+		this->m_existance = true;
+		this->m_coord_on_screen = right.m_coord_on_screen;
 		return *this;
 	}
 
 	Point::Point() {
-		coord_on_screen.x = -300;
-		coord_on_screen.y = -300;
-		existance = false;
+		m_coord_on_screen.x = -300;
+		m_coord_on_screen.y = -300;
+		m_existance = false;
 		m_normal_exist = false;
 	}
 
@@ -48,9 +48,9 @@ namespace tdrw {
 		x = _point.x;
 		y = _point.y;
 		z = _point.z;
-		existance = true;
+		m_existance = true;
 		m_normal_exist = false;
-		this->coord_on_screen = _point.coord_on_screen;
+		this->m_coord_on_screen = _point.m_coord_on_screen;
 	}
 
 	Point::Point(std::vector<double> coord) {
@@ -61,12 +61,12 @@ namespace tdrw {
 	}
 
 	Point::Point(float x, float y, float z) {
-		coord_on_screen.x = -300;
-		coord_on_screen.y = -300;
+		m_coord_on_screen.x = -300;
+		m_coord_on_screen.y = -300;
 		this->x = x;
 		this->y = y;
 		this->z = z;
-		this->existance = true;
+		this->m_existance = true;
 		m_normal_exist = false;
 	}
 
@@ -74,15 +74,15 @@ namespace tdrw {
 		this->x = x;
 		this->y = y;
 		this->z = z;
-		existance = true;
+		m_existance = true;
 	}
 
 	void Point::setCoord(const Point & _point) {
 		x = _point.x;
 		y = _point.y;
 		z = _point.z;
-		existance = true;
-		this->coord_on_screen = _point.coord_on_screen;
+		m_existance = true;
+		this->m_coord_on_screen = _point.m_coord_on_screen;
 	}
 
 	void Point::setCoord(std::vector<double> coord) {
@@ -91,20 +91,20 @@ namespace tdrw {
 		z = coord[2];
 	}
 
-	void Point::setCoordOnScreen(const sf::Vector2f & coord_on_screen) {
-		this->coord_on_screen = coord_on_screen;
+	void Point::setCoordOnScreen(const sf::Vector2f & m_coord_on_screen) {
+		this->m_coord_on_screen = m_coord_on_screen;
 	}
 
 	bool Point::isExist() const {
-		return existance;
+		return m_existance;
 	}
 
 	bool Point::checkPointByCoordOnScreen(const sf::Vector2f & mouse_position) const {
-		/*if ((mouse_position.x - 2 < this->coord_on_screen.x) && (this->coord_on_screen.x < mouse_position.x + 2) &&
-			(mouse_position.y - 2 < this->coord_on_screen.y) && (this->coord_on_screen.y < mouse_position.y + 2))
+		/*if ((mouse_position.x - 2 < this->m_coord_on_screen.x) && (this->m_coord_on_screen.x < mouse_position.x + 2) &&
+			(mouse_position.y - 2 < this->m_coord_on_screen.y) && (this->m_coord_on_screen.y < mouse_position.y + 2))
 			return true;*/
 
-		if ((std::pow(mouse_position.x - coord_on_screen.x, 2) + std::pow(mouse_position.y - coord_on_screen.y, 2)) <= 16)
+		if ((std::pow(mouse_position.x - m_coord_on_screen.x, 2) + std::pow(mouse_position.y - m_coord_on_screen.y, 2)) <= 16)
 			return true;
 		return false;
 	}
@@ -159,7 +159,7 @@ namespace tdrw {
 	}
 
 	sf::Vector2f Point::getCoordOnScreen() const{
-		return coord_on_screen;
+		return m_coord_on_screen;
 	}
 
 

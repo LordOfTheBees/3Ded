@@ -8,6 +8,8 @@
 #include "CoordinateSystem.h"
 #include "Model.h"
 
+
+
 namespace tdrw {
 	class BinTree {
 	public:
@@ -26,11 +28,11 @@ namespace tdrw {
 
 	class BinaryTree {
 	private:
-		BinTree* tmp;
-		BinTree* root;
-		BinTree* active_node;
+		BinTree* m_tmp;
+		BinTree* m_root;
+		BinTree* m_active_node;
 		Camera m_camera;
-		Point zero_point_of_camera;
+		Point m_zero_point_of_camera;
 		std::vector<Point> m_points;
 
 		bool m_wrong_side_is_active;

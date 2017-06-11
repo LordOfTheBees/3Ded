@@ -9,12 +9,12 @@ namespace tdrw {
 	class CoordinateSystem
 	{
 	private:
-		int size;
+		int m_size;
 		std::vector<std::vector<double>> * m_coord_system;
 		std::vector<std::vector<double>> * m_basis_coord_system;
 		std::vector<std::vector<double>> * m_transition_matrix;
-		Point zero_point;
-		Point zero_point_of_basis;
+		Point m_zero_point;
+		Point m_zero_point_of_basis;
 		bool m_basic_is_exist;
 		bool m_own_is_exist;
 

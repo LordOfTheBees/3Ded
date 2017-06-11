@@ -9,10 +9,10 @@ namespace tdrw {
 	class Point
 	{
 	private:
-		sf::Vector2f coord_on_screen;
+		sf::Vector2f m_coord_on_screen;
 		std::vector<double> m_normal;
 		bool m_normal_exist;
-		bool existance;
+		bool m_existance;
 	protected:
 	public:
 		double x, y, z;

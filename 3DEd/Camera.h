@@ -10,13 +10,13 @@
 namespace tdrw {
 	class Camera {
 	private:
-		sf::Vector2u screen_size;
-		CoordinateSystem coord_system_of_camera;
-		CoordinateSystem world_coord_system;
-		double viewing_angle;//угол обзора
-		double convert_number_x;//постоянная для нахождения x на экране монитора
-		double convert_number_y;//постоянная для нахождения y на экране монитора
-		double radius;
+		sf::Vector2u m_screen_size;
+		CoordinateSystem m_coord_system_of_camera;
+		CoordinateSystem m_world_coord_system;
+		double m_viewing_angle;//угол обзора
+		double m_convert_number_x;//постоянная для нахождения x на экране монитора
+		double m_convert_number_y;//постоянная для нахождения y на экране монитора
+		double m_radius;
 	protected:
 	public:
 		Camera();

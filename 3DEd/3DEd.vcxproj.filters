@@ -37,9 +37,6 @@
     <Filter Include="Заголовочные файлы\Main Element\Coordinate System">
       <UniqueIdentifier>{97a7a1e0-16ef-4c90-bb7d-04c36e28131d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Заголовочные файлы\ObjLoSa">
-      <UniqueIdentifier>{12c80c64-0cb0-45f6-b873-bc707a50c35b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Заголовочные файлы\Editor">
       <UniqueIdentifier>{326bf8f2-3293-4776-8ceb-4b3be7eae3b2}</UniqueIdentifier>
     </Filter>
@@ -74,9 +71,6 @@
     </ClInclude>
     <ClInclude Include="CoordinateSystem.h">
       <Filter>Заголовочные файлы\Main Element\Coordinate System</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjLoSa.h">
-      <Filter>Заголовочные файлы\ObjLoSa</Filter>
     </ClInclude>
     <ClInclude Include="Editor.h">
       <Filter>Заголовочные файлы\Editor</Filter>
@@ -116,9 +110,6 @@
     <ClCompile Include="CoordinateSystem.cpp">
       <Filter>Заголовочные файлы\Main Element\Coordinate System</Filter>
     </ClCompile>
-    <ClCompile Include="ObjLoSa.cpp">
-      <Filter>Заголовочные файлы\ObjLoSa</Filter>
-    </ClCompile>
     <ClCompile Include="Editor.cpp">
       <Filter>Заголовочные файлы\Editor</Filter>
     </ClCompile>
@@ -128,10 +119,5 @@
     <ClCompile Include="HSB.cpp">
       <Filter>Заголовочные файлы\Light\HSB</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Notes.txt">
-      <Filter>Файлы исходного кода</Filter>
-    </Text>
   </ItemGroup>
 </Project>
