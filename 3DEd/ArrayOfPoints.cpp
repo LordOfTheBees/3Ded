@@ -23,9 +23,13 @@ namespace tdrw {
 		return m_all_points.back();
 	}
 
+	void ArrayOfPoints::setAllPoints(const std::vector<Point*> points){
+		m_all_points = points;
+	}
+
 	void ArrayOfPoints::erasePoint(int number) {
-		if (number >= m_all_points.size())
-			return;
+		if ((number >= m_all_points.size()) || (number < 0))
+			throw new std::exception("ArrayOfPoints::erasePoint: wrong number(the selected number exceeds the number of points or it is negative)");
 		std::vector<Point*>::iterator t_it = m_all_points.begin() + number;
 		m_all_points.erase(t_it);
 	}
@@ -37,6 +41,8 @@ namespace tdrw {
 				return;
 			}
 		}
+
+		throw new std::exception("ArrayOfPoints::erasePoint: This ptr point does not exist.");
 	}
 
 	int ArrayOfPoints::getNumOfElement(Point * point) {
@@ -48,6 +54,8 @@ namespace tdrw {
 	}
 
 	Point * ArrayOfPoints::getPtrPoint(int number) {
+		if ((number >= m_all_points.size()) || (number < 0))
+			throw new std::exception("ArrayOfPoints::erasePoint: wrong number(the selected number exceeds the number of points or it is negative)");
 		return m_all_points[number];
 	}
 
@@ -57,6 +65,7 @@ namespace tdrw {
 
 	std::vector<Point*> ArrayOfPoints::getPoint(const sf::Vector2f coord_of_point) {
 		std::vector<Point*> t_points;
+		t_points.clear();
 
 		for (auto& x : m_all_points) {
 			if (x->checkPointByCoordOnScreen(coord_of_point)) {
@@ -68,7 +77,6 @@ namespace tdrw {
 	}
 
 	std::vector<Point*> ArrayOfPoints::getAllPoints() const {
-		//std::cout << m_all_points.size() << std::endl;
 		return m_all_points;
 	}
 

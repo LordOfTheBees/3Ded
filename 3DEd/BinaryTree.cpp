@@ -64,9 +64,8 @@ namespace tdrw {
 		m_camera = camera;
 	}
 
-	void BinaryTree::setZeroPointOfCamera(Point m_zero_point_of_camera)
-	{
-		this->m_zero_point_of_camera = m_zero_point_of_camera;
+	void BinaryTree::setZeroPointOfCamera(Point zero_point_of_camera){
+		this->m_zero_point_of_camera = zero_point_of_camera;
 	}
 
 	void BinaryTree::addElement(const Polygon& polygon) {
@@ -101,6 +100,7 @@ namespace tdrw {
 	}
 
 	void BinaryTree::clear() {
+		delete m_tmp;
 		delete m_root;
 		m_root = nullptr;
 		m_active_node = nullptr;
@@ -111,7 +111,6 @@ namespace tdrw {
 	}
 
 	std::vector<Polygon> BinaryTree::addPolygons() {
-
 		return std::vector<Polygon>();
 	}
 

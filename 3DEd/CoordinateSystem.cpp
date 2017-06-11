@@ -130,7 +130,8 @@ namespace tdrw {
 			}
 		}
 
-		generateTransitionMatrix();
+		if ((m_basic_is_exist) && (m_own_is_exist))
+			generateTransitionMatrix();
 	}
 
 	void CoordinateSystem::rotationAngleOnY(double alpha) {
@@ -159,7 +160,8 @@ namespace tdrw {
 			}
 		}
 
-		generateTransitionMatrix();
+		if ((m_basic_is_exist) && (m_own_is_exist))
+			generateTransitionMatrix();
 	}
 
 	void CoordinateSystem::rotationAngleOnZ(double alpha) {
@@ -189,7 +191,8 @@ namespace tdrw {
 			}
 		}
 
-		generateTransitionMatrix();
+		if ((m_basic_is_exist) && (m_own_is_exist))
+			generateTransitionMatrix();
 	}
 
 	void CoordinateSystem::generateTransitionMatrix() {
@@ -259,6 +262,7 @@ namespace tdrw {
 		}
 		//std::cout << new_coord[0] << " " << new_coord[1] << " " << new_coord[2] << std::endl;
 		Point converted_point(new_coord[0], new_coord[1], new_coord[2]);
+		delete new_coord;
 		return converted_point + m_zero_point - m_zero_point_of_basis;
 		//верно, проверено
 	}

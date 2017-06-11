@@ -5,11 +5,11 @@
 #define KEK std::cout<<"KEK\n"
 
 namespace tdrw {
-	void Model::operator=(const Model & right) {
+	void Model::operator=(const Model & right){
 		if (this != &right) {
 			this->m_polygons.clear();
 			this->m_own_coord_system = right.m_own_coord_system;
-
+			setAllPoints(right.getAllPoints());
 			for (int i = 0; i < right.m_polygons.size(); ++i)
 				this->m_polygons.push_back(right.m_polygons[i]);
 		}
@@ -21,7 +21,7 @@ namespace tdrw {
 	Model::Model(const Model & right) : ArrayOfPoints(right){
 		this->m_polygons.clear();
 		this->m_own_coord_system = right.m_own_coord_system;
-
+		setAllPoints(right.getAllPoints());
 		for (int i = 0; i < right.m_polygons.size(); ++i)
 			this->m_polygons.push_back(right.m_polygons[i]);
 	}

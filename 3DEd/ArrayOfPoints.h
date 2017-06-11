@@ -19,6 +19,7 @@ namespace tdrw {
 
 		//добавляет точку в контейнер без проверки на вхождение
 		Point * addPoint(const Point point);
+		void setAllPoints(const std::vector<Point*> points);
 
 		void erasePoint(int number);
 		void erasePoint(Point * point);

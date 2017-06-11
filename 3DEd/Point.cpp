@@ -108,10 +108,6 @@ namespace tdrw {
 	}
 
 	bool Point::checkPointByCoordOnScreen(const sf::Vector2f & mouse_position) const {
-		/*if ((mouse_position.x - 2 < this->m_coord_on_screen.x) && (this->m_coord_on_screen.x < mouse_position.x + 2) &&
-			(mouse_position.y - 2 < this->m_coord_on_screen.y) && (this->m_coord_on_screen.y < mouse_position.y + 2))
-			return true;*/
-
 		if ((std::pow(mouse_position.x - m_coord_on_screen.x, 2) + std::pow(mouse_position.y - m_coord_on_screen.y, 2)) <= 16)
 			return true;
 		return false;
