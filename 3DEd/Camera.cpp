@@ -23,7 +23,6 @@ namespace tdrw {
 
 		double pi = 3.14159265;
 		coord_system_of_camera.setBasisCoordSystem(world_coord_system);
-		coord_system_of_camera.generateTransitionMatrix();
 		convert_number_x = 1 / (tan(viewing_angle * pi / (2 * 180)) * (screen_size.x / 2));
 		convert_number_x = 1 / (tan(viewing_angle * pi / (2 * 180)) * (screen_size.y / 2));
 	}
@@ -49,9 +48,7 @@ namespace tdrw {
 	void Camera::generateConvertNumber() {
 		double pi = 3.14159265;
 		coord_system_of_camera.setBasisCoordSystem(world_coord_system);
-		coord_system_of_camera.generateTransitionMatrix();
 		world_coord_system.setBasisCoordSystem(coord_system_of_camera);
-		world_coord_system.generateTransitionMatrix();
 		convert_number_x = 1 / (tan(viewing_angle * pi / (2 * 180)) * tan(viewing_angle * pi / (2 * 180)) * (screen_size.x / 2));
 		convert_number_y = convert_number_x;
 		radius = (screen_size.x) / (std::pow(std::tan(viewing_angle * pi / (2 * 180)), 1.0/2.0));//нашёл решение, но с граблями. ПРосто увеличиваю tangens
@@ -74,10 +71,7 @@ namespace tdrw {
 
 	void Camera::setZeroPointOfCoord(const Point & zero_point){
 		coord_system_of_camera.setZeroPointOfCoord(zero_point);
-		world_coord_system.setBasisCoordSystem(coord_system_of_camera);
-		world_coord_system.generateTransitionMatrix();
 		coord_system_of_camera.setBasisCoordSystem(world_coord_system);
-		coord_system_of_camera.generateTransitionMatrix();
 	}
 
 	std::vector<double> Camera::getDirectionOfGaze() const{

@@ -20,18 +20,13 @@ void Editor::start() {
 
 	t_coord_system.setCoordSystem({ { 1, 0, 0 },{ 0, 1, 0 },{ 0, 0, 1 } }, tdrw::Point(0, 0, 0));
 	t_coord_system.setBasisCoordSystem({ { 1, 0, 0 },{ 0, 1, 0 },{ 0, 0, 1 } }, tdrw::Point(0, 0, 0));
-	t_coord_system.generateTransitionMatrix();
-
 
 	m_camera_coord.setCoordSystem({ { 0, 0, 1 },{ 0, 1, 0 },{ 1, 0, 0 } }, tdrw::Point(0, 0, 0));
 	m_camera_coord.setBasisCoordSystem({ { 1, 0, 0 },{ 0, 1, 0 },{ 0, 0, 1 } }, tdrw::Point(0, 0, 0));
-	m_camera_coord.generateTransitionMatrix();
 
 	m_camera.setDataOfCamera(t_coord_system, m_camera_coord, 120, sf::Vector2u(1800, 900));
 	m_camera.generateConvertNumber();
 
-	m_camera_coord.setBasisCoordSystem(t_coord_system);
-	m_camera_coord.generateTransitionMatrix();
 	m_light_coord_system = m_camera_coord;
 	m_light.activeSurfaceType(m_light_coord_system);
 	
@@ -51,12 +46,13 @@ void Editor::start() {
 	std::cout << "\t3 - gourd.obj\n";
 	std::cout << "\t4 - DNA.obj\n";
 	std::cout << "\t5 - moby.obj\n";
-	std::cout << "\t6 - save_file.obj\n";
-	std::cout << "\t7 - Another choise(write file's path)\n";
+	std::cout << "\t6 - pen.obj\n";
+	std::cout << "\t7 - save_file.obj\n";
+	std::cout << "\t8 - Another choise(write file's path)\n";
 	while (true) {
 		std::cout << "Your number : ";
 		std::cin >> t_choose;
-		if ((t_choose <= 0) || (t_choose >7))
+		if ((t_choose <= 0) || (t_choose >8))
 			std::cout << "Wrong number. Try again.\n";
 		else
 			break;
@@ -81,9 +77,12 @@ void Editor::start() {
 		m_object.load("moby.obj");
 		break;
 	case 6:
-		m_object.load("save_file.obj");
+		m_object.load("pen.obj");
 		break;
 	case 7:
+		m_object.load("save_file.obj");
+		break;
+	case 8:
 		std::cout << "Write string path : ";
 		std::cin >> t_str_path;
 		m_object.load(t_str_path);
@@ -372,32 +371,32 @@ bool Editor::moveCamera(){
 					drawAllElement();
 					break;
 				case sf::Keyboard::Numpad7:
-					m_camera.rotationAngleOnX(-10);
+					m_camera.rotationAngleOnX(-1);
 					m_window->setCamera(m_camera);
 					drawAllElement();
 					break;
 				case sf::Keyboard::Numpad9:
-					m_camera.rotationAngleOnX(10);
+					m_camera.rotationAngleOnX(1);
 					m_window->setCamera(m_camera);
 					drawAllElement();
 					break;
 				case sf::Keyboard::Numpad4:
-					m_camera.rotationAngleOnY(-10);
+					m_camera.rotationAngleOnY(-1);
 					m_window->setCamera(m_camera);
 					drawAllElement();
 					break;
 				case sf::Keyboard::Numpad6:
-					m_camera.rotationAngleOnY(10);
+					m_camera.rotationAngleOnY(1);
 					m_window->setCamera(m_camera);
 					drawAllElement();
 					break;
 				case sf::Keyboard::Numpad1:
-					m_camera.rotationAngleOnZ(-10);
+					m_camera.rotationAngleOnZ(-1);
 					m_window->setCamera(m_camera);
 					drawAllElement();
 					break;
 				case sf::Keyboard::Numpad3:
-					m_camera.rotationAngleOnZ(10);
+					m_camera.rotationAngleOnZ(1);
 					m_window->setCamera(m_camera);
 					drawAllElement();
 					break;

@@ -13,9 +13,17 @@ namespace tdrw {
 		m_basis_coord_system = new std::vector<std::vector<double>>(size, std::vector<double>(size));
 		m_transition_matrix = new std::vector<std::vector<double>>(size, std::vector<double>(size));
 
-		*m_coord_system = *right.m_coord_system;
-		*m_basis_coord_system = *right.m_basis_coord_system;
-		*m_transition_matrix = *right.m_transition_matrix;
+		m_own_is_exist = right.m_own_is_exist;
+		m_basic_is_exist = right.m_basic_is_exist;
+
+		if (right.m_basic_is_exist)
+			*m_basis_coord_system = *right.m_basis_coord_system;
+
+		if (right.m_own_is_exist)
+			*m_coord_system = *right.m_coord_system;
+
+		if ((right.m_basic_is_exist) && (right.m_own_is_exist))
+			*m_transition_matrix = *right.m_transition_matrix;
 
 		this->zero_point_of_basis = right.zero_point_of_basis;
 		this->zero_point = right.zero_point;
@@ -23,6 +31,8 @@ namespace tdrw {
 	}
 
 	CoordinateSystem::CoordinateSystem() {
+		m_own_is_exist = false;
+		m_basic_is_exist = false;
 		size = 3;
 
 		m_coord_system = new std::vector<std::vector<double>>(size, std::vector<double>(size));
@@ -37,33 +47,57 @@ namespace tdrw {
 		m_basis_coord_system = new std::vector<std::vector<double>>(size, std::vector<double>(size));
 		m_transition_matrix = new std::vector<std::vector<double>>(size, std::vector<double>(size));
 
-		*m_coord_system = *right.m_coord_system;
-		*m_basis_coord_system = *right.m_basis_coord_system;
-		*m_transition_matrix = *right.m_transition_matrix;
+		m_own_is_exist = right.m_own_is_exist;
+		m_basic_is_exist = right.m_basic_is_exist;
+
+		if(right.m_basic_is_exist)
+			*m_basis_coord_system = *right.m_basis_coord_system;
+
+		if(right.m_own_is_exist)
+			*m_coord_system = *right.m_coord_system;
+
+		if((right.m_basic_is_exist) && (right.m_own_is_exist))
+			*m_transition_matrix = *right.m_transition_matrix;
 
 		this->zero_point_of_basis = right.zero_point_of_basis;
 		this->zero_point = right.zero_point;
 	}
 
 	void CoordinateSystem::setBasisCoordSystem(std::vector<std::vector<double>> b_c_s, const Point & zer) {
+		m_basic_is_exist = true;
 		*m_basis_coord_system = b_c_s;
 		zero_point_of_basis = zer;
+
+		if (m_own_is_exist)
+			generateTransitionMatrix();
 	}
 
 	void CoordinateSystem::setBasisCoordSystem(const CoordinateSystem & coord) {
+		m_basic_is_exist = true;
 		*m_basis_coord_system = *coord.m_coord_system;
 		zero_point_of_basis = coord.zero_point;
+
+		if (m_own_is_exist)
+			generateTransitionMatrix();
 	}
 
 	void CoordinateSystem::setCoordSystem(std::vector<std::vector<double>> c_s, Point& zer) {
+		m_own_is_exist = true;
 		this->zero_point = zer;
 		*m_coord_system = c_s;
+
+		if (m_basic_is_exist)
+			generateTransitionMatrix();
 	}
 
 	void CoordinateSystem::setCoordSystem(const CoordinateSystem & r_value) {
+		m_own_is_exist = true;
 		this->zero_point = r_value.zero_point;
 		this->size = r_value.size;
 		*m_coord_system = *r_value.m_coord_system;
+		
+		if (m_basic_is_exist)
+			generateTransitionMatrix();
 	}
 
 	void CoordinateSystem::setZeroPointOfCoord(const Point & zero_point) {
@@ -71,6 +105,8 @@ namespace tdrw {
 	}
 
 	void CoordinateSystem::rotationAngleOnX(double alpha) {
+		if (!m_own_is_exist)
+			new std::exception("own coord system dousn't exist");
 		double i_pi = 3.14159265;
 		double i_alpha = alpha * i_pi / (2 * 180);
 
@@ -98,6 +134,8 @@ namespace tdrw {
 	}
 
 	void CoordinateSystem::rotationAngleOnY(double alpha) {
+		if (!m_own_is_exist)
+			new std::exception("own coord system dousn't exist");
 		double i_pi = 3.14159265;
 		double i_alpha = alpha * i_pi / (2 * 180);
 
@@ -125,6 +163,8 @@ namespace tdrw {
 	}
 
 	void CoordinateSystem::rotationAngleOnZ(double alpha) {
+		if (!m_own_is_exist)
+			new std::exception("own coord system dousn't exist");
 		double i_pi = 3.14159265;
 		double i_alpha = alpha * i_pi / (2 * 180);
 
@@ -172,6 +212,19 @@ namespace tdrw {
 				tmp_coord_system[i][j] = (*m_coord_system)[i][j];
 				(*m_transition_matrix)[i][j] = (*m_basis_coord_system)[i][j];
 			}
+
+		for (int i = 0; i < size; ++i) {
+			if (tmp_coord_system[i][i] == 0) {
+				for (int j = 0; j < size; ++j) {
+					if (tmp_coord_system[j][i] != 0) {
+						for (int t = 0; t < size; ++t) {
+							tmp_coord_system[i][t] += tmp_coord_system[j][t];
+						}
+						break;
+					}
+				}
+			}
+		}
 
 		int d1[3] = { 1, 0, 0 };
 		int d2[3] = { 2, 2, 1 };

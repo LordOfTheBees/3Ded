@@ -15,6 +15,10 @@ namespace tdrw {
 		std::vector<std::vector<double>> * m_transition_matrix;
 		Point zero_point;
 		Point zero_point_of_basis;
+		bool m_basic_is_exist;
+		bool m_own_is_exist;
+
+		void generateTransitionMatrix();
 	protected:
 	public:
 		CoordinateSystem& operator=(const CoordinateSystem& right);
@@ -31,7 +35,6 @@ namespace tdrw {
 		void rotationAngleOnX(double alpha);
 		void rotationAngleOnY(double alpha);
 		void rotationAngleOnZ(double alpha);
-		void generateTransitionMatrix();
 		Point convertToBasis(const Point& point) const;
 
 		std::vector<std::vector<double>> CoordinateSystem::getMatrixOfCoord() const;

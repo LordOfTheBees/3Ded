@@ -32,7 +32,6 @@ namespace tdrw {
 
 	void Model::setWorldCoordSystem(const CoordinateSystem& world_coord_system) {
 		this->m_own_coord_system.setBasisCoordSystem(world_coord_system);
-		this->m_own_coord_system.generateTransitionMatrix();
 	}
 
 	//==============

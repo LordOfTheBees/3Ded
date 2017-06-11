@@ -1,23 +1,4 @@
-﻿  TDRenderWindow.cpp
-c:\users\avito\3ded\3ded\tdrenderwindow.cpp(181): warning C4101: t_bsp_thread: неиспользованная локальная переменная
-c:\users\avito\3ded\3ded\tdrenderwindow.cpp(181): warning C4101: t_coord_thread: неиспользованная локальная переменная
-  Source.cpp
-  Light.cpp
-  Editor.cpp
-c:\users\avito\3ded\3ded\editor.cpp(46): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-c:\users\avito\3ded\3ded\editor.cpp(164): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-c:\users\avito\3ded\3ded\editor.cpp(169): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-c:\users\avito\3ded\3ded\editor.cpp(174): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-c:\users\avito\3ded\3ded\editor.cpp(179): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-c:\users\avito\3ded\3ded\editor.cpp(184): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-c:\users\avito\3ded\3ded\editor.cpp(189): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-c:\users\avito\3ded\3ded\editor.cpp(331): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\avito\3ded\3ded\editor.cpp(408): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-  Camera.cpp
-c:\users\avito\3ded\3ded\camera.cpp(102): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-  BinaryTree.cpp
-  Создание кода...
-  LINK : не найден или не выполнена сборка C:\Users\avito\3Ded\x64\Debug\3DEd.exe при последней инкрементной компоновке; выполняется полная компоновка
-HSB.obj : warning LNK4099: "vc141.pdb" PDB не найден с "HSB.obj" или на "C:\Users\avito\3Ded\x64\Debug\vc141.pdb"; компоновка объекта выполняется как при отсутствии отладочных данных
+﻿  CoordinateSystem.cpp
+c:\users\avito\3ded\3ded\coordinatesystem.cpp(261): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
   3DEd.vcxproj -> C:\Users\avito\3Ded\x64\Debug\3DEd.exe
   3DEd.vcxproj -> C:\Users\avito\3Ded\x64\Debug\3DEd.pdb (Partial PDB)
