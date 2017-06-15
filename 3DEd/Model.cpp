@@ -241,7 +241,12 @@ namespace tdrw {
 			if (t_data.m_type == "f") {
 				std::vector<Point*> t_point;
 				for (auto x : t_data.m_vertices) {
-					t_point.push_back(getPtrPoint(x-1));
+					if (x < 0) {
+						t_point.push_back(getPtrPoint(ArrayOfPoints::size() + x));
+					}
+					else {
+						t_point.push_back(getPtrPoint(x - 1));
+					}
 				}
 				addPolygon(t_point, sf::Color::White);
 			}

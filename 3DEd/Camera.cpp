@@ -21,10 +21,7 @@ namespace tdrw {
 		this->m_viewing_angle = m_viewing_angle;
 		this->m_screen_size = m_screen_size;
 
-		double pi = 3.14159265;
-		m_coord_system_of_camera.setBasisCoordSystem(m_world_coord_system);
-		m_convert_number_x = 1 / (tan(m_viewing_angle * pi / (2 * 180)) * (m_screen_size.x / 2));
-		m_convert_number_x = 1 / (tan(m_viewing_angle * pi / (2 * 180)) * (m_screen_size.y / 2));
+		generateConvertNumber();
 	}
 
 	void Camera::setWorldCoordSystem(const CoordinateSystem & world_system) {
@@ -49,12 +46,7 @@ namespace tdrw {
 		double pi = 3.14159265;
 		m_coord_system_of_camera.setBasisCoordSystem(m_world_coord_system);
 		m_world_coord_system.setBasisCoordSystem(m_coord_system_of_camera);
-		m_convert_number_x = 1 / (tan(m_viewing_angle * pi / (2 * 180)) * tan(m_viewing_angle * pi / (2 * 180)) * (m_screen_size.x / 2));
-		m_convert_number_y = m_convert_number_x;
-		m_radius = (m_screen_size.x) / (std::pow(std::tan(m_viewing_angle * pi / (2 * 180)), 1.0/2.0));//нашёл решение, но с граблями. ПРосто увеличиваю tangens
-		//m_convert_number_y = 1 / (tan(m_viewing_angle * pi / (2 * 180)) * (m_screen_size.y / 2));
-		/*m_convert_number_x = 2;
-		m_convert_number_y = 2;*/
+		m_radius = (m_screen_size.x) / (std::pow(std::tan(m_viewing_angle * pi / (2 * 180)), 1.0 / 3.0));
 	}
 
 	void Camera::rotationAngleOnX(double alpha){

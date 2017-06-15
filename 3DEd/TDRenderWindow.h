@@ -53,7 +53,7 @@ namespace tdrw {
 
 		ThreadHelper m_thread_helper;
 		std::thread * m_thread_set_coord;
-		friend void threadSetCoord(ThreadHelper * thread_helper, Camera * camera);
+		friend static void threadSetCoord(ThreadHelper * thread_helper, Camera * camera);
 
 		void drawModelsSystemCoord(const Model& model);
 	protected:

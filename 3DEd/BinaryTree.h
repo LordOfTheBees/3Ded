@@ -21,6 +21,7 @@ namespace tdrw {
 		std::vector<double> coefficient;//a*x, b*y, c*z, d
 		bool side_of_camera;//находится путём подставления координаты точки начала камеры в уравнения и деления на модуль полученного 
 
+
 		~BinTree();
 	};
 

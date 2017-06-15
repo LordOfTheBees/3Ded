@@ -6,12 +6,12 @@ namespace tdrw {
 		m_light_type = point;
 	}
 
-	void Light::activeSurfaceType(const CoordinateSystem & coord_system){
+	void Light::activeFreeDirect(const CoordinateSystem & coord_system){
 		m_light_type = surface;
 		m_direction_z = coord_system.getZAxis();
 	}
 
-	void Light::activePointType(const Point& zero_point){
+	void Light::activeOmni(const Point& zero_point){
 		m_light_type = point;
 		m_zero_point = zero_point;
 	}

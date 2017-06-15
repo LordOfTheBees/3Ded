@@ -60,16 +60,16 @@ namespace tdrw {
 		m_active_node = nullptr;
 	}
 
-	void BinaryTree::setCamera(const Camera & camera){
+	void BinaryTree::setCamera(const Camera & camera) {
 		m_camera = camera;
 	}
 
-	void BinaryTree::setZeroPointOfCamera(Point zero_point_of_camera){
+	void BinaryTree::setZeroPointOfCamera(Point zero_point_of_camera) {
 		this->m_zero_point_of_camera = zero_point_of_camera;
 	}
 
 	void BinaryTree::addElement(const Polygon& polygon) {
-		m_tmp = new BinTree;		
+		m_tmp = new BinTree;
 		m_tmp->coefficient = polygon.getNormal();
 
 		if (!m_wrong_side_is_active) {
@@ -100,13 +100,13 @@ namespace tdrw {
 	}
 
 	void BinaryTree::clear() {
-		delete m_tmp;
+		//delete m_tmp;
 		delete m_root;
 		m_root = nullptr;
 		m_active_node = nullptr;
 	}
 
-	void BinaryTree::activeWrongSide(bool switcher){
+	void BinaryTree::activeWrongSide(bool switcher) {
 		m_wrong_side_is_active = switcher;
 	}
 

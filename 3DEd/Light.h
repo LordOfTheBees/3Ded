@@ -17,8 +17,8 @@ namespace tdrw {
 	public:
 		Light();
 
-		void activeSurfaceType(const CoordinateSystem & coord_system);//requires only z axis and ZeroPoint
-		void activePointType(const Point& point);
+		void activeFreeDirect(const CoordinateSystem & coord_system);//requires only z axis and ZeroPoint
+		void activeOmni(const Point& point);
 
 		sf::Color getTransformColor(const Polygon& polygon);
 		sf::Color getTransformColor(const Point& point, sf::Color color);

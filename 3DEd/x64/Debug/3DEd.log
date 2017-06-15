@@ -1,4 +1,18 @@
-﻿  CoordinateSystem.cpp
-c:\users\avito\3ded\3ded\coordinatesystem.cpp(261): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+﻿  TDRenderWindow.cpp
+c:\users\avito\3ded\3ded\tdrenderwindow.cpp(244): warning C4101: t_bsp_thread: неиспользованная локальная переменная
+c:\users\avito\3ded\3ded\tdrenderwindow.cpp(244): warning C4101: t_coord_thread: неиспользованная локальная переменная
+  Source.cpp
+  Editor.cpp
+c:\users\avito\3ded\3ded\editor.cpp(97): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+c:\users\avito\3ded\3ded\editor.cpp(262): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+c:\users\avito\3ded\3ded\editor.cpp(267): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+c:\users\avito\3ded\3ded\editor.cpp(272): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+c:\users\avito\3ded\3ded\editor.cpp(277): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+c:\users\avito\3ded\3ded\editor.cpp(282): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+c:\users\avito\3ded\3ded\editor.cpp(287): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+c:\users\avito\3ded\3ded\editor.cpp(429): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\avito\3ded\3ded\editor.cpp(506): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+  BinaryTree.cpp
+  Создание кода...
   3DEd.vcxproj -> C:\Users\avito\3Ded\x64\Debug\3DEd.exe
   3DEd.vcxproj -> C:\Users\avito\3Ded\x64\Debug\3DEd.pdb (Partial PDB)

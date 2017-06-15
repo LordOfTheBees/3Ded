@@ -150,7 +150,6 @@ namespace tdrw {
 	}
 
 	TDRenderWindow::TDRenderWindow() {
-		m_bsp_tree = nullptr;
 		m_frame_exist = true;
 		m_color_exist = true;
 
@@ -162,6 +161,8 @@ namespace tdrw {
 		m_allocation_of_points_is_on = false;
 
 		m_thread_set_coord = new std::thread(threadSetCoord, &m_thread_helper, &m_camera);
+
+		m_bsp_tree = new BinaryTree();
 	}
 
 	TDRenderWindow::TDRenderWindow(sf::VideoMode video_mode, std::string title) {
@@ -177,7 +178,7 @@ namespace tdrw {
 		m_draw_models_system_coord_is_on = true;
 		m_allocation_of_points_is_on = false;
 
-		m_bsp_tree = nullptr;
+		m_bsp_tree = new BinaryTree();
 		sf::RenderWindow::create(video_mode, title);
 	}
 
@@ -255,8 +256,7 @@ namespace tdrw {
 
 	void TDRenderWindow::clear(sf::Color color) {
 		m_models.clear();
-		delete m_bsp_tree;
-		m_bsp_tree = nullptr;
+		m_bsp_tree->clear();
 
 		sf::RenderWindow::clear(color);
 	}
@@ -276,7 +276,6 @@ namespace tdrw {
 		//QueryPerformanceFrequency((LARGE_INTEGER *)&m_tps);
 		//QueryPerformanceCounter((LARGE_INTEGER *)&m_start);
 
-		m_bsp_tree = new BinaryTree;
 		m_bsp_tree->setCamera(m_camera);
 		m_bsp_tree->activeWrongSide(m_wrong_side_is_on);
 		m_bsp_tree->setZeroPointOfCamera(this->m_camera.getZeroPointOfCamera());

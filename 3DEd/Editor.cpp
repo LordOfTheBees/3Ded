@@ -13,11 +13,11 @@ void Editor::drawAllElement(){
 }
 
 void Editor::start() {
-	m_window = new tdrw::TDRenderWindow(sf::VideoMode(1800, 900), "Kek");
+	m_window = new tdrw::TDRenderWindow(sf::VideoMode(1900, 900), "Kek");
 	tdrw::Point zero;
 	tdrw::CoordinateSystem t_coord_system;
 	tdrw::CoordinateSystem m_camera_coord;
-
+	
 	t_coord_system.setCoordSystem({ { 1, 0, 0 },{ 0, 1, 0 },{ 0, 0, 1 } }, tdrw::Point(0, 0, 0));
 	t_coord_system.setBasisCoordSystem({ { 1, 0, 0 },{ 0, 1, 0 },{ 0, 0, 1 } }, tdrw::Point(0, 0, 0));
 
@@ -28,7 +28,7 @@ void Editor::start() {
 	m_camera.generateConvertNumber();
 
 	m_light_coord_system = m_camera_coord;
-	m_light.activeSurfaceType(m_light_coord_system);
+	m_light.activeFreeDirect(m_light_coord_system);
 	
 
 	m_window->setLight(m_light);
@@ -84,7 +84,8 @@ void Editor::start() {
 		break;
 	case 8:
 		std::cout << "Write string path : ";
-		std::cin >> t_str_path;
+		std::cin.get();
+		std::getline(std::cin,  t_str_path);
 		m_object.load(t_str_path);
 	default:
 		break;
@@ -151,11 +152,11 @@ void Editor::start() {
 				case sf::Keyboard::L: {
 					if (a_light_type) {
 						a_light_type = false;
-						m_light.activePointType(m_light_point);
+						m_light.activeOmni(m_light_point);
 					}
 					else {
 						a_light_type = true;
-						m_light.activeSurfaceType(m_light_coord_system);
+						m_light.activeFreeDirect(m_light_coord_system);
 					}
 					m_window->setLight(m_light);
 					drawAllElement();
