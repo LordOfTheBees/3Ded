@@ -233,6 +233,26 @@ void Editor::start() {
 					break;
 				}
 
+					//Helper
+				case sf::Keyboard::H: {
+					std::cout << "=======Helper=======\n";
+					std::cout << "<Esc> - exit from the program\n";
+					std::cout << "<W> (wrong side) - on/off rendering of polygons whose normals are collinear with the direction of the camera (“revolute” polygons)\n";
+					std::cout << "<S> (coord system) - on/off display of coordinate system in the model\n";
+					std::cout << "<D> (dots) - on/off drawing over dots circles\n";
+					std::cout << "<F> (frame) - on/off rendering of a skeleton model\n";
+					std::cout << "<G> (gradient) - the change with the monotonous colors on the gradient and back\n";
+					std::cout << "<C> (color) - on/off rendering of the colors of the polygons cease to draw triangles\n";
+					std::cout << "<L> (light) - change the type of light\n";
+					std::cout << "<N> (new) - save the model. You will need to answer the query in the console file name and path\n";
+					std::cout << "<F1> - movement model\n";
+					std::cout << "<F2> - moves the camera\n";
+					std::cout << "<F3> - control point\n";
+					std::cout << "<F4> - control polygons\n";
+					std::cout << "====================\n";
+					break;
+				}
+
 					//Exit
 				case sf::Keyboard::Escape: {
 					m_object.save("save_file.obj");
@@ -314,6 +334,13 @@ bool Editor::moveObject()
 				case sf::Keyboard::P:
 					std::cout << "\t End move Object\n";
 					return true;
+				case sf::Keyboard::H: {
+					std::cout << "\t=======Helper=======\n";
+					std::cout << "\t<Num2, num8>, <down, up>, <left, right> - move the point along coordinate axes (-+x -+y -+z, respectively)\n";
+					std::cout << "\t<Num9, num7>, <num6, num4>, <num3, num1> - rotation of the model about the coordinate axes (rotation of the coordinate system of the model relative to axes x, y and z respectively)\n";
+					std::cout << "\t====================\n";
+					break;
+				}
 				default:
 					break;
 				}
@@ -404,6 +431,13 @@ bool Editor::moveCamera(){
 				case sf::Keyboard::P:
 					std::cout << "\t End move Camera\n";
 					return true;
+				case sf::Keyboard::H: {
+					std::cout << "\t=======Helper=======\n";
+					std::cout << "\t<Num2, num8>, <down, up>, <left, right> - move the point along coordinate axes (-+x -+y -+z, respectively)\n";
+					std::cout << "\t<Num9, num7>, <num6, num4>, <num3, num1> - rotation of the model about the coordinate axes (rotation of the coordinate system of the model relative to axes x, y and z respectively)\n";
+					std::cout << "\t====================\n";
+					break;
+				}
 				default:
 					break;
 				}
@@ -441,6 +475,13 @@ bool Editor::controlPolygons(){
 					std::cout << "\t End select Polygon\n";
 					return true;
 				}
+				case sf::Keyboard::H: {
+					std::cout << "\t=======Helper=======\n";
+					std::cout << "\t<N> - create a new polygon. First, you want to answer the query in the console – the number of points in the polygon. Then it takes the mouse to select the points and press <Enter>\n";
+					std::cout << "\t<Left Mouse Button > - if there was a hit on range, then it will be possible to change\n";
+					std::cout << "\t====================\n";
+					break;
+				}
 				default:
 					break;
 				}
@@ -454,15 +495,41 @@ bool Editor::controlPolygons(){
 bool Editor::changeSelectedPolygon(){
 	std::cout << "\t\tPls, change selected polygon...\n";
 	sf::Event event;
+	sf::Vector2i t_mouse_position;
+	tdrw::Polygon * t_tmp_polygon;
 	sf::Color t_save_color = m_selected_polygon->getColor();
 	std::vector<tdrw::Point*> t_tmp_points;
 
 	m_selected_polygon->setColor(sf::Color::Blue);
-	m_window->clear(sf::Color::Black);
-	m_window->draw(m_object);
-	m_window->display();
+	drawAllElement();
 	while (m_window->isOpen()) {
 		while (m_window->pollEvent(event)) {
+			if (event.type == sf::Event::MouseButtonPressed) {
+				switch (event.key.code) {
+				case sf::Mouse::Left:
+					t_mouse_position = sf::Mouse::getPosition(*m_window);
+					t_tmp_polygon = m_window->getPolygonToControl(sf::Vector2f(t_mouse_position.x, t_mouse_position.y));
+					if (t_tmp_polygon != m_selected_polygon) {
+						m_selected_polygon->setColor(t_save_color);
+
+						t_save_color = t_tmp_polygon->getColor();
+						t_tmp_polygon->setColor(sf::Color::Blue);
+
+						m_selected_polygon = t_tmp_polygon;
+
+						drawAllElement();
+					}
+					else if (t_tmp_polygon == m_selected_polygon) {
+						m_selected_polygon->setColor(t_save_color);
+						drawAllElement();
+						std::cout << "\t\tEnd change Polygon\n";
+						return true;
+					}
+					break;
+				default:
+					break;
+				}
+			}
 			if (event.type == sf::Event::KeyPressed) {
 				switch (event.key.code) {
 					//Change normal
@@ -480,6 +547,13 @@ bool Editor::changeSelectedPolygon(){
 					std::cout << "\t\tEnd change Polygon\n";
 					return true;
 					break;
+				case sf::Keyboard::H: {
+					std::cout << "\t\t=======Helper=======\n";
+					std::cout << "\t\t<N> - change the direction normal\n";
+					std::cout << "\t\t<C> - change color. You will need to respond to the request in the console. Color in the format RGB (R, G, and B range from 0 – 255).\n";
+					std::cout << "\t\t====================\n";
+					break;
+				}
 				default:
 					break;
 				}
@@ -505,7 +579,13 @@ bool Editor::controlPoints()
 					std::cout << "\t(" << t_mouse_position.x << ", " << t_mouse_position.y << ")\n";
 					m_selected_point = m_window->getPointToControl(sf::Vector2f(t_mouse_position.x, t_mouse_position.y));
 					if (m_selected_point != nullptr) {
+						m_selected_point->setActive(true);
+						drawAllElement();
+
 						moveSelectedPoint();
+
+						m_selected_point->setActive(false);
+						drawAllElement();
 					}
 					break;
 				default:
@@ -517,6 +597,13 @@ bool Editor::controlPoints()
 				case sf::Keyboard::P: {
 					std::cout << "\t End select Point\n";
 					return true;
+				}
+				case sf::Keyboard::H: {
+					std::cout << "\t =======Helper=======\n";
+					std::cout << "\t<N> - create new point. Will request in the console, where you will need to enter the coordinates of the new point. Coordinates are in the coordinate system of the model\n";
+					std::cout << "\t<Left Mouse Button> - if there is a hit point, then it will be possible to move\n";
+					std::cout << "\t ====================\n";
+					break;
 				}
 				default:
 					break;
@@ -531,9 +618,31 @@ bool Editor::controlPoints()
 bool Editor::moveSelectedPoint()
 {
 	std::cout << "\t\t Pls, move selected Point...\n";
+	sf::Vector2i t_mouse_position;
+	tdrw::Point * t_tmp_point;
 	sf::Event event;
 	while (m_window->isOpen()) {
 		while (m_window->pollEvent(event)) {
+			if (event.type == sf::Event::MouseButtonPressed) {
+				switch (event.key.code) {
+				case sf::Mouse::Left:
+					t_mouse_position = sf::Mouse::getPosition(*m_window);
+					t_tmp_point = m_window->getPointToControl(sf::Vector2f(t_mouse_position.x, t_mouse_position.y));
+					if (t_tmp_point != m_selected_point) {
+						m_selected_point->setActive(false);
+						t_tmp_point->setActive(true);
+						m_selected_point = t_tmp_point;
+						drawAllElement();
+					}
+					else if (t_tmp_point == m_selected_point) {
+						std::cout << "\t\t End move selected Point\n";
+						return true;
+					}
+					break;
+				default:
+					break;
+				}
+			}
 			if (event.type == sf::Event::KeyPressed) {
 				switch (event.key.code) {
 				case sf::Keyboard::Left:
@@ -558,12 +667,16 @@ bool Editor::moveSelectedPoint()
 					std::cout << "\t\t End move selected Point\n";
 					return true;
 					break;
+				case sf::Keyboard::H: {
+					std::cout << "\t\t=======Helper=======\n";
+					std::cout << "\t\t<Num2, num8>, <down, up>, <left, right> - move the point along coordinate axes (-+x -+y -+z, respectively)\n";
+					std::cout << "\t\t====================\n";
+					break;
+				}
 				default:
 					break;
 				}
-				m_window->clear(sf::Color::Black);
-				m_window->draw(m_object);
-				m_window->display();
+				drawAllElement();
 			}
 		}
 	}

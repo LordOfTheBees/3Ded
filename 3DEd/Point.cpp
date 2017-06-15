@@ -33,6 +33,7 @@ namespace tdrw {
 		this->z = right.z;
 		this->m_number_of_uses = right.m_number_of_uses;
 		this->m_coord_on_screen = right.m_coord_on_screen;
+		this->m_is_active = right.m_is_active;
 		return *this;
 	}
 
@@ -41,6 +42,7 @@ namespace tdrw {
 		m_coord_on_screen.y = -300;
 		m_number_of_uses = 0;
 		m_normal_exist = false;
+		m_is_active = false;
 	}
 
 	Point::Point(const Point & _point) {
@@ -50,14 +52,18 @@ namespace tdrw {
 		m_number_of_uses = _point.m_number_of_uses;
 		m_normal_exist = false;
 		this->m_coord_on_screen = _point.m_coord_on_screen;
+		m_is_active = _point.m_is_active;
 	}
 
 	Point::Point(std::vector<double> coord) {
+		m_coord_on_screen.x = -300;
+		m_coord_on_screen.y = -300;
 		x = coord[0];
 		y = coord[1];
 		z = coord[2];
 		m_number_of_uses = 0;
 		m_normal_exist = false;
+		m_is_active = false;
 	}
 
 	Point::Point(float x, float y, float z) {
@@ -68,6 +74,7 @@ namespace tdrw {
 		this->z = z;
 		m_number_of_uses = 0;
 		m_normal_exist = false;
+		m_is_active = false;
 	}
 
 	void Point::setCoord(float x, float y, float z) {
@@ -93,12 +100,20 @@ namespace tdrw {
 		this->m_coord_on_screen = m_coord_on_screen;
 	}
 
+	void Point::setActive(bool switcher){
+		m_is_active = switcher;
+	}
+
 	void Point::upUseNumber(unsigned int num){
 		m_number_of_uses = +num;
 	}
 
 	void Point::downUseNumber(unsigned int num){
 		m_number_of_uses -= num;
+	}
+
+	bool Point::isActive() const{
+		return m_is_active;
 	}
 
 	bool Point::isUsed() const{
@@ -108,7 +123,7 @@ namespace tdrw {
 	}
 
 	bool Point::checkPointByCoordOnScreen(const sf::Vector2f & mouse_position) const {
-		if ((std::pow(mouse_position.x - m_coord_on_screen.x, 2) + std::pow(mouse_position.y - m_coord_on_screen.y, 2)) <= 16)
+		if ((std::pow(mouse_position.x - m_coord_on_screen.x, 2) + std::pow(mouse_position.y - m_coord_on_screen.y, 2)) <= 25)
 			return true;
 		return false;
 	}

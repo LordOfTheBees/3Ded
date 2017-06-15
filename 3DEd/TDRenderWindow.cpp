@@ -133,7 +133,10 @@ namespace tdrw {
 				t_tmp_coord.y -= 3;
 				t_allocated_point = new sf::CircleShape;
 				t_allocated_point->setRadius(4);
-				t_allocated_point->setFillColor(sf::Color::Green);
+				if (x->isActive())
+					t_allocated_point->setFillColor(sf::Color::Blue);
+				else
+					t_allocated_point->setFillColor(sf::Color::Green);
 				t_allocated_point->setPosition(t_tmp_coord);
 				sf::RenderWindow::draw(*t_allocated_point);
 				delete t_allocated_point;

@@ -12,6 +12,7 @@ namespace tdrw {
 		sf::Vector2f m_coord_on_screen;
 		std::vector<double> m_normal;
 		bool m_normal_exist;
+		bool m_is_active;
 
 		unsigned int m_number_of_uses;
 	protected:
@@ -37,10 +38,12 @@ namespace tdrw {
 		void setCoord(const Point& _point);
 		void setCoord(std::vector<double> coord);
 		void setCoordOnScreen(const sf::Vector2f& coord_on_screen);
+		void setActive(bool switcher);
 
 		void upUseNumber(unsigned int num = 1);
 		void downUseNumber(unsigned int num = 1);
 
+		bool isActive() const;
 		bool isUsed() const;
 		bool checkPointByCoordOnScreen(const sf::Vector2f& mouse_position) const;
 
