@@ -80,6 +80,22 @@ namespace tdrw {
 		return m_all_points;
 	}
 
+	std::vector<Point*> ArrayOfPoints::getUnusablePoints() const{
+		return m_unusable_points;
+	}
+
+	bool ArrayOfPoints::fillVectorWithUnusablePoints() {
+		m_unusable_points.clear();
+		bool check = false;
+		for (auto x : m_all_points) {
+			if (!x->isUsed()) {
+				m_unusable_points.push_back(x);
+				check = true;
+			}
+		}
+		return check;
+	}
+
 
 	void ArrayOfPoints::deleteUnusablePoints() {
 		Point * t_point = nullptr;
@@ -93,6 +109,8 @@ namespace tdrw {
 					break;
 			}
 		}
+
+		m_unusable_points.clear();
 	}
 
 	ArrayOfPoints::~ArrayOfPoints(){

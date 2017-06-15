@@ -32,9 +32,11 @@ public:
 
 	bool controlPolygons();
 	bool changeSelectedPolygon();
+	bool createNewPolygon();
 
 	bool controlPoints();
 	bool moveSelectedPoint();
+	bool createNewPoint();
 
 	~Editor();
 };

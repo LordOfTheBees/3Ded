@@ -9,6 +9,7 @@ namespace tdrw {
 	{
 	private:
 		std::vector<Point*> m_all_points;
+		std::vector<Point*> m_unusable_points;
 	protected:
 	public:
 		void operator=(const ArrayOfPoints& right);
@@ -30,6 +31,9 @@ namespace tdrw {
 		Point* getPtrPoint(int number);
 		std::vector<Point*> getPoint(const sf::Vector2f coord_of_point);
 		std::vector<Point*> getAllPoints() const;
+		std::vector<Point*> getUnusablePoints() const;
+
+		bool fillVectorWithUnusablePoints();
 
 		void deleteUnusablePoints();
 		~ArrayOfPoints();

@@ -104,6 +104,8 @@ void Editor::start() {
 	bool a_models_coord_system = true, a_light_type = true/*true - surface*/;
 	bool a_allocated_point = false;
 	
+	m_window->activeDrawUnusablePoints(true);
+
 	sf::Vector2i t_mouse_position;
 	sf::Event event;
 	while (m_window->isOpen()) {
@@ -253,6 +255,14 @@ void Editor::start() {
 					break;
 				}
 
+
+				case sf::Keyboard::N: {
+					std::cout << "Pls, write file path: ";
+					std::cin.get();
+					std::getline(std::cin, t_str_path);
+					m_object.save(t_str_path);
+					break;
+				}
 					//Exit
 				case sf::Keyboard::Escape: {
 					m_object.save("save_file.obj");
@@ -475,6 +485,10 @@ bool Editor::controlPolygons(){
 					std::cout << "\t End select Polygon\n";
 					return true;
 				}
+				case sf::Keyboard::N: {
+					createNewPolygon();
+					break;
+				}
 				case sf::Keyboard::H: {
 					std::cout << "\t=======Helper=======\n";
 					std::cout << "\t<N> - create a new polygon. First, you want to answer the query in the console – the number of points in the polygon. Then it takes the mouse to select the points and press <Enter>\n";
@@ -565,6 +579,84 @@ bool Editor::changeSelectedPolygon(){
 	return false;
 }
 
+bool Editor::createNewPolygon(){
+	std::cout << "\t\tCreate New Polygon\n\n";
+	std::cout << "\t\tPlease enter the number of points: ";
+	int t_num_of_points = 0;
+	std::cin >> t_num_of_points;
+	if (t_num_of_points < 2) {
+		std::cout << "\t\tEnd Create New Polygon\n\n";
+		return false;
+	}
+
+	bool t_somthing_happened = false;
+	std::vector<tdrw::Point*> t_points;
+	sf::Vector2i t_mouse_position;
+	sf::Event event;
+	while (m_window->isOpen()) {
+		while (m_window->pollEvent(event)) {
+			if (event.type == sf::Event::MouseButtonPressed) {
+				switch (event.key.code) {
+				case sf::Mouse::Left:
+					t_mouse_position = sf::Mouse::getPosition(*m_window);
+					m_selected_point = m_window->getPointToControl(sf::Vector2f(t_mouse_position.x, t_mouse_position.y));
+					if (m_selected_point != nullptr) {
+						//already exist???
+						for (auto it = t_points.begin(); it != t_points.end(); ++it) {
+							if (*it == m_selected_point) {
+								(*it)->setActive(false);
+								t_points.erase(it);
+								t_somthing_happened = true;
+								break;
+							}
+						}
+						if (t_somthing_happened) {
+							drawAllElement();
+							break;
+						}
+
+						m_selected_point->setActive(true);
+						t_points.push_back(m_selected_point);
+						drawAllElement();
+					}
+					break;
+				default:
+					break;
+				}
+			}
+			if (event.type == sf::Event::KeyPressed) {
+				switch (event.key.code)
+				{
+				case sf::Keyboard::Space: {
+					m_object.addPolygon(t_points, sf::Color::White);
+					for (auto x : t_points) {
+						x->setActive(false);
+					}
+					drawAllElement();
+					std::cout << "\t\tEnd Create New Polygon\n\n";
+					return true;
+					break;
+				}
+				case sf::Keyboard::P: {
+					for (auto x : t_points) {
+						x->setActive(false);
+					}
+					drawAllElement();
+					std::cout << "\t\tEnd Create New Polygon\n\n";
+					return true;
+					break;
+				}
+				default:
+					break;
+				}
+			}
+		}
+	}
+
+	return true;
+}
+
+
 bool Editor::controlPoints()
 {
 	std::cout << "\t Pls, select Point...\n";
@@ -597,6 +689,10 @@ bool Editor::controlPoints()
 				case sf::Keyboard::P: {
 					std::cout << "\t End select Point\n";
 					return true;
+				}
+				case sf::Keyboard::N: {
+					createNewPoint();
+					break;
 				}
 				case sf::Keyboard::H: {
 					std::cout << "\t =======Helper=======\n";
@@ -681,6 +777,20 @@ bool Editor::moveSelectedPoint()
 		}
 	}
 	std::cout << "\t\t End move selected Point\n";
+	return true;
+}
+
+bool Editor::createNewPoint(){
+	std::cout << "\t\tCreate New Point\n\n";
+	std::cout << "\t\tPlease enter coordinates(x y z): ";
+	double x, y, z;
+	std::cin >> x >> y >> z;
+	
+	tdrw::Point t_point(x, y, z);
+	m_object.addPoint(t_point);
+
+	drawAllElement();
+	std::cout << "\t\tEnd Create New Point\n\n";
 	return true;
 }
 

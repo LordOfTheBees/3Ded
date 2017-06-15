@@ -72,6 +72,30 @@ namespace tdrw {
 		delete t_line;
 	}
 
+	void TDRenderWindow::drawUnusablePoints(Model & model){
+		if (!m_allocation_of_points_is_on) { return; }
+		model.fillVectorWithUnusablePoints();
+		std::vector<Point*> t_ptr_points = model.getUnusablePoints();
+
+
+		sf::CircleShape * t_allocated_point;
+		sf::Vector2f t_tmp_coord;
+		for (auto x : t_ptr_points) {
+			t_tmp_coord = x->getCoordOnScreen();
+			t_tmp_coord.x -= 3;
+			t_tmp_coord.y -= 3;
+			t_allocated_point = new sf::CircleShape;
+			t_allocated_point->setRadius(4);
+			if (x->isActive())
+				t_allocated_point->setFillColor(sf::Color::Blue);
+			else
+				t_allocated_point->setFillColor(sf::Color::Green);
+			t_allocated_point->setPosition(t_tmp_coord);
+			sf::RenderWindow::draw(*t_allocated_point);
+			delete t_allocated_point;
+		}
+	}
+
 	void TDRenderWindow::draw_polygon(BinTree* tmp) {
 		std::vector<Point> t_points = tmp->polygon.getConvertedPoints();
 		std::vector<Point*> t_ptr_points = tmp->polygon.getPoints();
@@ -162,6 +186,7 @@ namespace tdrw {
 		m_thread_helper.m_thread_set_coord_done = false;
 		m_thread_helper.m_thread_set_coord_is_work = true;
 		m_allocation_of_points_is_on = false;
+		m_draw_unusable_points_is_on = false;
 
 		m_thread_set_coord = new std::thread(threadSetCoord, &m_thread_helper, &m_camera);
 
@@ -180,6 +205,7 @@ namespace tdrw {
 		m_wrong_side_is_on = true;
 		m_draw_models_system_coord_is_on = true;
 		m_allocation_of_points_is_on = false;
+		m_draw_unusable_points_is_on = false;
 
 		m_bsp_tree = new BinaryTree();
 		sf::RenderWindow::create(video_mode, title);
@@ -233,6 +259,10 @@ namespace tdrw {
 
 	void TDRenderWindow::activeAllocationPoint(bool swithcer){
 		m_allocation_of_points_is_on = swithcer;
+	}
+
+	void TDRenderWindow::activeDrawUnusablePoints(bool switcher){
+		m_draw_unusable_points_is_on = switcher;
 	}
 
 	void TDRenderWindow::draw(Model model) {
@@ -304,6 +334,12 @@ namespace tdrw {
 			for (auto x : m_models)
 				drawModelsSystemCoord(x);
 		}
+
+		if (m_draw_unusable_points_is_on) {
+			for (auto x : m_models)
+				drawUnusablePoints(x);
+		}
+
 		sf::RenderWindow::display();
 
 		//QueryPerformanceCounter((LARGE_INTEGER *)&m_end);

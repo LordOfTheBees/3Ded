@@ -49,6 +49,7 @@ namespace tdrw {
 		bool m_wrong_side_is_on;//true - включЄн == полигоны направленные от камеры будут отрисовыватьс€
 		bool m_draw_models_system_coord_is_on;//true - включЄн
 		bool m_allocation_of_points_is_on;//true - включЄн
+		bool m_draw_unusable_points_is_on;//true - ¬ключЄн
 		__int64 m_start, m_end, m_tps;
 
 		ThreadHelper m_thread_helper;
@@ -56,6 +57,7 @@ namespace tdrw {
 		friend static void threadSetCoord(ThreadHelper * thread_helper, Camera * camera);
 
 		void drawModelsSystemCoord(const Model& model);
+		void drawUnusablePoints(Model& model);
 	protected:
 		void draw_polygon(BinTree* tmp);
 	public:
@@ -72,6 +74,7 @@ namespace tdrw {
 		void activeWrongSide(bool switcher);
 		void activeDrawModelsCS(bool switcher);//CS - Coord System
 		void activeAllocationPoint(bool swithcer);
+		void activeDrawUnusablePoints(bool switcher);
 
 		virtual void draw(Model model);
 		virtual void clear(sf::Color color);
